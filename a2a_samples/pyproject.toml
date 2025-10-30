@@ -9,7 +9,8 @@ dependencies = []
 members = [
     "a2ui_extension",
     "a2ui_restaurant_finder",
-    "a2ui_contact_lookup"
+    "a2ui_contact_lookup",
+    "a2ui_time_off_agent"
 ]
 
 [tool.uv.sources]
