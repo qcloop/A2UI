@@ -14,7 +14,7 @@
 
 import logging
 import os
-
+import traceback
 import click
 from a2a.server.apps import A2AStarletteApplication
 from a2a.server.request_handlers import DefaultRequestHandler
@@ -109,10 +109,10 @@ def main(host, port):
 
         uvicorn.run(app, host=host, port=port)
     except MissingAPIKeyError as e:
-        logger.error(f"Error: {e}")
+        logger.error(f"Error: {e} {traceback.format_exc()}")
         exit(1)
     except Exception as e:
-        logger.error(f"An error occurred during server startup: {e}")
+        logger.error(f"An error occurred during server startup: {e} {traceback.format_exc()}")
         exit(1)
 
 

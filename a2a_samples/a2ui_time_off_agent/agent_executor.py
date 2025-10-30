@@ -14,38 +14,47 @@
 
 import json
 import logging
+from typing import Any, List, override
 
-from a2a.server.agent_execution import AgentExecutor, RequestContext
-from a2a.server.events import EventQueue
-from a2a.server.tasks import TaskUpdater
-from a2a.types import (
-    DataPart,
-    Part,
-    Task,
-    TaskState,
-    TextPart,
-    UnsupportedOperationError,
-)
-from a2a.utils import (
-    new_agent_parts_message,
-    new_agent_text_message,
-    new_task,
-)
-from a2a.utils.errors import ServerError
-from a2ui_ext import a2ui_MIME_TYPE
+from a2a.server.agent_execution import  RequestContext
+
+from google.adk.agents.invocation_context import new_invocation_context_id
+from google.adk.artifacts import InMemoryArtifactService
+from google.adk.events.event import Event
+from google.adk.events.event_actions import EventActions
+from google.adk.memory.in_memory_memory_service import InMemoryMemoryService
+from google.adk.runners import Runner
+from google.adk.sessions import InMemorySessionService
+from google.adk.a2a.converters.request_converter import AgentRunRequest
+from google.adk.a2a.executor.a2a_agent_executor import (A2aAgentExecutorConfig, A2aAgentExecutor)
+
+import datetime
+
 from agent import TimeOffAgent
-
+import part_converter
 logger = logging.getLogger(__name__)
 
 
-class TimeOffAgentExecutor(AgentExecutor):
+class TimeOffAgentExecutor(A2aAgentExecutor):
     """Contact AgentExecutor Example."""
 
     def __init__(self, base_url: str):
         # Instantiate two agents: one for UI and one for text-only.
         # The appropriate one will be chosen at execution time.
-        self.ui_agent = TimeOffAgent(base_url=base_url, use_ui=True)
-        self.text_agent = TimeOffAgent(base_url=base_url, use_ui=False)
+        self._base_url = base_url
+        self._text_agent = TimeOffAgent.build_agent(base_url=base_url, use_ui=False)        
+        self._ui_agent = TimeOffAgent.build_agent(base_url=base_url, use_ui=True)        
+        runner = Runner(
+            app_name=self._ui_agent.name,
+            agent=self._ui_agent,
+            artifact_service=InMemoryArtifactService(),
+            session_service=InMemorySessionService(),
+            memory_service=InMemoryMemoryService(),
+        )
+        config = A2aAgentExecutorConfig(
+            event_converter = part_converter.convert_event_to_a2a_events
+        )
+        super().__init__(runner = runner, config = config)
 
     async def execute(
         self,
@@ -53,156 +62,39 @@ class TimeOffAgentExecutor(AgentExecutor):
         event_queue: EventQueue,
         use_ui: bool = False,  # This will be passed by the a2ui wrapper
     ) -> None:
-        query = ""
-        ui_event_part = None
-        action = None
-        
-        use_ui = True
-
-        # Determine which agent to use based on whether the a2ui extension is active.
+        use_ui = True # Force for now.
         if use_ui:
-            agent = self.ui_agent
-            logger.info(
-                "--- AGENT_EXECUTOR: A2UI extension is active. Using UI agent. ---"
-            )
+            self._runner.agent = self._ui_agent
         else:
-            agent = self.text_agent
-            logger.info(
-                "--- AGENT_EXECUTOR: A2UI extension is not active. Using text agent. ---"
-            )
+            self._runner.agent = self._text_agent
 
-        if context.message and context.message.parts:
-            logger.info(
-                f"--- AGENT_EXECUTOR: Processing {len(context.message.parts)} message parts ---"
-            )
-            for i, part in enumerate(context.message.parts):
-                if isinstance(part.root, DataPart):
-                    if "userAction" in part.root.data:
-                        logger.info(f"  Part {i}: Found a2ui UI ClientEvent payload.")
-                        ui_event_part = part.root.data["userAction"]
-                    else:
-                        logger.info(f"  Part {i}: DataPart (data: {part.root.data})")
-                elif isinstance(part.root, TextPart):
-                    logger.info(f"  Part {i}: TextPart (text: {part.root.text})")
-                else:
-                    logger.info(f"  Part {i}: Unknown part type ({type(part.root)})")
+        return await super().execute(context=context, event_queue=event_queue)
 
-        if ui_event_part:
-            logger.info(f"Received a2ui ClientEvent: {ui_event_part}")
-            action = ui_event_part.get("actionName")
-            ctx = ui_event_part.get("context", {})
+    @override
+    async def _prepare_session(
+        self,
+        context: RequestContext,
+        run_request: AgentRunRequest,
+        runner: Runner,
+    ):
+        session = await super()._prepare_session(context, run_request, runner)
 
-            if action == "submit_vacation_request":
-                contact_name = ctx.get("startDate", "")
-                department = ctx.get("endDate", "")
-                daily_quantity = ctx.get("dailyQuantity", "")
-                type_ = ctx.get("type", "")
-                comment = ctx.get("comment", "")
-                query = f"User submitted vacation request with data: {contact_name}, {department}, {daily_quantity}, {type_}, {comment}"
+        if "base_url" not in session.state:
+            session.state["base_url"] = self._base_url
 
-            else:
-                query = f"User submitted an event: {action} with data: {ctx}"
-        else:
-            logger.info("No a2ui UI event part found. Falling back to text input.")
-            query = context.get_user_input()
+        # These are used in the system instruction.
+        now = datetime.datetime.now()
+        await runner.session_service.append_event(
+            session,
+            Event(
+                invocation_id=new_invocation_context_id(),
+                author="system",
+                actions=EventActions(state_delta={
+                    "user:current_date": now.strftime("%Y-%m-%d"),
+                    "user:current_time": now.strftime("%H:%M"),
+                    "user:current_day_of_week": now.strftime("%A"),
+                })
+            ),
+        )
 
-        logger.info(f"--- AGENT_EXECUTOR: Final query for LLM: '{query}' ---")
-
-        task = context.current_task
-
-        if not task:
-            task = new_task(context.message)
-            await event_queue.enqueue_event(task)
-        updater = TaskUpdater(event_queue, task.id, task.context_id)
-
-        async for item in agent.stream(query, task.context_id):
-            is_task_complete = item["is_task_complete"]
-            if not is_task_complete:
-                await updater.update_status(
-                    TaskState.working,
-                    new_agent_text_message(item["updates"], task.context_id, task.id),
-                )
-                continue
-
-            final_state = TaskState.input_required # Default
-            if action in ["send_email", "send_message", "view_full_profile"]:
-                 final_state = TaskState.completed
-
-            content = item["content"]
-            final_parts = []
-            if "---a2ui_JSON---" in content:
-                logger.info("Splitting final response into text and UI parts.")
-                text_content, json_string = content.split("---a2ui_JSON---", 1)
-
-                if text_content.strip():
-                    final_parts.append(Part(root=TextPart(text=text_content.strip())))
-
-                if json_string.strip():
-                    try:
-                        json_string_cleaned = (
-                            json_string.strip().lstrip("```json").rstrip("```").strip()
-                        )
-                        
-                        # Handle empty JSON list (e.g., no results)
-                        if not json_string_cleaned or json_string_cleaned == "[]":
-                            logger.info("Received empty/no JSON part. Skipping DataPart.")
-                        else:
-                            json_data = json.loads(json_string_cleaned)
-                            if isinstance(json_data, list):
-                                logger.info(
-                                    f"Found {len(json_data)} messages. Creating individual DataParts."
-                                )
-                                for message in json_data:
-                                    final_parts.append(
-                                        Part(
-                                            root=DataPart(
-                                                data=message,
-                                                mime_type=a2ui_MIME_TYPE,
-                                            )
-                                        )
-                                    )
-                            else:
-                                # Handle the case where a single JSON object is returned
-                                logger.info(
-                                    "Received a single JSON object. Creating a DataPart."
-                                )
-                                final_parts.append(
-                                    Part(
-                                        root=DataPart(
-                                            data=json_data,
-                                            mime_type=a2ui_MIME_TYPE,
-                                        )
-                                    )
-                                )
-
-                    except json.JSONDecodeError as e:
-                        logger.error(f"Failed to parse UI JSON: {e}")
-                        final_parts.append(Part(root=TextPart(text=json_string)))
-            else:
-                final_parts.append(Part(root=TextPart(text=content.strip())))
-
-            # If after all that, we only have empty parts, add a default text response
-            if not final_parts or all(isinstance(p.root, TextPart) and not p.root.text for p in final_parts):
-                 final_parts = [Part(root=TextPart(text="OK."))]
-
-
-            logger.info("--- FINAL PARTS TO BE SENT ---")
-            for i, part in enumerate(final_parts):
-                logger.info(f"  - Part {i}: Type = {type(part.root)}")
-                if isinstance(part.root, TextPart):
-                    logger.info(f"    - Text: {part.root.text[:200]}...")
-                elif isinstance(part.root, DataPart):
-                    logger.info(f"    - Data: {str(part.root.data)[:200]}...")
-            logger.info("-----------------------------")
-
-            await updater.update_status(
-                final_state,
-                new_agent_parts_message(final_parts, task.context_id, task.id),
-                final=(final_state == TaskState.completed),
-            )
-            break
-
-    async def cancel(
-        self, request: RequestContext, event_queue: EventQueue
-    ) -> Task | None:
-        raise ServerError(error=UnsupportedOperationError())
+        return session
