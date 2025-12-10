@@ -45,7 +45,11 @@ A2UI_SCHEMA = r'''
               "type": "string",
               "description": "The primary UI color as a hexadecimal code (e.g., '#00BFFF').",
               "pattern": "^#[0-9a-fA-F]{6}$"
-            }
+            },
+            "logoUrl": {
+              "type": "string",
+              "description": "The URL of the brand logo."
+            },
           }
         }
       },

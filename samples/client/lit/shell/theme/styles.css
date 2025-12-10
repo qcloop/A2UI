@@ -11,7 +11,7 @@
 
 /* Global overrides */
 * {
-  font-family: 'Outfit', sans-serif !important;
+  font-family: var(--bb-font-family, 'Outfit', sans-serif) !important;
 }
 
 /* Card Styling */

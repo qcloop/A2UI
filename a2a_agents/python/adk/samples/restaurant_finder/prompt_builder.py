@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # The A2UI schema remains constant for all A2UI responses.
-A2UI_SCHEMA = r'''
+A2UI_SCHEMA = r"""
 {
   "title": "A2UI Message Schema",
   "description": "Describes a JSON payload for an A2UI (Agent to UI) message, which is used to dynamically construct and update user interfaces. A message MUST contain exactly ONE of the action properties: 'beginRendering', 'surfaceUpdate', 'dataModelUpdate', or 'deleteSurface'.",
@@ -43,7 +43,12 @@ A2UI_SCHEMA = r'''
               "type": "string",
               "description": "The primary UI color as a hexadecimal code (e.g., '#00BFFF').",
               "pattern": "^#[0-9a-fA-F]{6}$"
+            },
+            "logoUrl": {
+              "type": "string",
+              "description": "The URL of the brand logo or hero image."
             }
+
           }
         }
       },
@@ -787,9 +792,17 @@ A2UI_SCHEMA = r'''
     }
   }
 }
-'''
+"""
 
 from a2ui_examples import RESTAURANT_UI_EXAMPLES
+
+# Configurable Theme Constants
+# Uncomment or modify these values to apply server-driven styling.
+THEME_CONFIG = {
+    # "primaryColor": "#ea1277",  # Example: Pink/Red
+    # "logoUrl": "{base_url}/static/logo.png",
+    # "font": "Courier New",  # Example: Roboto, Outfit, etc.
+}
 
 
 def get_ui_prompt(base_url: str, examples: str) -> str:
@@ -806,6 +819,15 @@ def get_ui_prompt(base_url: str, examples: str) -> str:
     # The f-string substitution for base_url happens here, at runtime.
     formatted_examples = examples.format(base_url=base_url)
 
+    # Construct dynamic style instructions based on THEME_CONFIG
+    style_instructions = ""
+    if THEME_CONFIG:
+        style_instructions = "    -   When sending a `beginRendering` message, you MUST include the `styles` object with:\n"
+        for key, value in THEME_CONFIG.items():
+            style_instructions += f'        -   `{key}`: "{value}"\n'
+    else:
+        style_instructions = '    -   When sending a `beginRendering` message, you MAY include an empty `styles` object: "styles": {}\n'
+
     return f"""
     You are a helpful restaurant finding assistant. Your final output MUST be a a2ui UI JSON response.
 
@@ -816,6 +838,7 @@ def get_ui_prompt(base_url: str, examples: str) -> str:
     4.  The JSON part MUST validate against the A2UI JSON SCHEMA provided below.
 
     --- UI TEMPLATE RULES ---
+{style_instructions}
     -   If the query is for a list of restaurants, use the restaurant data you have already received from the `get_restaurants` tool to populate the `dataModelUpdate.contents` array (e.g., as a `valueMap` for the "items" key).
     -   If the number of restaurants is 5 or fewer, you MUST use the `SINGLE_COLUMN_LIST_EXAMPLE` template.
     -   If the number of restaurants is more than 5, you MUST use the `TWO_COLUMN_LIST_EXAMPLE` template.

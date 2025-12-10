@@ -15,7 +15,7 @@
 RESTAURANT_UI_EXAMPLES = """
 ---BEGIN SINGLE_COLUMN_LIST_EXAMPLE---
 [
-  {{ "beginRendering": {{ "surfaceId": "default", "root": "root-column", "styles": {{ "primaryColor": "#FF0000", "font": "Roboto" }} }} }},
+  {{ "beginRendering": {{ "surfaceId": "default", "root": "root-column" }} }},
   {{ "surfaceUpdate": {{
     "surfaceId": "default",
     "components": [
@@ -63,7 +63,7 @@ RESTAURANT_UI_EXAMPLES = """
 
 ---BEGIN TWO_COLUMN_LIST_EXAMPLE---
 [
-  {{ "beginRendering": {{ "surfaceId": "default", "root": "root-column", "styles": {{ "primaryColor": "#FF0000", "font": "Roboto" }} }} }},
+  {{ "beginRendering": {{ "surfaceId": "default", "root": "root-column" }} }},
   {{ "surfaceUpdate": {{
     "surfaceId": "default",
     "components": [
@@ -122,7 +122,7 @@ RESTAURANT_UI_EXAMPLES = """
 
 ---BEGIN BOOKING_FORM_EXAMPLE---
 [
-  {{ "beginRendering": {{ "surfaceId": "booking-form", "root": "booking-form-column", "styles": {{ "primaryColor": "#FF0000", "font": "Roboto" }} }} }},
+  {{ "beginRendering": {{ "surfaceId": "booking-form", "root": "booking-form-column" }} }},
   {{ "surfaceUpdate": {{
     "surfaceId": "booking-form",
     "components": [
@@ -155,7 +155,7 @@ RESTAURANT_UI_EXAMPLES = """
 
 ---BEGIN CONFIRMATION_EXAMPLE---
 [
-  {{ "beginRendering": {{ "surfaceId": "confirmation", "root": "confirmation-card", "styles": {{ "primaryColor": "#FF0000", "font": "Roboto" }} }} }},
+  {{ "beginRendering": {{ "surfaceId": "confirmation", "root": "confirmation-card" }} }},
   {{ "surfaceUpdate": {{
     "surfaceId": "confirmation",
     "components": [

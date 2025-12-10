@@ -694,9 +694,50 @@ export class A2UILayoutEditor extends SignalWatcher(LitElement) {
   async #sendAndProcessMessage(request) {
     const messages = await this.#sendMessage(request);
 
+    // Apply server-side styles if present in beginRendering
+    for (const msg of messages) {
+      if ('beginRendering' in msg && msg.beginRendering.styles) {
+        this.#applyServerStyles(msg.beginRendering.styles);
+      }
+    }
+
     this.#lastMessages = messages;
     this.#processor.clearSurfaces();
     this.#processor.processMessages(messages);
+  }
+
+  #applyServerStyles(styles: any) {
+    const root = document.documentElement;
+
+    // 1. Primary Color
+    if (styles.primaryColor) {
+      root.style.setProperty('--primary-color', styles.primaryColor);
+      // Generate a simple dim variant for now (could be more sophisticated)
+      root.style.setProperty('--p-60', styles.primaryColor);
+
+      // Update gradient to use the new primary color
+      // We'll create a gradient from a lighter version to the primary color
+      // For now, let's just use the primary color and a shifted hue for a simple dynamic gradient
+      root.style.setProperty('--primary-gradient', `linear-gradient(135deg, ${styles.primaryColor} 0%, ${styles.primaryColor}dd 100%)`);
+    }
+
+    // 2. Font Family
+    if (styles.font) {
+      root.style.setProperty('--bb-font-family', styles.font);
+      root.style.setProperty('font-family', styles.font);
+    }
+
+
+
+    // 3. Logo / Hero Image
+    if (styles.logoUrl) {
+      // Update the config dynamically to show the new hero image
+      this.config = {
+        ...this.config,
+        heroImage: styles.logoUrl,
+        heroImageDark: styles.logoUrl, // Use same for dark mode unless specified otherwise
+      };
+    }
   }
 
 
