@@ -31,7 +31,9 @@
           ]
         }
       },
-      "required": ["text"]
+      "required": [
+        "text"
+      ]
     },
     "Image": {
       "type": "object",
@@ -74,7 +76,9 @@
           ]
         }
       },
-      "required": ["url"]
+      "required": [
+        "url"
+      ]
     },
     "Icon": {
       "type": "object",
@@ -144,7 +148,9 @@
           }
         }
       },
-      "required": ["name"]
+      "required": [
+        "name"
+      ]
     },
     "Video": {
       "type": "object",
@@ -164,7 +170,9 @@
           }
         }
       },
-      "required": ["url"]
+      "required": [
+        "url"
+      ]
     },
     "AudioPlayer": {
       "type": "object",
@@ -197,7 +205,9 @@
           }
         }
       },
-      "required": ["url"]
+      "required": [
+        "url"
+      ]
     },
     "Row": {
       "type": "object",
@@ -226,7 +236,10 @@
                   "type": "string"
                 }
               },
-              "required": ["componentId", "dataBinding"]
+              "required": [
+                "componentId",
+                "dataBinding"
+              ]
             }
           }
         },
@@ -245,10 +258,17 @@
         "alignment": {
           "type": "string",
           "description": "Defines the alignment of children along the cross axis (vertically). This corresponds to the CSS 'align-items' property.",
-          "enum": ["start", "center", "end", "stretch"]
+          "enum": [
+            "start",
+            "center",
+            "end",
+            "stretch"
+          ]
         }
       },
-      "required": ["children"]
+      "required": [
+        "children"
+      ]
     },
     "Column": {
       "type": "object",
@@ -277,7 +297,10 @@
                   "type": "string"
                 }
               },
-              "required": ["componentId", "dataBinding"]
+              "required": [
+                "componentId",
+                "dataBinding"
+              ]
             }
           }
         },
@@ -296,54 +319,36 @@
         "alignment": {
           "type": "string",
           "description": "Defines the alignment of children along the cross axis (horizontally). This corresponds to the CSS 'align-items' property.",
-          "enum": ["center", "end", "start", "stretch"]
+          "enum": [
+            "center",
+            "end",
+            "start",
+            "stretch"
+          ]
         }
       },
-      "required": ["children"]
+      "required": [
+        "children"
+      ]
     },
     "List": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "children": {
+        "items": {
           "type": "object",
-          "description": "Defines the children. Use 'explicitList' for a fixed set of children, or 'template' to generate children from a data list.",
           "additionalProperties": false,
           "properties": {
-            "explicitList": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
+            "path": {
+              "type": "string"
             },
-            "template": {
-              "type": "object",
-              "description": "A template for generating a dynamic list of children from a data model list. `componentId` is the component to use as a template, and `dataBinding` is the path to the map of components in the data model. Values in the map will define the list of children.",
-              "additionalProperties": false,
-              "properties": {
-                "componentId": {
-                  "type": "string"
-                },
-                "dataBinding": {
-                  "type": "string"
-                }
-              },
-              "required": ["componentId", "dataBinding"]
+            "literalString": {
+              "type": "string"
             }
-          }
-        },
-        "direction": {
-          "type": "string",
-          "description": "The direction in which the list items are laid out.",
-          "enum": ["vertical", "horizontal"]
-        },
-        "alignment": {
-          "type": "string",
-          "description": "Defines the alignment of children along the cross axis.",
-          "enum": ["start", "center", "end", "stretch"]
+          },
+          "description": ""
         }
-      },
-      "required": ["children"]
+      }
     },
     "Card": {
       "type": "object",
@@ -354,50 +359,110 @@
           "description": "The ID of the component to be rendered inside the card."
         }
       },
-      "required": ["child"]
+      "required": [
+        "child"
+      ]
     },
     "Tabs": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "tabItems": {
-          "type": "array",
-          "description": "An array of objects, where each object defines a tab with a title and a child component.",
-          "items": {
-            "type": "object",
-            "additionalProperties": false,
-            "properties": {
-              "title": {
-                "type": "object",
-                "description": "The tab title. Defines the value as either a literal value or a path to data model value (e.g. '/options/title').",
-                "additionalProperties": false,
-                "properties": {
-                  "literalString": {
-                    "type": "string"
-                  },
-                  "path": {
-                    "type": "string"
-                  }
-                }
-              },
-              "child": {
-                "type": "string"
-              }
+        "autoActivate": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
             },
-            "required": ["title", "child"]
-          }
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not to automatically select a tab when it is focused."
+        },
+        "activeTabIndex": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": ""
+        },
+        "tabs": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The tabs of this tab bar."
+        },
+        "activeTab": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
         }
-      },
-      "required": ["tabItems"]
+      }
     },
     "Divider": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "axis": {
-          "type": "string",
-          "description": "The orientation of the divider.",
-          "enum": ["horizontal", "vertical"]
+        "inset": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Indents the divider with equal padding on both sides."
+        },
+        "insetStart": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Indents the divider with padding on the leading side."
+        },
+        "insetEnd": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Indents the divider with padding on the trailing side."
         }
       }
     },
@@ -414,7 +479,10 @@
           "description": "The ID of the component to be displayed inside the modal."
         }
       },
-      "required": ["entryPointChild", "contentChild"]
+      "required": [
+        "entryPointChild",
+        "contentChild"
+      ]
     },
     "Button": {
       "type": "object",
@@ -465,14 +533,22 @@
                     }
                   }
                 },
-                "required": ["key", "value"]
+                "required": [
+                  "key",
+                  "value"
+                ]
               }
             }
           },
-          "required": ["name"]
+          "required": [
+            "name"
+          ]
         }
       },
-      "required": ["child", "action"]
+      "required": [
+        "child",
+        "action"
+      ]
     },
     "CheckBox": {
       "type": "object",
@@ -505,7 +581,10 @@
           }
         }
       },
-      "required": ["label", "value"]
+      "required": [
+        "label",
+        "value"
+      ]
     },
     "TextField": {
       "type": "object",
@@ -553,7 +632,9 @@
           "description": "A regular expression used for client-side validation of the input."
         }
       },
-      "required": ["label"]
+      "required": [
+        "label"
+      ]
     },
     "DateTimeInput": {
       "type": "object",
@@ -585,7 +666,9 @@
           "description": "The desired format for the output string after a date or time is selected."
         }
       },
-      "required": ["value"]
+      "required": [
+        "value"
+      ]
     },
     "MultipleChoice": {
       "type": "object",
@@ -632,7 +715,10 @@
                 "description": "The value to be associated with this option when selected."
               }
             },
-            "required": ["label", "value"]
+            "required": [
+              "label",
+              "value"
+            ]
           }
         },
         "maxAllowedSelections": {
@@ -640,46 +726,5399 @@
           "description": "The maximum number of options that the user is allowed to select."
         }
       },
-      "required": ["selections", "options"]
+      "required": [
+        "selections",
+        "options"
+      ]
     },
     "Slider": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "value": {
+        "min": {
           "type": "object",
-          "description": "The current value of the slider. This can be a literal number ('literalNumber') or a reference to a value in the data model ('path', e.g. '/restaurant/cost').",
           "additionalProperties": false,
           "properties": {
-            "literalNumber": {
-              "type": "number"
-            },
             "path": {
               "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
             }
-          }
+          },
+          "description": "The slider minimum value"
         },
-        "minValue": {
-          "type": "number",
-          "description": "The minimum value of the slider."
+        "max": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "The slider maximum value"
         },
-        "maxValue": {
-          "type": "number",
-          "description": "The maximum value of the slider."
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "The slider value displayed when range is false."
+        },
+        "valueStart": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "The slider start value displayed when range is true."
+        },
+        "valueEnd": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "The slider end value displayed when range is true."
+        },
+        "valueLabel": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "An optional label for the slider's value displayed when range is false; if not set, the label is the value itself."
+        },
+        "valueLabelStart": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "An optional label for the slider's start value displayed when range is true; if not set, the label is the valueStart itself."
+        },
+        "valueLabelEnd": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "An optional label for the slider's end value displayed when range is true; if not set, the label is the valueEnd itself."
+        },
+        "ariaLabelStart": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Aria label for the slider's start handle displayed when range is true."
+        },
+        "ariaValueTextStart": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Aria value text for the slider's start value displayed when range is true."
+        },
+        "ariaLabelEnd": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Aria label for the slider's end handle displayed when range is true."
+        },
+        "ariaValueTextEnd": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Aria value text for the slider's end value displayed when range is true."
+        },
+        "step": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "The step between values."
+        },
+        "ticks": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not to show tick marks."
+        },
+        "labeled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not to show a value label when activated."
+        },
+        "range": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not to show a value range. When false, the slider displays a slideable handle for the value property; when true, it displays slideable handles for the valueStart and valueEnd properties."
+        },
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": ""
+        },
+        "name": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "nameStart": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "nameEnd": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
         }
-      },
-      "required": ["value"]
+      }
+    },
+    "ElevatedButton": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the button is disabled."
+        },
+        "softDisabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the button is \"soft-disabled\" (disabled but still focusable).Use this when a button needs increased visibility when disabled. See https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls for more guidance on when this is needed."
+        },
+        "href": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The URL that the link button points to."
+        },
+        "download": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The filename to use when downloading the linked resource. If not specified, the browser will determine a filename. This is only applicable when the button is used as a link (`href` is set)."
+        },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Where to display the linked `href` URL for a link button. Common options include `_blank` to open in a new tab."
+        },
+        "trailingIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether to render the icon at the inline end of the label rather than the inline start._Note:_ Link buttons cannot have trailing icons."
+        },
+        "hasIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether to display the icon or not."
+        },
+        "type": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The default behavior of the button. May be \"button\", \"reset\", or \"submit\" (default)."
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The value added to a form with the button's name when the button submits a form."
+        },
+        "name": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "FilledButton": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the button is disabled."
+        },
+        "softDisabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the button is \"soft-disabled\" (disabled but still focusable).Use this when a button needs increased visibility when disabled. See https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls for more guidance on when this is needed."
+        },
+        "href": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The URL that the link button points to."
+        },
+        "download": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The filename to use when downloading the linked resource. If not specified, the browser will determine a filename. This is only applicable when the button is used as a link (`href` is set)."
+        },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Where to display the linked `href` URL for a link button. Common options include `_blank` to open in a new tab."
+        },
+        "trailingIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether to render the icon at the inline end of the label rather than the inline start._Note:_ Link buttons cannot have trailing icons."
+        },
+        "hasIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether to display the icon or not."
+        },
+        "type": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The default behavior of the button. May be \"button\", \"reset\", or \"submit\" (default)."
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The value added to a form with the button's name when the button submits a form."
+        },
+        "name": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "FilledTonalButton": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the button is disabled."
+        },
+        "softDisabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the button is \"soft-disabled\" (disabled but still focusable).Use this when a button needs increased visibility when disabled. See https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls for more guidance on when this is needed."
+        },
+        "href": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The URL that the link button points to."
+        },
+        "download": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The filename to use when downloading the linked resource. If not specified, the browser will determine a filename. This is only applicable when the button is used as a link (`href` is set)."
+        },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Where to display the linked `href` URL for a link button. Common options include `_blank` to open in a new tab."
+        },
+        "trailingIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether to render the icon at the inline end of the label rather than the inline start._Note:_ Link buttons cannot have trailing icons."
+        },
+        "hasIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether to display the icon or not."
+        },
+        "type": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The default behavior of the button. May be \"button\", \"reset\", or \"submit\" (default)."
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The value added to a form with the button's name when the button submits a form."
+        },
+        "name": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "OutlinedButton": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the button is disabled."
+        },
+        "softDisabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the button is \"soft-disabled\" (disabled but still focusable).Use this when a button needs increased visibility when disabled. See https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls for more guidance on when this is needed."
+        },
+        "href": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The URL that the link button points to."
+        },
+        "download": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The filename to use when downloading the linked resource. If not specified, the browser will determine a filename. This is only applicable when the button is used as a link (`href` is set)."
+        },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Where to display the linked `href` URL for a link button. Common options include `_blank` to open in a new tab."
+        },
+        "trailingIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether to render the icon at the inline end of the label rather than the inline start._Note:_ Link buttons cannot have trailing icons."
+        },
+        "hasIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether to display the icon or not."
+        },
+        "type": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The default behavior of the button. May be \"button\", \"reset\", or \"submit\" (default)."
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The value added to a form with the button's name when the button submits a form."
+        },
+        "name": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "TextButton": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the button is disabled."
+        },
+        "softDisabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the button is \"soft-disabled\" (disabled but still focusable).Use this when a button needs increased visibility when disabled. See https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls for more guidance on when this is needed."
+        },
+        "href": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The URL that the link button points to."
+        },
+        "download": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The filename to use when downloading the linked resource. If not specified, the browser will determine a filename. This is only applicable when the button is used as a link (`href` is set)."
+        },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Where to display the linked `href` URL for a link button. Common options include `_blank` to open in a new tab."
+        },
+        "trailingIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether to render the icon at the inline end of the label rather than the inline start._Note:_ Link buttons cannot have trailing icons."
+        },
+        "hasIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether to display the icon or not."
+        },
+        "type": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The default behavior of the button. May be \"button\", \"reset\", or \"submit\" (default)."
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The value added to a form with the button's name when the button submits a form."
+        },
+        "name": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "Checkbox": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "checked": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the checkbox is selected."
+        },
+        "indeterminate": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the checkbox is indeterminate.https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#indeterminate_state_checkboxes"
+        },
+        "required": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "When true, require the checkbox to be selected when participating in form submission.https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#validation"
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The value of the checkbox that is submitted with a form when selected.https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#value"
+        },
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": ""
+        },
+        "name": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "ChipSet": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "chips": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "AssistChip": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "elevated": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": ""
+        },
+        "href": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "download": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The filename to use when downloading the linked resource. If not specified, the browser will determine a filename. This is only applicable when the chip is used as a link (`href` is set)."
+        },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the chip is disabled.Disabled chips are not focusable, unless `always-focusable` is set."
+        },
+        "softDisabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the chip is \"soft-disabled\" (disabled but still focusable).Use this when a chip needs increased visibility when disabled. See https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls for more guidance on when this is needed."
+        },
+        "alwaysFocusable": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "When true, allow disabled chips to be focused with arrow keys.Add this when a chip needs increased visibility when disabled. See https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls for more guidance on when this is needed."
+        },
+        "label": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The label of the chip."
+        },
+        "hasIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Only needed for SSR.Add this attribute when a chip has a `slot=\"icon\"` to avoid a Flash Of Unstyled Content."
+        }
+      }
+    },
+    "FilterChip": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "elevated": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": ""
+        },
+        "removable": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": ""
+        },
+        "selected": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": ""
+        },
+        "hasSelectedIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Only needed for SSR.Add this attribute when a filter chip has a `slot=\"selected-icon\"` to avoid a Flash Of Unstyled Content."
+        },
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the chip is disabled.Disabled chips are not focusable, unless `always-focusable` is set."
+        },
+        "softDisabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the chip is \"soft-disabled\" (disabled but still focusable).Use this when a chip needs increased visibility when disabled. See https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls for more guidance on when this is needed."
+        },
+        "alwaysFocusable": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "When true, allow disabled chips to be focused with arrow keys.Add this when a chip needs increased visibility when disabled. See https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls for more guidance on when this is needed."
+        },
+        "label": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The label of the chip."
+        },
+        "hasIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Only needed for SSR.Add this attribute when a chip has a `slot=\"icon\"` to avoid a Flash Of Unstyled Content."
+        },
+        "handleTrailingActionFocus": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "ariaLabelRemove": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "InputChip": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "avatar": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": ""
+        },
+        "href": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "removeOnly": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": ""
+        },
+        "selected": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": ""
+        },
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the chip is disabled.Disabled chips are not focusable, unless `always-focusable` is set."
+        },
+        "softDisabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the chip is \"soft-disabled\" (disabled but still focusable).Use this when a chip needs increased visibility when disabled. See https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls for more guidance on when this is needed."
+        },
+        "alwaysFocusable": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "When true, allow disabled chips to be focused with arrow keys.Add this when a chip needs increased visibility when disabled. See https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls for more guidance on when this is needed."
+        },
+        "label": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The label of the chip."
+        },
+        "hasIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Only needed for SSR.Add this attribute when a chip has a `slot=\"icon\"` to avoid a Flash Of Unstyled Content."
+        },
+        "handleTrailingActionFocus": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "ariaLabelRemove": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "SuggestionChip": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "elevated": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": ""
+        },
+        "href": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "download": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The filename to use when downloading the linked resource. If not specified, the browser will determine a filename. This is only applicable when the chip is used as a link (`href` is set)."
+        },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the chip is disabled.Disabled chips are not focusable, unless `always-focusable` is set."
+        },
+        "softDisabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the chip is \"soft-disabled\" (disabled but still focusable).Use this when a chip needs increased visibility when disabled. See https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls for more guidance on when this is needed."
+        },
+        "alwaysFocusable": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "When true, allow disabled chips to be focused with arrow keys.Add this when a chip needs increased visibility when disabled. See https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls for more guidance on when this is needed."
+        },
+        "label": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The label of the chip."
+        },
+        "hasIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Only needed for SSR.Add this attribute when a chip has a `slot=\"icon\"` to avoid a Flash Of Unstyled Content."
+        }
+      }
+    },
+    "Dialog": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "quick": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Skips the opening and closing animations."
+        },
+        "returnValue": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Gets or sets the dialog's return value, usually to indicate which button a user pressed to close it.https://developer.mozilla.org/en-US/docs/Web/API/HTMLDialogElement/returnValue"
+        },
+        "type": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The type of dialog for accessibility. Set this to `alert` to announce a dialog as an alert dialog."
+        },
+        "noFocusTrap": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Disables focus trapping, which by default keeps keyboard Tab navigation within the dialog.When disabled, after focusing the last element of a dialog, pressing Tab again will release focus from the window back to the browser (such as the URL bar).Focus trapping is recommended for accessibility, and should not typically be disabled. Only turn this off if the use case of a dialog is more accessible without focus trapping."
+        },
+        "open": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": ""
+        },
+        "getOpenAnimation": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Gets the opening animation for a dialog. Set to a new function to customize the animation."
+        },
+        "getCloseAnimation": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Gets the closing animation for a dialog. Set to a new function to customize the animation."
+        }
+      }
+    },
+    "Fab": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "variant": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The FAB color variant to render."
+        },
+        "size": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The size of the FAB.NOTE: Branded FABs cannot be sized to `small`, and Extended FABs do not have different sizes."
+        },
+        "label": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The text to display on the FAB."
+        },
+        "lowered": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Lowers the FAB's elevation."
+        }
+      }
+    },
+    "BrandedFab": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "variant": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The FAB color variant to render."
+        },
+        "size": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The size of the FAB.NOTE: Branded FABs cannot be sized to `small`, and Extended FABs do not have different sizes."
+        },
+        "label": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The text to display on the FAB."
+        },
+        "lowered": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Lowers the FAB's elevation."
+        }
+      }
+    },
+    "FocusRing": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "visible": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Makes the focus ring visible."
+        },
+        "inward": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Makes the focus ring animate inwards instead of outwards."
+        },
+        "htmlFor": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "control": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "IconButton": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Disables the icon button and makes it non-interactive."
+        },
+        "softDisabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "\"Soft-disables\" the icon button (disabled but still focusable).Use this when an icon button needs increased visibility when disabled. See https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls for more guidance on when this is needed."
+        },
+        "flipIconInRtl": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Flips the icon if it is in an RTL context at startup."
+        },
+        "href": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Sets the underlying `HTMLAnchorElement`'s `href` resource attribute."
+        },
+        "download": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The filename to use when downloading the linked resource. If not specified, the browser will determine a filename. This is only applicable when the icon button is used as a link (`href` is set)."
+        },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Sets the underlying `HTMLAnchorElement`'s `target` attribute."
+        },
+        "ariaLabelSelected": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The `aria-label` of the button when the button is toggleable and selected."
+        },
+        "toggle": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "When true, the button will toggle between selected and unselected states"
+        },
+        "selected": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Sets the selected state. When false, displays the default icon. When true, displays the selected icon, or the default icon If no `slot=\"selected\"` icon is provided."
+        },
+        "type": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The default behavior of the button. May be \"button\", \"reset\", or \"submit\" (default)."
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The value added to a form with the button's name when the button submits a form."
+        },
+        "name": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "FilledIconButton": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Disables the icon button and makes it non-interactive."
+        },
+        "softDisabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "\"Soft-disables\" the icon button (disabled but still focusable).Use this when an icon button needs increased visibility when disabled. See https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls for more guidance on when this is needed."
+        },
+        "flipIconInRtl": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Flips the icon if it is in an RTL context at startup."
+        },
+        "href": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Sets the underlying `HTMLAnchorElement`'s `href` resource attribute."
+        },
+        "download": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The filename to use when downloading the linked resource. If not specified, the browser will determine a filename. This is only applicable when the icon button is used as a link (`href` is set)."
+        },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Sets the underlying `HTMLAnchorElement`'s `target` attribute."
+        },
+        "ariaLabelSelected": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The `aria-label` of the button when the button is toggleable and selected."
+        },
+        "toggle": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "When true, the button will toggle between selected and unselected states"
+        },
+        "selected": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Sets the selected state. When false, displays the default icon. When true, displays the selected icon, or the default icon If no `slot=\"selected\"` icon is provided."
+        },
+        "type": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The default behavior of the button. May be \"button\", \"reset\", or \"submit\" (default)."
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The value added to a form with the button's name when the button submits a form."
+        },
+        "name": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "FilledTonalIconButton": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Disables the icon button and makes it non-interactive."
+        },
+        "softDisabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "\"Soft-disables\" the icon button (disabled but still focusable).Use this when an icon button needs increased visibility when disabled. See https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls for more guidance on when this is needed."
+        },
+        "flipIconInRtl": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Flips the icon if it is in an RTL context at startup."
+        },
+        "href": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Sets the underlying `HTMLAnchorElement`'s `href` resource attribute."
+        },
+        "download": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The filename to use when downloading the linked resource. If not specified, the browser will determine a filename. This is only applicable when the icon button is used as a link (`href` is set)."
+        },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Sets the underlying `HTMLAnchorElement`'s `target` attribute."
+        },
+        "ariaLabelSelected": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The `aria-label` of the button when the button is toggleable and selected."
+        },
+        "toggle": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "When true, the button will toggle between selected and unselected states"
+        },
+        "selected": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Sets the selected state. When false, displays the default icon. When true, displays the selected icon, or the default icon If no `slot=\"selected\"` icon is provided."
+        },
+        "type": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The default behavior of the button. May be \"button\", \"reset\", or \"submit\" (default)."
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The value added to a form with the button's name when the button submits a form."
+        },
+        "name": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "OutlinedIconButton": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Disables the icon button and makes it non-interactive."
+        },
+        "softDisabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "\"Soft-disables\" the icon button (disabled but still focusable).Use this when an icon button needs increased visibility when disabled. See https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls for more guidance on when this is needed."
+        },
+        "flipIconInRtl": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Flips the icon if it is in an RTL context at startup."
+        },
+        "href": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Sets the underlying `HTMLAnchorElement`'s `href` resource attribute."
+        },
+        "download": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The filename to use when downloading the linked resource. If not specified, the browser will determine a filename. This is only applicable when the icon button is used as a link (`href` is set)."
+        },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Sets the underlying `HTMLAnchorElement`'s `target` attribute."
+        },
+        "ariaLabelSelected": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The `aria-label` of the button when the button is toggleable and selected."
+        },
+        "toggle": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "When true, the button will toggle between selected and unselected states"
+        },
+        "selected": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Sets the selected state. When false, displays the default icon. When true, displays the selected icon, or the default icon If no `slot=\"selected\"` icon is provided."
+        },
+        "type": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The default behavior of the button. May be \"button\", \"reset\", or \"submit\" (default)."
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The value added to a form with the button's name when the button submits a form."
+        },
+        "name": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "labels": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "ListItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Disables the item and makes it non-selectable and non-interactive."
+        },
+        "type": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Sets the behavior of the list item, defaults to \"text\". Change to \"link\" or \"button\" for interactive items."
+        },
+        "href": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Sets the underlying `HTMLAnchorElement`'s `href` resource attribute."
+        },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Sets the underlying `HTMLAnchorElement`'s `target` attribute when `href` is set."
+        }
+      }
+    },
+    "Menu": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "anchor": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The ID of the element in the same root node in which the menu should align to. Overrides setting `anchorElement = elementReference`.__NOTE__: anchor or anchorElement must either be an HTMLElement or resolve to an HTMLElement in order for menu to open."
+        },
+        "positioning": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Whether the positioning algorithm should calculate relative to the parent of the anchor element (`absolute`), relative to the window (`fixed`), or relative to the document (`document`). `popover` will use the popover API to render the menu in the top-layer. If your browser does not support the popover API, it will fall back to `fixed`.__Examples for `position = 'fixed'`:__- If there is no `position:relative` in the given parent tree and the surface is `position:absolute` - If the surface is `position:fixed` - If the surface is in the \"top layer\" - The anchor and the surface do not share a common `position:relative` ancestorWhen using `positioning=fixed`, in most cases, the menu should position itself above most other `position:absolute` or `position:fixed` elements when placed inside of them. e.g. using a menu inside of an `md-dialog`.__NOTE__: Fixed menus will not scroll with the page and will be fixed to the window instead.__Examples for `position = 'document'`:__- There is no parent that creates a relative positioning context e.g. `position: relative`, `position: absolute`, `transform: translate(x, y)`, etc. - You put the effort into hoisting the menu to the top of the DOM like the end of the `` to render over everything or in a top-layer. - You are reusing a single `md-menu` element that dynamically renders content.__Examples for `position = 'popover'`:__- Your browser supports `popover`. - Most cases. Once popover is in browsers, this will become the default."
+        },
+        "quick": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Skips the opening and closing animations."
+        },
+        "hasOverflow": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Displays overflow content like a submenu. Not required in most cases when using `positioning=\"popover\"`.__NOTE__: This may cause adverse effects if you set `md-menu {max-height:...}` and have items overflowing items in the \"y\" direction."
+        },
+        "open": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Opens the menu and makes it visible. Alternative to the `.show()` and `.close()` methods"
+        },
+        "xOffset": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "Offsets the menu's inline alignment from the anchor by the given number in pixels. This value is direction aware and will follow the LTR / RTL direction.e.g. LTR: positive -> right, negative -> left RTL: positive -> left, negative -> right"
+        },
+        "yOffset": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "Offsets the menu's block alignment from the anchor by the given number in pixels.e.g. positive -> down, negative -> up"
+        },
+        "noHorizontalFlip": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Disable the `flip` behavior that usually happens on the horizontal axis when the surface would render outside the viewport."
+        },
+        "noVerticalFlip": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Disable the `flip` behavior that usually happens on the vertical axis when the surface would render outside the viewport."
+        },
+        "typeaheadDelay": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "The max time between the keystrokes of the typeahead menu behavior before it clears the typeahead buffer."
+        },
+        "anchorCorner": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The corner of the anchor which to align the menu in the standard logical property style of - e.g. `'end-start'`.NOTE: This value may not be respected by the menu positioning algorithm if the menu would render outisde the viewport. Use `no-horizontal-flip` or `no-vertical-flip` to force the usage of the value"
+        },
+        "menuCorner": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The corner of the menu which to align the anchor in the standard logical property style of - e.g. `'start-start'`.NOTE: This value may not be respected by the menu positioning algorithm if the menu would render outisde the viewport. Use `no-horizontal-flip` or `no-vertical-flip` to force the usage of the value"
+        },
+        "stayOpenOnOutsideClick": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Keeps the user clicks outside the menu.NOTE: clicking outside may still cause focusout to close the menu so see `stayOpenOnFocusout`."
+        },
+        "stayOpenOnFocusout": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Keeps the menu open when focus leaves the menu's composed subtree.NOTE: Focusout behavior will stop propagation of the focusout event. Set this property to true to opt-out of menu's focusout handling altogether."
+        },
+        "skipRestoreFocus": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "After closing, does not restore focus to the last focused element before the menu was opened."
+        },
+        "defaultFocus": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The element that should be focused by default once opened.NOTE: When setting default focus to 'LIST_ROOT', remember to change `tabindex` to `0` and change md-menu's display to something other than `display: contents` when necessary."
+        },
+        "noNavigationWrap": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Turns off navigation wrapping. By default, navigating past the end of the menu items will wrap focus back to the beginning and vice versa. Use this for ARIA patterns that do not wrap focus, like combobox."
+        },
+        "isSubmenu": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the current menu is a submenu and should not handle specific navigation keys."
+        },
+        "typeaheadController": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Handles typeahead navigation through the menu."
+        },
+        "anchorElement": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "MenuItem": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Disables the item and makes it non-selectable and non-interactive."
+        },
+        "type": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Sets the behavior and role of the menu item, defaults to \"menuitem\"."
+        },
+        "href": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Sets the underlying `HTMLAnchorElement`'s `href` resource attribute."
+        },
+        "target": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Sets the underlying `HTMLAnchorElement`'s `target` attribute when `href` is set."
+        },
+        "keepOpen": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Keeps the menu open if clicked or keyboard selected."
+        },
+        "selected": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Sets the item in the selected visual state when a submenu is opened."
+        },
+        "typeaheadText": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "SubMenu": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "anchorCorner": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The anchorCorner to set on the submenu."
+        },
+        "menuCorner": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The menuCorner to set on the submenu."
+        },
+        "hoverOpenDelay": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "The delay between mouseenter and submenu opening."
+        },
+        "hoverCloseDelay": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "The delay between ponterleave and the submenu closing."
+        },
+        "isSubMenu": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "READONLY: self-identifies as a menu item and sets its identifying attribute"
+        },
+        "item": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "menu": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "LinearProgress": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "buffer": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "Buffer amount to display, a fraction between 0 and `max`. If the value is 0 or negative, the buffer is not displayed."
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "Progress to display, a fraction between 0 and `max`."
+        },
+        "max": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "Maximum progress to display, defaults to 1."
+        },
+        "indeterminate": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not to display indeterminate progress, which gives no indication to how long an activity will take."
+        },
+        "fourColor": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not to render indeterminate mode using 4 colors instead of one."
+        }
+      }
+    },
+    "CircularProgress": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "Progress to display, a fraction between 0 and `max`."
+        },
+        "max": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "Maximum progress to display, defaults to 1."
+        },
+        "indeterminate": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not to display indeterminate progress, which gives no indication to how long an activity will take."
+        },
+        "fourColor": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not to render indeterminate mode using 4 colors instead of one."
+        }
+      }
+    },
+    "Radio": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "required": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the radio is required. If any radio is required in a group, all radios are implicitly required."
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The element value to use in form submission when checked."
+        },
+        "checked": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": ""
+        },
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": ""
+        },
+        "name": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "Ripple": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Disables the ripple."
+        },
+        "htmlFor": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "control": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "FilledSelect": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "quick": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Opens the menu synchronously with no animation."
+        },
+        "required": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the select is required."
+        },
+        "errorText": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The error message that replaces supporting text when `error` is true. If `errorText` is an empty string, then the supporting text will continue to show.This error message overrides the error message displayed by `reportValidity()`."
+        },
+        "label": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The floating label for the field."
+        },
+        "noAsterisk": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Disables the asterisk on the floating label, when the select is required."
+        },
+        "supportingText": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Conveys additional information below the select, such as how it should be used."
+        },
+        "error": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Gets or sets whether or not the select is in a visually invalid state.This error state overrides the error state controlled by `reportValidity()`."
+        },
+        "menuPositioning": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Whether or not the underlying md-menu should be position: fixed to display in a top-level manner, or position: absolute.position:fixed is useful for cases where select is inside of another element with stacking context and hidden overflows such as `md-dialog`."
+        },
+        "clampMenuWidth": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Clamps the menu-width to the width of the select."
+        },
+        "typeaheadDelay": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "The max time between the keystrokes of the typeahead select / menu behavior before it clears the typeahead buffer."
+        },
+        "hasLeadingIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the text field has a leading icon. Used for SSR."
+        },
+        "displayText": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Text to display in the field. Only set for SSR."
+        },
+        "menuAlign": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Whether the menu should be aligned to the start or the end of the select's textbox."
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "selectedIndex": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": ""
+        },
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": ""
+        },
+        "name": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "options": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "selectedOptions": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "OutlinedSelect": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "quick": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Opens the menu synchronously with no animation."
+        },
+        "required": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the select is required."
+        },
+        "errorText": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The error message that replaces supporting text when `error` is true. If `errorText` is an empty string, then the supporting text will continue to show.This error message overrides the error message displayed by `reportValidity()`."
+        },
+        "label": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The floating label for the field."
+        },
+        "noAsterisk": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Disables the asterisk on the floating label, when the select is required."
+        },
+        "supportingText": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Conveys additional information below the select, such as how it should be used."
+        },
+        "error": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Gets or sets whether or not the select is in a visually invalid state.This error state overrides the error state controlled by `reportValidity()`."
+        },
+        "menuPositioning": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Whether or not the underlying md-menu should be position: fixed to display in a top-level manner, or position: absolute.position:fixed is useful for cases where select is inside of another element with stacking context and hidden overflows such as `md-dialog`."
+        },
+        "clampMenuWidth": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Clamps the menu-width to the width of the select."
+        },
+        "typeaheadDelay": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "The max time between the keystrokes of the typeahead select / menu behavior before it clears the typeahead buffer."
+        },
+        "hasLeadingIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the text field has a leading icon. Used for SSR."
+        },
+        "displayText": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Text to display in the field. Only set for SSR."
+        },
+        "menuAlign": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Whether the menu should be aligned to the start or the end of the select's textbox."
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "selectedIndex": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": ""
+        },
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": ""
+        },
+        "name": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "options": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "selectedOptions": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "SelectOption": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Disables the item and makes it non-selectable and non-interactive."
+        },
+        "selected": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Sets the item in the selected visual state when a submenu is opened."
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Form value of the option."
+        },
+        "type": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "typeaheadText": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "displayText": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "Switch": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "selected": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Puts the switch in the selected state and sets the form submission value to the `value` property."
+        },
+        "icons": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Shows both the selected and deselected icons."
+        },
+        "showOnlySelectedIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Shows only the selected icon, and not the deselected icon. If `true`, overrides the behavior of the `icons` property."
+        },
+        "required": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "When true, require the switch to be selected when participating in form submission.https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#validation"
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The value associated with this switch on form submission. `null` is submitted when `selected` is `false`."
+        },
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": ""
+        },
+        "name": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "PrimaryTab": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "inlineIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the icon renders inline with label or stacked vertically."
+        },
+        "isTab": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "The attribute `md-tab` indicates that the element is a tab for the parent element, ``. Make sure if you're implementing your own `md-tab` component that you have an `md-tab` attribute set."
+        },
+        "active": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the tab is selected."
+        },
+        "hasIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "In SSR, set this to true when an icon is present."
+        },
+        "iconOnly": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "In SSR, set this to true when there is no label and only an icon."
+        },
+        "selected": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "SecondaryTab": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "isTab": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "The attribute `md-tab` indicates that the element is a tab for the parent element, ``. Make sure if you're implementing your own `md-tab` component that you have an `md-tab` attribute set."
+        },
+        "active": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the tab is selected."
+        },
+        "hasIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "In SSR, set this to true when an icon is present."
+        },
+        "iconOnly": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "In SSR, set this to true when there is no label and only an icon."
+        },
+        "selected": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "FilledTextField": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "error": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Gets or sets whether or not the text field is in a visually invalid state.This error state overrides the error state controlled by `reportValidity()`."
+        },
+        "errorText": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The error message that replaces supporting text when `error` is true. If `errorText` is an empty string, then the supporting text will continue to show.This error message overrides the error message displayed by `reportValidity()`."
+        },
+        "label": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The floating Material label of the textfield component. It informs the user about what information is requested for a text field. It is aligned with the input text, is always visible, and it floats when focused or when text is entered into the textfield. This label also sets accessibilty labels, but the accessible label is overriden by `aria-label`.Learn more about floating labels from the Material Design guidelines: https://m3.material.io/components/text-fields/guidelines"
+        },
+        "noAsterisk": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Disables the asterisk on the floating label, when the text field is required."
+        },
+        "required": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Indicates that the user must specify a value for the input before the owning form can be submitted and will render an error state when `reportValidity()` is invoked when value is empty. Additionally the floating label will render an asterisk `\"*\"` when true.https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required"
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The current value of the text field. It is always a string."
+        },
+        "prefixText": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "An optional prefix to display before the input value."
+        },
+        "suffixText": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "An optional suffix to display after the input value."
+        },
+        "hasLeadingIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the text field has a leading icon. Used for SSR."
+        },
+        "hasTrailingIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the text field has a trailing icon. Used for SSR."
+        },
+        "supportingText": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Conveys additional information below the text field, such as how it should be used."
+        },
+        "textDirection": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Override the input text CSS `direction`. Useful for RTL languages that use LTR notation for fractions."
+        },
+        "rows": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "The number of rows to display for a `type=\"textarea\"` text field. Defaults to 2."
+        },
+        "cols": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "The number of cols to display for a `type=\"textarea\"` text field. Defaults to 20."
+        },
+        "inputMode": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "max": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Defines the greatest value in the range of permitted values.https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max"
+        },
+        "maxLength": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "The maximum number of characters a user can enter into the text field. Set to -1 for none.https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength"
+        },
+        "min": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Defines the most negative value in the range of permitted values.https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min"
+        },
+        "minLength": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "The minimum number of characters a user can enter into the text field. Set to -1 for none.https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength"
+        },
+        "noSpinner": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "When true, hide the spinner for `type=\"number\"` text fields."
+        },
+        "pattern": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "A regular expression that the text field's value must match to pass constraint validation.https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#pattern"
+        },
+        "placeholder": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Defines the text displayed in the textfield when it has no value. Provides a brief hint to the user as to the expected type of data that should be entered into the control. Unlike `label`, the placeholder is not visible and does not float when the textfield has a value.https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/placeholder"
+        },
+        "readOnly": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Indicates whether or not a user should be able to edit the text field's value.https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#readonly"
+        },
+        "multiple": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Indicates that input accepts multiple email addresses.https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/email#multiple"
+        },
+        "step": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Returns or sets the element's step attribute, which works with min and max to limit the increments at which a numeric or date-time value can be set.https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#step"
+        },
+        "type": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The `` type to use, defaults to \"text\". The type greatly changes how the text field behaves.Text fields support a limited number of `` types:- text - textarea - email - number - password - search - tel - urlSee https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#input_types for more details on each input type."
+        },
+        "autocomplete": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Describes what, if any, type of autocomplete functionality the input should provide.https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete"
+        },
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": ""
+        },
+        "name": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "selectionDirection": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "selectionEnd": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": ""
+        },
+        "selectionStart": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": ""
+        },
+        "valueAsNumber": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": ""
+        },
+        "valueAsDate": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
+    },
+    "OutlinedTextField": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "error": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Gets or sets whether or not the text field is in a visually invalid state.This error state overrides the error state controlled by `reportValidity()`."
+        },
+        "errorText": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The error message that replaces supporting text when `error` is true. If `errorText` is an empty string, then the supporting text will continue to show.This error message overrides the error message displayed by `reportValidity()`."
+        },
+        "label": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The floating Material label of the textfield component. It informs the user about what information is requested for a text field. It is aligned with the input text, is always visible, and it floats when focused or when text is entered into the textfield. This label also sets accessibilty labels, but the accessible label is overriden by `aria-label`.Learn more about floating labels from the Material Design guidelines: https://m3.material.io/components/text-fields/guidelines"
+        },
+        "noAsterisk": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Disables the asterisk on the floating label, when the text field is required."
+        },
+        "required": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Indicates that the user must specify a value for the input before the owning form can be submitted and will render an error state when `reportValidity()` is invoked when value is empty. Additionally the floating label will render an asterisk `\"*\"` when true.https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/required"
+        },
+        "value": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The current value of the text field. It is always a string."
+        },
+        "prefixText": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "An optional prefix to display before the input value."
+        },
+        "suffixText": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "An optional suffix to display after the input value."
+        },
+        "hasLeadingIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the text field has a leading icon. Used for SSR."
+        },
+        "hasTrailingIcon": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Whether or not the text field has a trailing icon. Used for SSR."
+        },
+        "supportingText": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Conveys additional information below the text field, such as how it should be used."
+        },
+        "textDirection": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Override the input text CSS `direction`. Useful for RTL languages that use LTR notation for fractions."
+        },
+        "rows": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "The number of rows to display for a `type=\"textarea\"` text field. Defaults to 2."
+        },
+        "cols": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "The number of cols to display for a `type=\"textarea\"` text field. Defaults to 20."
+        },
+        "inputMode": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "max": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Defines the greatest value in the range of permitted values.https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#max"
+        },
+        "maxLength": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "The maximum number of characters a user can enter into the text field. Set to -1 for none.https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#maxlength"
+        },
+        "min": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Defines the most negative value in the range of permitted values.https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#min"
+        },
+        "minLength": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": "The minimum number of characters a user can enter into the text field. Set to -1 for none.https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#minlength"
+        },
+        "noSpinner": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "When true, hide the spinner for `type=\"number\"` text fields."
+        },
+        "pattern": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "A regular expression that the text field's value must match to pass constraint validation.https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#pattern"
+        },
+        "placeholder": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Defines the text displayed in the textfield when it has no value. Provides a brief hint to the user as to the expected type of data that should be entered into the control. Unlike `label`, the placeholder is not visible and does not float when the textfield has a value.https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/placeholder"
+        },
+        "readOnly": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Indicates whether or not a user should be able to edit the text field's value.https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#readonly"
+        },
+        "multiple": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": "Indicates that input accepts multiple email addresses.https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/email#multiple"
+        },
+        "step": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Returns or sets the element's step attribute, which works with min and max to limit the increments at which a numeric or date-time value can be set.https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#step"
+        },
+        "type": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "The `` type to use, defaults to \"text\". The type greatly changes how the text field behaves.Text fields support a limited number of `` types:- text - textarea - email - number - password - search - tel - urlSee https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#input_types for more details on each input type."
+        },
+        "autocomplete": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": "Describes what, if any, type of autocomplete functionality the input should provide.https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/autocomplete"
+        },
+        "disabled": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalBoolean": {
+              "type": "boolean"
+            }
+          },
+          "description": ""
+        },
+        "name": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "selectionDirection": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        },
+        "selectionEnd": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": ""
+        },
+        "selectionStart": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": ""
+        },
+        "valueAsNumber": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalNumber": {
+              "type": "number"
+            }
+          },
+          "description": ""
+        },
+        "valueAsDate": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "literalString": {
+              "type": "string"
+            }
+          },
+          "description": ""
+        }
+      }
     }
   },
   "styles": {
-    "font": {
+    "mdFilledButtonContainerColor": {
       "type": "string",
-      "description": "The primary font for the UI."
+      "description": "Maps to --md-filled-button-container-color. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
     },
-    "primaryColor": {
+    "mdFilledButtonContainerShape": {
       "type": "string",
-      "description": "The primary UI color as a hexadecimal code (e.g., '#00BFFF').",
-      "pattern": "^#[0-9a-fA-F]{6}$"
+      "description": "Maps to --md-filled-button-container-shape"
+    },
+    "mdFilledButtonLabelTextColor": {
+      "type": "string",
+      "description": "Maps to --md-filled-button-label-text-color. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdRef": {
+      "type": "string",
+      "description": "Maps to --md-ref-"
+    },
+    "mdRefPalette": {
+      "type": "string",
+      "description": "Maps to --md-ref-palette"
+    },
+    "mdRefTypeface": {
+      "type": "string",
+      "description": "Maps to --md-ref-typeface-"
+    },
+    "mdRefTypefaceBrand": {
+      "type": "string",
+      "description": "Maps to --md-ref-typeface-brand"
+    },
+    "mdRefTypefacePlain": {
+      "type": "string",
+      "description": "Maps to --md-ref-typeface-plain"
+    },
+    "mdSys": {
+      "type": "string",
+      "description": "Maps to --md-sys-"
+    },
+    "mdSysColor": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorBackground": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-background. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorError": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-error. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorErrorContainer": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-error-container. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorOn": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-on-. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorOnError": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-on-error. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorOnPrimary": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-on-primary. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorOnPrimaryContainer": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-on-primary-container. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorOnSurface": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-on-surface. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorOnSurfaceVariant": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-on-surface-variant. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorOutline": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-outline. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorOutlineVariant": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-outline-variant. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorPrimary": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-primary. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorPrimaryContainer": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-primary-container. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorSecondary": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-secondary. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorSecondaryContainer": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-secondary-container. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorSurface": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-surface. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorSurfaceBright": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-surface-bright. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorSurfaceContainer": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-surface-container. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorSurfaceContainerHigh": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-surface-container-high. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorSurfaceContainerHighest": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-surface-container-highest. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorSurfaceContainerLow": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-surface-container-low. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorSurfaceContainerLowest": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-surface-container-lowest. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorSurfaceDim": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-surface-dim. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorTertiary": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-tertiary. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysColorTertiaryContainer": {
+      "type": "string",
+      "description": "Maps to --md-sys-color-tertiary-container. Expects a hex color code.",
+      "pattern": "^#([0-9a-fA-F]{3}){1,2}$"
+    },
+    "mdSysMotion": {
+      "type": "string",
+      "description": "Maps to --md-sys-motion"
+    },
+    "mdSysShape": {
+      "type": "string",
+      "description": "Maps to --md-sys-shape-"
+    },
+    "mdSysShapeCornerExtraLarge": {
+      "type": "string",
+      "description": "Maps to --md-sys-shape-corner-extra-large"
+    },
+    "mdSysShapeCornerExtraSmall": {
+      "type": "string",
+      "description": "Maps to --md-sys-shape-corner-extra-small"
+    },
+    "mdSysShapeCornerFull": {
+      "type": "string",
+      "description": "Maps to --md-sys-shape-corner-full"
+    },
+    "mdSysShapeCornerLarge": {
+      "type": "string",
+      "description": "Maps to --md-sys-shape-corner-large"
+    },
+    "mdSysShapeCornerMedium": {
+      "type": "string",
+      "description": "Maps to --md-sys-shape-corner-medium"
+    },
+    "mdSysShapeCornerNone": {
+      "type": "string",
+      "description": "Maps to --md-sys-shape-corner-none"
+    },
+    "mdSysShapeCornerSmall": {
+      "type": "string",
+      "description": "Maps to --md-sys-shape-corner-small"
+    },
+    "mdSysTypescale": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-"
+    },
+    "mdSysTypescaleBodyMediumFont": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-body-medium-font"
+    },
+    "mdSysTypescaleBodyMediumLineHeight": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-body-medium-line-height"
+    },
+    "mdSysTypescaleBodyMediumSize": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-body-medium-size"
+    },
+    "mdSysTypescaleBodyMediumWeight": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-body-medium-weight"
+    },
+    "mdSysTypescaleDisplayMediumFont": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-display-medium-font"
+    },
+    "mdSysTypescaleDisplayMediumLineHeight": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-display-medium-line-height"
+    },
+    "mdSysTypescaleDisplayMediumSize": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-display-medium-size"
+    },
+    "mdSysTypescaleDisplayMediumWeight": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-display-medium-weight"
+    },
+    "mdSysTypescaleHeadlineFont": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-headline-font"
+    },
+    "mdSysTypescaleHeadlineMediumFont": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-headline-medium-font"
+    },
+    "mdSysTypescaleHeadlineMediumLineHeight": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-headline-medium-line-height"
+    },
+    "mdSysTypescaleHeadlineMediumSize": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-headline-medium-size"
+    },
+    "mdSysTypescaleHeadlineMediumWeight": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-headline-medium-weight"
+    },
+    "mdSysTypescaleLabelMediumFont": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-label-medium-font"
+    },
+    "mdSysTypescaleLabelMediumLineHeight": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-label-medium-line-height"
+    },
+    "mdSysTypescaleLabelMediumSize": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-label-medium-size"
+    },
+    "mdSysTypescaleLabelMediumWeight": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-label-medium-weight"
+    },
+    "mdSysTypescaleTitleFont": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-title-font"
+    },
+    "mdSysTypescaleTitleMediumFont": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-title-medium-font"
+    },
+    "mdSysTypescaleTitleMediumLineHeight": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-title-medium-line-height"
+    },
+    "mdSysTypescaleTitleMediumSize": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-title-medium-size"
+    },
+    "mdSysTypescaleTitleMediumWeight": {
+      "type": "string",
+      "description": "Maps to --md-sys-typescale-title-medium-weight"
     }
   }
 }
