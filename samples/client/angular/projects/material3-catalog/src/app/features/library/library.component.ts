@@ -321,6 +321,11 @@ export class LibraryComponent {
         ],
       }),
     },
+    {
+      name: 'Hello',
+      tag: 'Custom',
+      surface: this.createSingleComponentSurface('Hello', {}),
+    },
   ];
 
   categories = [
@@ -552,6 +557,15 @@ export class LibraryComponent {
               }),
             ],
           }),
+        },
+      ],
+    },
+    {
+      name: 'Custom',
+      samples: [
+        {
+          name: 'Hello',
+          surface: this.createSingleComponentSurface('Hello', {}),
         },
       ],
     },

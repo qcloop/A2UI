@@ -14,7 +14,8 @@
  limitations under the License.
  */
 
-import { DEFAULT_CATALOG, provideA2UI } from '@a2ui/angular';
+import { provideA2UI } from '@a2ui/angular';
+import { MATERIAL3_CATALOG } from '../a2ui-catalog/catalog';
 import { IMAGE_CONFIG } from '@angular/common';
 import {
   ApplicationConfig,
@@ -30,7 +31,7 @@ export const appConfig: ApplicationConfig = {
     provideZonelessChangeDetection(),
     provideClientHydration(withEventReplay()),
     provideA2UI({
-      catalog: DEFAULT_CATALOG,
+      catalog: MATERIAL3_CATALOG,
       theme: theme,
     }),
     {
