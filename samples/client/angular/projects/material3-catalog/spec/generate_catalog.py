@@ -9,6 +9,15 @@ MATERIAL_WEB_REPO = '/Users/wrenj/material/material-web'
 THEMING_MD_PATH = '/Users/wrenj/a2ui/a2ui2/A2UI/samples/client/angular/projects/material3-catalog/spec/all_theming.md'
 OUTPUT_JSON_PATH = '/Users/wrenj/a2ui/a2ui2/A2UI/samples/client/angular/projects/material3-catalog/spec/material3_catalog_definition.json'
 
+BLACKLIST = {
+    "MdFilledField",
+    "MdOutlinedField",
+    "MdFocusRing",
+    "MdItem",
+    "MdElevation",
+    "MdNavigationDrawerModal",
+}
+
 STANDARD_COMPONENTS = {
     "Text": {
       "type": "object",
@@ -178,7 +187,7 @@ def extract_jsdoc_description(content: str, start_index: int) -> str:
     # Limit lookback to avoid performance issues
     lookback = content[max(0, start_index - 500):start_index]
     
-    match = re.search(r'/\*\*(.*?)\*/\s*$', lookback, re.DOTALL)
+    match = re.search(r'/\*\*((?:(?!\*/).)*?)\*/\s*$', lookback, re.DOTALL)
     if match:
         desc = match.group(1)
         # Clean up lines
@@ -424,6 +433,9 @@ def main():
     
     # Filter for only classes with tag_name (the actual components)
     component_classes = [c for c in all_classes.values() if c.tag_name and c.tag_name.startswith('md-')]
+    
+    # Filter out blacklisted components
+    component_classes = [c for c in component_classes if c.name not in BLACKLIST]
     
     print(f"Found {len(component_classes)} valid Material components: {[c.tag_name for c in component_classes]}")
 
