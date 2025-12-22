@@ -5,7 +5,7 @@ import glob
 from typing import Dict, Any, Optional, List
 
 # Paths
-MATERIAL_WEB_REPO = '/Users/wrenj/material/material-web'
+MATERIAL_WEB_REPO = '/Users/wrenj/a2ui/a2ui2/A2UI/samples/client/angular/node_modules/@material/web'
 THEMING_MD_PATH = '/Users/wrenj/a2ui/a2ui2/A2UI/samples/client/angular/projects/material3-catalog/spec/all_theming.md'
 OUTPUT_JSON_PATH = '/Users/wrenj/a2ui/a2ui2/A2UI/samples/client/angular/projects/material3-catalog/spec/material3_catalog_definition.json'
 
@@ -207,31 +207,9 @@ def parse_ts_file(filepath: str) -> List[ClassDef]:
 
     classes = []
     
-    # Regex to find class definitions: export class ClassName extends ParentName
-    # Also handles 'abstract class' and mixins (which look like function calls)
-    # Simple class match:
-    class_matches = re.finditer(r'export\s+(?:abstract\s+)?class\s+(\w+)(?:\s+extends\s+([a-zA-Z0-9_\.]+))?', content)
-    
-    # We also need to look for @customElement('tag-name')
-    # This usually decorates the class.
-    
-    # Strategy: Find a class, then scan its body for properties.
-    # We can assume typical formatting for this repo.
-    
-    # Re-reading content line by line might be safer for scope, but let's try block matching first.
-    # Actually, we can just scan for all @property decorators and assign them to the *nearest preceding class definition*.
-    # ...Wait, decorators are inside the class. So nearest *enclosing* class.
-    
-    # Let's simple scan: Find 'class X ... {', then find all @property inside it until unbalanced '}'
-    # This is hard with regex. 
-    
-    # Alternative heuristic:
-    # 1. Regex for class start.
-    # 2. Regex for properties.
-    # 3. Associate properties with the most recently started class?
-    
-    # Given the repo structure, one file usually contains one main component class.
-    # Let's extract all matches and order them by position.
+    # Regex to find class definitions: 
+    # Handle 'export class', 'export abstract class', 'export declare class', 'export declare abstract class'
+    class_matches = re.finditer(r'export\s+(?:declare\s+)?(?:abstract\s+)?class\s+(\w+)(?:\s+extends\s+([a-zA-Z0-9_\.]+))?', content)
     
     class_indices = []
     for m in class_matches:
@@ -245,60 +223,61 @@ def parse_ts_file(filepath: str) -> List[ClassDef]:
     if not class_indices:
         return []
         
-    # Check for customElement decorators
-    # @customElement('md-icon')
+    # Check for customElement decorators and global interface map (often in d.ts)
+    # in d.ts: interface HTMLElementTagNameMap { 'md-icon': MdIcon; }
+    # but we rely on @customElement usually? 
+    # In d.ts, customElement decorators might be missing or commented out?
+    # MdFilledButton d.ts does NOT show @customElement. It shows `export declare class ...`
+    # BUT it has `interface HTMLElementTagNameMap { 'md-filled-button': MdFilledButton; }`
+    # We should parse THAT map to get tag names in d.ts.
+    
+    # 1. CustomElement decorators (source files)
     ce_matches = re.finditer(r"@customElement\('([^']+)'\)", content)
     for m in ce_matches:
         tag = m.group(1)
-        # Find the class that follows this decorator
         best_cls = None
         min_dist = 999999
         for c in class_indices:
             dist = c['start'] - m.end()
-            if 0 < dist < min_dist: # Must follow the decorator
+            if 0 < dist < min_dist: 
                 min_dist = dist
                 best_cls = c['obj']
-        
         if best_cls:
             best_cls.tag_name = tag
+            
+    # 2. HTMLElementTagNameMap (d.ts files)
+    # interface HTMLElementTagNameMap { 'md-filled-button': MdFilledButton; }
+    tag_map_match = re.search(r'interface\s+HTMLElementTagNameMap\s*{([^}]+)}', content, re.DOTALL)
+    if tag_map_match:
+        block = tag_map_match.group(1)
+        # Parse 'tag': ClassName;
+        for map_m in re.finditer(r"'([^']+)':\s*(\w+)", block):
+            tag = map_m.group(1)
+            cls_name = map_m.group(2)
+            # Find class with this name
+            for c in class_indices:
+                if c['name'] == cls_name:
+                    c['obj'].tag_name = tag
 
     # Scan for properties
-    # @property({type: Boolean}) disabled = false;
-    # @property({type: Boolean, attribute: 'soft-disabled'}) softDisabled = false;
-    # @property() href = '';
     
-    # Regex for property:
-    # @property\s*\((.*?)\)\s*(?:readonly\s+)?([a-zA-Z0-9_]+)
+    # A. Decorators (Source files)
+    # @property({type: Boolean}) disabled = false;
     prop_regex = re.compile(r'@property\s*\((.*?)\)\s*(?:readonly\s+)?([a-zA-Z0-9_]+)')
     
     for m in prop_regex.finditer(content):
-        prop_args = m.group(1) # e.g. "{type: Boolean}"
+        prop_args = m.group(1)
         prop_name = m.group(2)
         prop_desc = extract_jsdoc_description(content, m.start())
-        
-        # Determine attribute name if specified
-        # attribute: 'foo-bar' inside prop_args
-        attr_match = re.search(r"attribute:\s*'([^']+)'", prop_args)
-        if attr_match:
-            # Use property name, but we might want to note the attribute for future use?
-            # The A2UI catalog typically keys by property name (camelCase).
-            # So prop_name is fine.
-            pass
-            
-        # Determine type
-        prop_type = "string" # Default
+        prop_type = "string" 
         if "type: Boolean" in prop_args or "type:Boolean" in prop_args:
             prop_type = "boolean"
         elif "type: Number" in prop_args or "type:Number" in prop_args:
             prop_type = "number"
             
-        # Find which class this belongs to
-        # It belongs to the class with the largest start index that is still < match.start
         best_cls = None
         max_start = -1
         for c in class_indices:
-            # Check if this class scope likely covers the property
-            # Simple check: starts before property
             if c['start'] < m.start():
                 if c['start'] > max_start:
                     max_start = c['start']
@@ -306,6 +285,56 @@ def parse_ts_file(filepath: str) -> List[ClassDef]:
         
         if best_cls:
             best_cls.properties[prop_name] = PropertyDef(prop_name, prop_type, prop_desc)
+
+    # B. D.TS properties
+    # name: type;
+    # Avoid functions: name(...): type;
+    # Avoid static/private
+    # Regex: ^\s*(?!(?:static|private|protected)\s)([a-zA-Z0-9_]+)(\?)?:\s*([^;]+);
+    # matches line-based properties inside class.
+    
+    # Strategy: Iterate classes, assume d.ts structure is clean (properties follow class decl).
+    # Since d.ts files usually have one class or few, we can limit scan to class body?
+    # But class body parsing gave us trouble before.
+    # Let's try global scan and assign to latest class.
+    
+    dts_prop_regex = re.compile(r'^\s*(?!(?:static|private|protected|readonly)\s)([a-zA-Z0-9_]+)(\?)?:\s*([^;]+);', re.MULTILINE)
+    
+    # Note: 'readonly' might be desired if it's a public field (e.g. formAssociated is static readonly). 
+    # But often readonly in d.ts means getter-only or const. A2UI catalog typically wants writeable attributes.
+    # Let's check Button: `disabled: boolean;` is NOT readonly. `form`: readonly.
+    # So excluding 'readonly' is probably good for now.
+    
+    for m in dts_prop_regex.finditer(content):
+        prop_name = m.group(1)
+        prop_type_raw = m.group(3).strip()
+        prop_desc = extract_jsdoc_description(content, m.start())
+        
+        # Heuristic for type
+        prop_type = "string"
+        if "boolean" in prop_type_raw:
+            prop_type = "boolean"
+        elif "number" in prop_type_raw:
+            prop_type = "number"
+            
+        # Assign to best class
+        best_cls = None
+        max_start = -1
+        for c in class_indices:
+            if c['start'] < m.start():
+                if c['start'] > max_start:
+                    max_start = c['start']
+                    best_cls = c['obj']
+                    
+        # Filter out methods if regex failed to exclude them (e.g. arrow functions?)
+        # '=>' in type?
+        if '=>' in prop_type_raw:
+            continue
+            
+        if best_cls:
+            # Don't overwrite if it exists (e.g. from @property)
+            if prop_name not in best_cls.properties:
+                best_cls.properties[prop_name] = PropertyDef(prop_name, prop_type, prop_desc)
 
     return [c['obj'] for c in class_indices]
 
@@ -392,8 +421,9 @@ def main():
     
     all_classes: Dict[str, ClassDef] = {}
     
-    # 1. Scan all TS files
+    # 1. Scan all TS files (including d.ts)
     files = glob.glob(f"{MATERIAL_WEB_REPO}/**/*.ts", recursive=True)
+    # Also ensure we check d.ts specifically if they were missed (glob should catch them if **/*.ts catches .d.ts, which it does)
     
     for fpath in files:
         if "test" in fpath or "harness" in fpath: continue
