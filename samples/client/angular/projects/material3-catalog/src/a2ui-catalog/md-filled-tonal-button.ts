@@ -2,15 +2,15 @@ import { Component, computed, input, ViewEncapsulation, CUSTOM_ELEMENTS_SCHEMA }
 import { CommonModule } from '@angular/common';
 import { DynamicComponent } from '@a2ui/angular';
 import { Primitives } from '@a2ui/lit/0.8';
-import '@material/web/button/filled-button.js';
+import '@material/web/button/filled-tonal-button.js';
 
 @Component({
-  selector: 'catalog-md-filled-button',
+  selector: 'catalog-md-filled-tonal-button',
   standalone: true,
   imports: [CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
-    <md-filled-button
+    <md-filled-tonal-button
         [disabled]="resolvedDisabled()"
         [softDisabled]="resolvedSoftDisabled()"
         [href]="resolvedHref()"
@@ -21,12 +21,12 @@ import '@material/web/button/filled-button.js';
         [type]="resolvedType()"
         [value]="resolvedValue()">
       <ng-content></ng-content>
-    </md-filled-button>
+    </md-filled-tonal-button>
   `,
   styles: [],
   encapsulation: ViewEncapsulation.None,
 })
-export class MdFilledButton extends DynamicComponent {
+export class MdFilledTonalButton extends DynamicComponent {
   readonly disabled = input<Primitives.BooleanValue | boolean | null>(null);
   readonly softDisabled = input<Primitives.BooleanValue | boolean | null>(null);
   readonly href = input<Primitives.StringValue | string | null>(null);

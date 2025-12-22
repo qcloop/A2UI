@@ -2,65 +2,47 @@ import { Component, computed, input, ViewEncapsulation, CUSTOM_ELEMENTS_SCHEMA }
 import { CommonModule } from '@angular/common';
 import { DynamicComponent } from '@a2ui/angular';
 import { Primitives } from '@a2ui/lit/0.8';
-import '@material/web/checkbox/checkbox.js';
+import '@material/web/switch/switch.js';
 
 @Component({
-  selector: 'catalog-md-checkbox',
+  selector: 'catalog-md-switch',
   standalone: true,
   imports: [CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
-    <md-checkbox
-        [delegatesFocus]="resolvedDelegatesFocus()"
-        [mode]="resolvedMode()"
-        [serializable]="resolvedSerializable()"
-        [slotAssignment]="resolvedSlotAssignment()"
-        [checked]="resolvedChecked()"
-        [indeterminate]="resolvedIndeterminate()"
+    <md-switch
+        [selected]="resolvedSelected()"
+        [icons]="resolvedIcons()"
+        [showOnlySelectedIcon]="resolvedShowOnlySelectedIcon()"
         [required]="resolvedRequired()"
         [value]="resolvedValue()"
         [disabled]="resolvedDisabled()"
         [name]="resolvedName()">
       <ng-content></ng-content>
-    </md-checkbox>
+    </md-switch>
   `,
   styles: [],
   encapsulation: ViewEncapsulation.None,
 })
-export class MdCheckbox extends DynamicComponent {
-  readonly delegatesFocus = input<Primitives.BooleanValue | boolean | null>(null);
-  readonly mode = input<Primitives.StringValue | string | null>(null);
-  readonly serializable = input<Primitives.BooleanValue | boolean | null>(null);
-  readonly slotAssignment = input<Primitives.StringValue | string | null>(null);
-  readonly checked = input<Primitives.BooleanValue | boolean | null>(null);
-  readonly indeterminate = input<Primitives.BooleanValue | boolean | null>(null);
+export class MdSwitch extends DynamicComponent {
+  readonly selected = input<Primitives.BooleanValue | boolean | null>(null);
+  readonly icons = input<Primitives.BooleanValue | boolean | null>(null);
+  readonly showOnlySelectedIcon = input<Primitives.BooleanValue | boolean | null>(null);
   readonly required = input<Primitives.BooleanValue | boolean | null>(null);
   readonly value = input<Primitives.StringValue | string | null>(null);
   readonly disabled = input<Primitives.BooleanValue | boolean | null>(null);
   readonly name = input<Primitives.StringValue | string | null>(null);
 
-  protected resolvedDelegatesFocus = computed(() => {
-    const v = this.delegatesFocus();
+  protected resolvedSelected = computed(() => {
+    const v = this.selected();
     return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.BooleanValue) : (v as boolean)) ?? false;
   });
-  protected resolvedMode = computed(() => {
-    const v = this.mode();
-    return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.StringValue) : (v as string)) ?? '';
-  });
-  protected resolvedSerializable = computed(() => {
-    const v = this.serializable();
+  protected resolvedIcons = computed(() => {
+    const v = this.icons();
     return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.BooleanValue) : (v as boolean)) ?? false;
   });
-  protected resolvedSlotAssignment = computed(() => {
-    const v = this.slotAssignment();
-    return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.StringValue) : (v as string)) ?? '';
-  });
-  protected resolvedChecked = computed(() => {
-    const v = this.checked();
-    return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.BooleanValue) : (v as boolean)) ?? false;
-  });
-  protected resolvedIndeterminate = computed(() => {
-    const v = this.indeterminate();
+  protected resolvedShowOnlySelectedIcon = computed(() => {
+    const v = this.showOnlySelectedIcon();
     return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.BooleanValue) : (v as boolean)) ?? false;
   });
   protected resolvedRequired = computed(() => {

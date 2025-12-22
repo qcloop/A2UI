@@ -2,23 +2,23 @@ import { Component, computed, input, ViewEncapsulation, CUSTOM_ELEMENTS_SCHEMA }
 import { CommonModule } from '@angular/common';
 import { DynamicComponent } from '@a2ui/angular';
 import { Primitives } from '@a2ui/lit/0.8';
-import '@material/web/icon/icon.js';
+import '@material/web/labs/card/elevated-card.js';
 
 @Component({
-  selector: 'catalog-md-icon',
+  selector: 'catalog-md-elevated-card',
   standalone: true,
   imports: [CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
-    <md-icon
+    <md-elevated-card
         >
       <ng-content></ng-content>
-    </md-icon>
+    </md-elevated-card>
   `,
   styles: [],
   encapsulation: ViewEncapsulation.None,
 })
-export class MdIcon extends DynamicComponent {
+export class MdElevatedCard extends DynamicComponent {
 
 
 

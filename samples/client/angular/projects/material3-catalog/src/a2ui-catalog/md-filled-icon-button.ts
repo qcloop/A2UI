@@ -2,40 +2,46 @@ import { Component, computed, input, ViewEncapsulation, CUSTOM_ELEMENTS_SCHEMA }
 import { CommonModule } from '@angular/common';
 import { DynamicComponent } from '@a2ui/angular';
 import { Primitives } from '@a2ui/lit/0.8';
-import '@material/web/button/filled-button.js';
+import '@material/web/iconbutton/filled-icon-button.js';
 
 @Component({
-  selector: 'catalog-md-filled-button',
+  selector: 'catalog-md-filled-icon-button',
   standalone: true,
   imports: [CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
-    <md-filled-button
+    <md-filled-icon-button
         [disabled]="resolvedDisabled()"
         [softDisabled]="resolvedSoftDisabled()"
+        [flipIconInRtl]="resolvedFlipIconInRtl()"
         [href]="resolvedHref()"
         [download]="resolvedDownload()"
         [target]="resolvedTarget()"
-        [trailingIcon]="resolvedTrailingIcon()"
-        [hasIcon]="resolvedHasIcon()"
+        [ariaLabelSelected]="resolvedAriaLabelSelected()"
+        [toggle]="resolvedToggle()"
+        [selected]="resolvedSelected()"
         [type]="resolvedType()"
-        [value]="resolvedValue()">
+        [value]="resolvedValue()"
+        [filled]="resolvedFilled()">
       <ng-content></ng-content>
-    </md-filled-button>
+    </md-filled-icon-button>
   `,
   styles: [],
   encapsulation: ViewEncapsulation.None,
 })
-export class MdFilledButton extends DynamicComponent {
+export class MdFilledIconButton extends DynamicComponent {
   readonly disabled = input<Primitives.BooleanValue | boolean | null>(null);
   readonly softDisabled = input<Primitives.BooleanValue | boolean | null>(null);
+  readonly flipIconInRtl = input<Primitives.BooleanValue | boolean | null>(null);
   readonly href = input<Primitives.StringValue | string | null>(null);
   readonly download = input<Primitives.StringValue | string | null>(null);
   readonly target = input<Primitives.StringValue | string | null>(null);
-  readonly trailingIcon = input<Primitives.BooleanValue | boolean | null>(null);
-  readonly hasIcon = input<Primitives.BooleanValue | boolean | null>(null);
+  readonly ariaLabelSelected = input<Primitives.StringValue | string | null>(null);
+  readonly toggle = input<Primitives.BooleanValue | boolean | null>(null);
+  readonly selected = input<Primitives.BooleanValue | boolean | null>(null);
   readonly type = input<Primitives.StringValue | string | null>(null);
   readonly value = input<Primitives.StringValue | string | null>(null);
+  readonly filled = input<Primitives.BooleanValue | boolean | null>(null);
 
   protected resolvedDisabled = computed(() => {
     const v = this.disabled();
@@ -43,6 +49,10 @@ export class MdFilledButton extends DynamicComponent {
   });
   protected resolvedSoftDisabled = computed(() => {
     const v = this.softDisabled();
+    return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.BooleanValue) : (v as boolean)) ?? false;
+  });
+  protected resolvedFlipIconInRtl = computed(() => {
+    const v = this.flipIconInRtl();
     return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.BooleanValue) : (v as boolean)) ?? false;
   });
   protected resolvedHref = computed(() => {
@@ -57,12 +67,16 @@ export class MdFilledButton extends DynamicComponent {
     const v = this.target();
     return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.StringValue) : (v as string)) ?? '';
   });
-  protected resolvedTrailingIcon = computed(() => {
-    const v = this.trailingIcon();
+  protected resolvedAriaLabelSelected = computed(() => {
+    const v = this.ariaLabelSelected();
+    return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.StringValue) : (v as string)) ?? '';
+  });
+  protected resolvedToggle = computed(() => {
+    const v = this.toggle();
     return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.BooleanValue) : (v as boolean)) ?? false;
   });
-  protected resolvedHasIcon = computed(() => {
-    const v = this.hasIcon();
+  protected resolvedSelected = computed(() => {
+    const v = this.selected();
     return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.BooleanValue) : (v as boolean)) ?? false;
   });
   protected resolvedType = computed(() => {
@@ -72,5 +86,9 @@ export class MdFilledButton extends DynamicComponent {
   protected resolvedValue = computed(() => {
     const v = this.value();
     return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.StringValue) : (v as string)) ?? '';
+  });
+  protected resolvedFilled = computed(() => {
+    const v = this.filled();
+    return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.BooleanValue) : (v as boolean)) ?? false;
   });
 }

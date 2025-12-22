@@ -2,24 +2,27 @@ import { Component, computed, input, ViewEncapsulation, CUSTOM_ELEMENTS_SCHEMA }
 import { CommonModule } from '@angular/common';
 import { DynamicComponent } from '@a2ui/angular';
 import { Primitives } from '@a2ui/lit/0.8';
-import '@material/web/icon/icon.js';
+import '@material/web/list/list.js';
 
 @Component({
-  selector: 'catalog-md-icon',
+  selector: 'catalog-md-list',
   standalone: true,
   imports: [CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
-    <md-icon
-        >
+    <md-list
+        [item]="resolvedItem()">
       <ng-content></ng-content>
-    </md-icon>
+    </md-list>
   `,
   styles: [],
   encapsulation: ViewEncapsulation.None,
 })
-export class MdIcon extends DynamicComponent {
+export class MdList extends DynamicComponent {
+  readonly item = input<Primitives.StringValue | string | null>(null);
 
-
-
+  protected resolvedItem = computed(() => {
+    const v = this.item();
+    return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.StringValue) : (v as string)) ?? '';
+  });
 }

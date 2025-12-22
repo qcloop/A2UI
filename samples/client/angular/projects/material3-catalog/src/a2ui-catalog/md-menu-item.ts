@@ -2,42 +2,42 @@ import { Component, computed, input, ViewEncapsulation, CUSTOM_ELEMENTS_SCHEMA }
 import { CommonModule } from '@angular/common';
 import { DynamicComponent } from '@a2ui/angular';
 import { Primitives } from '@a2ui/lit/0.8';
-import '@material/web/checkbox/checkbox.js';
+import '@material/web/menu/menu-item.js';
 
 @Component({
-  selector: 'catalog-md-checkbox',
+  selector: 'catalog-md-menu-item',
   standalone: true,
   imports: [CommonModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   template: `
-    <md-checkbox
+    <md-menu-item
         [delegatesFocus]="resolvedDelegatesFocus()"
         [mode]="resolvedMode()"
         [serializable]="resolvedSerializable()"
         [slotAssignment]="resolvedSlotAssignment()"
-        [checked]="resolvedChecked()"
-        [indeterminate]="resolvedIndeterminate()"
-        [required]="resolvedRequired()"
-        [value]="resolvedValue()"
         [disabled]="resolvedDisabled()"
-        [name]="resolvedName()">
+        [type]="resolvedType()"
+        [href]="resolvedHref()"
+        [target]="resolvedTarget()"
+        [keepOpen]="resolvedKeepOpen()"
+        [selected]="resolvedSelected()">
       <ng-content></ng-content>
-    </md-checkbox>
+    </md-menu-item>
   `,
   styles: [],
   encapsulation: ViewEncapsulation.None,
 })
-export class MdCheckbox extends DynamicComponent {
+export class MdMenuItem extends DynamicComponent {
   readonly delegatesFocus = input<Primitives.BooleanValue | boolean | null>(null);
   readonly mode = input<Primitives.StringValue | string | null>(null);
   readonly serializable = input<Primitives.BooleanValue | boolean | null>(null);
   readonly slotAssignment = input<Primitives.StringValue | string | null>(null);
-  readonly checked = input<Primitives.BooleanValue | boolean | null>(null);
-  readonly indeterminate = input<Primitives.BooleanValue | boolean | null>(null);
-  readonly required = input<Primitives.BooleanValue | boolean | null>(null);
-  readonly value = input<Primitives.StringValue | string | null>(null);
   readonly disabled = input<Primitives.BooleanValue | boolean | null>(null);
-  readonly name = input<Primitives.StringValue | string | null>(null);
+  readonly type = input<Primitives.StringValue | string | null>(null);
+  readonly href = input<Primitives.StringValue | string | null>(null);
+  readonly target = input<Primitives.StringValue | string | null>(null);
+  readonly keepOpen = input<Primitives.BooleanValue | boolean | null>(null);
+  readonly selected = input<Primitives.BooleanValue | boolean | null>(null);
 
   protected resolvedDelegatesFocus = computed(() => {
     const v = this.delegatesFocus();
@@ -55,28 +55,28 @@ export class MdCheckbox extends DynamicComponent {
     const v = this.slotAssignment();
     return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.StringValue) : (v as string)) ?? '';
   });
-  protected resolvedChecked = computed(() => {
-    const v = this.checked();
-    return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.BooleanValue) : (v as boolean)) ?? false;
-  });
-  protected resolvedIndeterminate = computed(() => {
-    const v = this.indeterminate();
-    return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.BooleanValue) : (v as boolean)) ?? false;
-  });
-  protected resolvedRequired = computed(() => {
-    const v = this.required();
-    return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.BooleanValue) : (v as boolean)) ?? false;
-  });
-  protected resolvedValue = computed(() => {
-    const v = this.value();
-    return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.StringValue) : (v as string)) ?? '';
-  });
   protected resolvedDisabled = computed(() => {
     const v = this.disabled();
     return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.BooleanValue) : (v as boolean)) ?? false;
   });
-  protected resolvedName = computed(() => {
-    const v = this.name();
+  protected resolvedType = computed(() => {
+    const v = this.type();
     return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.StringValue) : (v as string)) ?? '';
+  });
+  protected resolvedHref = computed(() => {
+    const v = this.href();
+    return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.StringValue) : (v as string)) ?? '';
+  });
+  protected resolvedTarget = computed(() => {
+    const v = this.target();
+    return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.StringValue) : (v as string)) ?? '';
+  });
+  protected resolvedKeepOpen = computed(() => {
+    const v = this.keepOpen();
+    return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.BooleanValue) : (v as boolean)) ?? false;
+  });
+  protected resolvedSelected = computed(() => {
+    const v = this.selected();
+    return ((v && typeof v === 'object') ? this.resolvePrimitive(v as Primitives.BooleanValue) : (v as boolean)) ?? false;
   });
 }

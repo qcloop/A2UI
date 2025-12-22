@@ -5,9 +5,17 @@ import glob
 from typing import Dict, Any, Optional, List
 
 # Paths
-MATERIAL_WEB_REPO = '/Users/wrenj/a2ui/a2ui2/A2UI/samples/client/angular/node_modules/@material/web'
-THEMING_MD_PATH = '/Users/wrenj/a2ui/a2ui2/A2UI/samples/client/angular/projects/material3-catalog/spec/all_theming.md'
-OUTPUT_JSON_PATH = '/Users/wrenj/a2ui/a2ui2/A2UI/samples/client/angular/projects/material3-catalog/spec/material3_catalog_definition.json'
+BASE_DIR = '/Users/wrenj/a2ui/a2ui2/A2UI/samples/client/angular'
+MATERIAL_WEB_REPO = os.path.join(BASE_DIR, 'node_modules/@material/web')
+PROJECT_DIR = os.path.join(BASE_DIR, 'projects/material3-catalog')
+SPEC_DIR = os.path.join(PROJECT_DIR, 'spec')
+SRC_DIR = os.path.join(PROJECT_DIR, 'src')
+
+THEMING_MD_PATH = os.path.join(SPEC_DIR, 'all_theming.md')
+OUTPUT_JSON_PATH = os.path.join(SPEC_DIR, 'material3_catalog_definition.json')
+CATALOG_DIR = os.path.join(SRC_DIR, 'a2ui-catalog')
+CATALOG_TS_PATH = os.path.join(CATALOG_DIR, 'catalog.ts')
+LIBRARY_JSON_PATH = os.path.join(SRC_DIR, 'app/features/library/components.json')
 
 BLACKLIST = {
     "MdFilledField",
@@ -18,22 +26,14 @@ BLACKLIST = {
     "MdNavigationDrawerModal",
 }
 
+# Standard components - Metadata for Catalog Definition
 STANDARD_COMPONENTS = {
     "Text": {
       "type": "object",
       "additionalProperties": False,
       "properties": {
-        "text": {
-          "type": "object",
-          "properties": {
-            "literalString": { "type": "string" },
-            "path": { "type": "string" }
-          }
-        },
-        "usageHint": {
-          "type": "string",
-          "enum": ["h1", "h2", "h3", "h4", "h5", "caption", "body"]
-        }
+        "text": { "type": "object", "properties": { "literalString": { "type": "string" }, "path": { "type": "string" } } },
+        "usageHint": { "type": "string", "enum": ["h1", "h2", "h3", "h4", "h5", "caption", "body"] }
       },
       "required": ["text"]
     },
@@ -41,13 +41,7 @@ STANDARD_COMPONENTS = {
       "type": "object",
       "additionalProperties": False,
       "properties": {
-        "url": {
-          "type": "object",
-          "properties": {
-            "literalString": { "type": "string" },
-            "path": { "type": "string" }
-          }
-        },
+        "url": { "type": "object", "properties": { "literalString": { "type": "string" }, "path": { "type": "string" } } },
         "fit": { "type": "string", "enum": ["contain", "cover", "fill", "none", "scale-down"] },
         "usageHint": { "type": "string", "enum": ["icon", "avatar", "smallFeature", "mediumFeature", "largeFeature", "header"] }
       },
@@ -57,36 +51,18 @@ STANDARD_COMPONENTS = {
       "type": "object",
       "additionalProperties": False,
       "properties": {
-        "url": {
-          "type": "object",
-          "properties": {
-            "literalString": { "type": "string" },
-            "path": { "type": "string" }
-          }
-        }
+        "url": { "type": "object", "properties": { "literalString": { "type": "string" }, "path": { "type": "string" } } }
       },
       "required": ["url"]
     },
     "AudioPlayer": {
-      "type": "object",
-      "additionalProperties": False,
-      "properties": {
-        "url": {
-          "type": "object",
-          "properties": {
-            "literalString": { "type": "string" },
-            "path": { "type": "string" }
-          }
+        "type": "object",
+        "additionalProperties": False,
+        "properties": {
+          "url": { "type": "object", "properties": { "literalString": { "type": "string" }, "path": { "type": "string" } } },
+          "description": { "type": "object", "properties": { "literalString": { "type": "string" }, "path": { "type": "string" } } }
         },
-        "description": {
-          "type": "object",
-          "properties": {
-            "literalString": { "type": "string" },
-            "path": { "type": "string" }
-          }
-        }
-      },
-      "required": ["url"]
+        "required": ["url"]
     },
     "Row": {
       "type": "object",
@@ -96,14 +72,7 @@ STANDARD_COMPONENTS = {
           "type": "object",
           "properties": {
             "explicitList": { "type": "array", "items": { "type": "string" } },
-            "template": {
-              "type": "object",
-              "properties": {
-                "componentId": { "type": "string" },
-                "dataBinding": { "type": "string" }
-              },
-              "required": ["componentId", "dataBinding"]
-            }
+            "template": { "type": "object", "properties": { "componentId": { "type": "string" }, "dataBinding": { "type": "string" } }, "required": ["componentId", "dataBinding"] }
           }
         },
         "distribution": { "type": "string", "enum": ["center", "end", "spaceAround", "spaceBetween", "spaceEvenly", "start"] },
@@ -119,14 +88,7 @@ STANDARD_COMPONENTS = {
           "type": "object",
           "properties": {
             "explicitList": { "type": "array", "items": { "type": "string" } },
-            "template": {
-              "type": "object",
-              "properties": {
-                "componentId": { "type": "string" },
-                "dataBinding": { "type": "string" }
-              },
-              "required": ["componentId", "dataBinding"]
-            }
+            "template": { "type": "object", "properties": { "componentId": { "type": "string" }, "dataBinding": { "type": "string" } }, "required": ["componentId", "dataBinding"] }
           }
         },
         "distribution": { "type": "string", "enum": ["start", "center", "end", "spaceBetween", "spaceAround", "spaceEvenly"] },
@@ -142,14 +104,7 @@ STANDARD_COMPONENTS = {
           "type": "object",
           "properties": {
             "explicitList": { "type": "array", "items": { "type": "string" } },
-            "template": {
-              "type": "object",
-              "properties": {
-                "componentId": { "type": "string" },
-                "dataBinding": { "type": "string" }
-              },
-              "required": ["componentId", "dataBinding"]
-            }
+            "template": { "type": "object", "properties": { "componentId": { "type": "string" }, "dataBinding": { "type": "string" } }, "required": ["componentId", "dataBinding"] }
           }
         },
         "direction": { "type": "string", "enum": ["vertical", "horizontal"] },
@@ -169,34 +124,32 @@ class PropertyDef:
         return f"PropertyDef(name={self.name}, type={self.type_str})"
 
 class ClassDef:
-    def __init__(self, name: str, parent: Optional[str] = None):
+    def __init__(self, name: str, parent: Optional[str] = None, file_path: str = ""):
         self.name = name
         self.parent = parent
+        self.file_path = file_path
         self.properties: Dict[str, PropertyDef] = {}
         self.tag_name: Optional[str] = None
+        self.import_path: Optional[str] = None
 
     def __repr__(self):
         return f"ClassDef(name={self.name}, parent={self.parent}, tag={self.tag_name}, props={len(self.properties)})"
 
+def to_kebab_case(name: str) -> str:
+    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1-\2', name)
+    return re.sub('([a-z0-9])([A-Z])', r'\1-\2', s1).lower()
+
 def extract_jsdoc_description(content: str, start_index: int) -> str:
-    """Extracts JSDoc comments immediately preceding the given property definition."""
-    # Look backwards from start_index
-    # We want to capture /** ... */ blocks
-    # This is a simple heuristic: search backwards for '*/' then find '/**'
-    
-    # Limit lookback to avoid performance issues
     lookback = content[max(0, start_index - 500):start_index]
-    
     match = re.search(r'/\*\*((?:(?!\*/).)*?)\*/\s*$', lookback, re.DOTALL)
     if match:
         desc = match.group(1)
-        # Clean up lines
         cleaned = []
         for line in desc.split('\n'):
             line = line.strip()
             if line.startswith('*'):
                 line = line[1:].strip()
-            if line and not line.startswith('@'): # Ignore tags like @property
+            if line and not line.startswith('@'):
                 cleaned.append(line)
         return ' '.join(cleaned).strip()
     return ""
@@ -206,9 +159,6 @@ def parse_ts_file(filepath: str) -> List[ClassDef]:
         content = f.read()
 
     classes = []
-    
-    # Regex to find class definitions: 
-    # Handle 'export class', 'export abstract class', 'export declare class', 'export declare abstract class'
     class_matches = re.finditer(r'export\s+(?:declare\s+)?(?:abstract\s+)?class\s+(\w+)(?:\s+extends\s+([a-zA-Z0-9_\.]+))?', content)
     
     class_indices = []
@@ -217,21 +167,13 @@ def parse_ts_file(filepath: str) -> List[ClassDef]:
             'start': m.start(),
             'name': m.group(1),
             'parent': m.group(2),
-            'obj': ClassDef(m.group(1), m.group(2))
+            'obj': ClassDef(m.group(1), m.group(2), filepath)
         })
         
     if not class_indices:
         return []
         
-    # Check for customElement decorators and global interface map (often in d.ts)
-    # in d.ts: interface HTMLElementTagNameMap { 'md-icon': MdIcon; }
-    # but we rely on @customElement usually? 
-    # In d.ts, customElement decorators might be missing or commented out?
-    # MdFilledButton d.ts does NOT show @customElement. It shows `export declare class ...`
-    # BUT it has `interface HTMLElementTagNameMap { 'md-filled-button': MdFilledButton; }`
-    # We should parse THAT map to get tag names in d.ts.
-    
-    # 1. CustomElement decorators (source files)
+    # 1. CustomElement decorators
     ce_matches = re.finditer(r"@customElement\('([^']+)'\)", content)
     for m in ce_matches:
         tag = m.group(1)
@@ -245,8 +187,7 @@ def parse_ts_file(filepath: str) -> List[ClassDef]:
         if best_cls:
             best_cls.tag_name = tag
             
-    # 2. HTMLElementTagNameMap (d.ts files)
-    # interface HTMLElementTagNameMap { 'md-filled-button': MdFilledButton; }
+    # 2. HTMLElementTagNameMap (d.ts)
     tag_map_match = re.search(r'interface\s+HTMLElementTagNameMap\s*{([^}]+)}', content, re.DOTALL)
     if tag_map_match:
         block = tag_map_match.group(1)
@@ -254,17 +195,13 @@ def parse_ts_file(filepath: str) -> List[ClassDef]:
         for map_m in re.finditer(r"'([^']+)':\s*(\w+)", block):
             tag = map_m.group(1)
             cls_name = map_m.group(2)
-            # Find class with this name
             for c in class_indices:
                 if c['name'] == cls_name:
                     c['obj'].tag_name = tag
 
     # Scan for properties
-    
     # A. Decorators (Source files)
-    # @property({type: Boolean}) disabled = false;
     prop_regex = re.compile(r'@property\s*\((.*?)\)\s*(?:readonly\s+)?([a-zA-Z0-9_]+)')
-    
     for m in prop_regex.finditer(content):
         prop_args = m.group(1)
         prop_name = m.group(2)
@@ -287,30 +224,13 @@ def parse_ts_file(filepath: str) -> List[ClassDef]:
             best_cls.properties[prop_name] = PropertyDef(prop_name, prop_type, prop_desc)
 
     # B. D.TS properties
-    # name: type;
-    # Avoid functions: name(...): type;
-    # Avoid static/private
-    # Regex: ^\s*(?!(?:static|private|protected)\s)([a-zA-Z0-9_]+)(\?)?:\s*([^;]+);
-    # matches line-based properties inside class.
-    
-    # Strategy: Iterate classes, assume d.ts structure is clean (properties follow class decl).
-    # Since d.ts files usually have one class or few, we can limit scan to class body?
-    # But class body parsing gave us trouble before.
-    # Let's try global scan and assign to latest class.
-    
     dts_prop_regex = re.compile(r'^\s*(?!(?:static|private|protected|readonly)\s)([a-zA-Z0-9_]+)(\?)?:\s*([^;]+);', re.MULTILINE)
-    
-    # Note: 'readonly' might be desired if it's a public field (e.g. formAssociated is static readonly). 
-    # But often readonly in d.ts means getter-only or const. A2UI catalog typically wants writeable attributes.
-    # Let's check Button: `disabled: boolean;` is NOT readonly. `form`: readonly.
-    # So excluding 'readonly' is probably good for now.
     
     for m in dts_prop_regex.finditer(content):
         prop_name = m.group(1)
         prop_type_raw = m.group(3).strip()
         prop_desc = extract_jsdoc_description(content, m.start())
         
-        # Heuristic for type
         prop_type = "string"
         if "boolean" in prop_type_raw:
             prop_type = "boolean"
@@ -325,36 +245,29 @@ def parse_ts_file(filepath: str) -> List[ClassDef]:
                 if c['start'] > max_start:
                     max_start = c['start']
                     best_cls = c['obj']
-                    
-        # Filter out methods if regex failed to exclude them (e.g. arrow functions?)
-        # '=>' in type?
-        if '=>' in prop_type_raw:
+        
+        # Skip methods
+        if '=>' in prop_type_raw or '(' in prop_type_raw:
             continue
             
         if best_cls:
-            # Don't overwrite if it exists (e.g. from @property)
             if prop_name not in best_cls.properties:
                 best_cls.properties[prop_name] = PropertyDef(prop_name, prop_type, prop_desc)
 
     return [c['obj'] for c in class_indices]
 
 def parse_with_tables(content):
-    """Generic parser that yields table data blocks."""
     lines = content.split('\n')
     current_table = []
-    
     for line in lines:
         if '|' in line:
             current_table.append(line)
         else:
             if current_table:
-                # End of a potential table block
-                # Verify it has a separator
                 has_separator = any(re.search(r'-{3,}', l) for l in current_table)
                 if has_separator:
                    yield parse_table_lines(current_table)
                 current_table = []
-                
     if current_table:
         has_separator = any(re.search(r'-{3,}', l) for l in current_table)
         if has_separator:
@@ -388,12 +301,14 @@ def parse_table_lines(lines):
                 row[h] = parts[i]
         if row:
             data.append(row)
-            
     return data
 
 def parse_styles(filepath):
-    """Reuse existing markdown parser for styles as it works well."""
     styles = {}
+    if not os.path.exists(filepath):
+        print(f"Warning: {filepath} not found.")
+        return styles
+        
     with open(filepath, 'r') as f:
         content = f.read()
         
@@ -401,12 +316,9 @@ def parse_styles(filepath):
     for table in tables:
         if not table: continue
         keys = table[0].keys()
-        
         token_key = next((k for k in keys if 'Token' in k), None)
-        
         if token_key:
             for row in table:
-                # Look for token in all columns just in case
                 for k, v in row.items():
                     val = v.replace('`', '').strip()
                     if val.startswith('--md-'):
@@ -416,82 +328,257 @@ def parse_styles(filepath):
                         }
     return styles
 
+def generate_implementation(cls: ClassDef, final_props: Dict[str, PropertyDef], output_dir: str):
+    kebab_name = to_kebab_case(cls.name)
+    if not kebab_name.startswith('md-'):
+        kebab_name = f"md-{kebab_name}"
+        
+    filename = f"{kebab_name}.ts"
+    filepath = os.path.join(output_dir, filename)
+    
+    rel_path = os.path.relpath(cls.file_path, MATERIAL_WEB_REPO)
+    if rel_path.endswith('.d.ts'):
+        rel_path = rel_path[:-5] + '.js'
+    elif rel_path.endswith('.ts'):
+        rel_path = rel_path[:-3] + '.js'
+    import_path = f"@material/web/{rel_path}"
+    
+    input_defs = []
+    computed_defs = []
+    template_bindings = []
+    
+    for pname, pdef in final_props.items():
+        if pname.startswith('_'): continue
+        ts_type = pdef.type_str
+        primitive_type = "StringValue"
+        if ts_type == "boolean": primitive_type = "BooleanValue"
+        elif ts_type == "number": primitive_type = "NumberValue"
+        
+        input_defs.append(f"  readonly {pname} = input<Primitives.{primitive_type} | {ts_type} | null>(null);")
+        
+        resolve_cast = f"v as Primitives.{primitive_type}"
+        default_val = "''"
+        if ts_type == "boolean": default_val = "false"
+        elif ts_type == "number": default_val = "0"
+        
+        cap_name = pname[0].upper() + pname[1:]
+            
+        computed_defs.append(f"""  protected resolved{cap_name} = computed(() => {{
+    const v = this.{pname}();
+    return ((v && typeof v === 'object') ? this.resolvePrimitive({resolve_cast}) : (v as {ts_type})) ?? {default_val};
+  }});""")
+        
+        template_bindings.append(f"[{pname}]=\"resolved{cap_name}()\"")
+
+    binding_str = "\n        ".join(template_bindings)
+    
+    content = f"""import {{ Component, computed, input, ViewEncapsulation, CUSTOM_ELEMENTS_SCHEMA }} from '@angular/core';
+import {{ CommonModule }} from '@angular/common';
+import {{ DynamicComponent }} from '@a2ui/angular';
+import {{ Primitives }} from '@a2ui/lit/0.8';
+import '{import_path}';
+
+@Component({{
+  selector: 'catalog-{kebab_name}',
+  standalone: true,
+  imports: [CommonModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  template: `
+    <{cls.tag_name}
+        {binding_str}>
+      <ng-content></ng-content>
+    </{cls.tag_name}>
+  `,
+  styles: [],
+  encapsulation: ViewEncapsulation.None,
+}})
+export class {cls.name} extends DynamicComponent {{
+{chr(10).join(input_defs)}
+
+{chr(10).join(computed_defs)}
+}}
+"""
+    with open(filepath, 'w') as f:
+        f.write(content)
+    return filename, kebab_name
+
+def generate_catalog_ts(components: List[tuple], output_path: str):
+    entries = []
+    for cls_name, fname, props in components:
+        base_name = os.path.splitext(fname)[0]
+        bindings = []
+        for pname in props.keys():
+            if pname.startswith('_'): continue
+            bindings.append(f"      inputBinding('{pname}', () => ('{pname}' in properties && properties['{pname}']) ?? undefined),")
+        bindings_str = "\n".join(bindings)
+        entry = f"""  {cls_name}: {{
+    type: () => import('./{base_name}').then(c => c.{cls_name}),
+    bindings: ({{ properties }}) => [
+{bindings_str}
+    ],
+  }},"""
+        entries.append(entry)
+
+    content = f"""import {{ Catalog, DEFAULT_CATALOG }} from '@a2ui/angular';
+import {{ inputBinding }} from '@angular/core';
+
+export const MATERIAL3_CATALOG = {{
+  ...DEFAULT_CATALOG,
+{chr(10).join(entries)}
+}} as Catalog;
+"""
+    with open(output_path, 'w') as f:
+        f.write(content)
+
+def generate_library_json(components: List[tuple], output_path: str):
+    # This generates the JSON file for the demo library
+    blocks = []
+
+    # Standard Components
+    standard_blocks = [
+        {
+            "name": "Card",
+            "tag": "Layout",
+            "type": "Card",
+            "properties": {
+                "child": { "id": "card-text", "type": "Text", "properties": { "text": { "literalString": "Content inside a card" } } }
+            }
+        },
+        {
+            "name": "Column",
+            "tag": "Layout",
+            "type": "Column",
+            "properties": {
+                "alignment": "center",
+                "children": {
+                    "explicitList": ["col-1", "col-2"]
+                }
+            },
+            "children_definitions": [
+                { "id": "col-1", "type": "Text", "properties": { "text": { "literalString": "Item 1" } } },
+                { "id": "col-2", "type": "Text", "properties": { "text": { "literalString": "Item 2" } } }
+            ]
+        },
+        {
+            "name": "Row",
+            "tag": "Layout",
+            "type": "Row",
+            "properties": {
+                "alignment": "center",
+                "distribution": "space-around",
+                "children": {
+                    "explicitList": ["row-1", "row-2"]
+                }
+            },
+            "children_definitions": [
+                { "id": "row-1", "type": "Text", "properties": { "text": { "literalString": "Left" } } },
+                { "id": "row-2", "type": "Text", "properties": { "text": { "literalString": "Right" } } }
+            ]
+        },
+        {
+             "name": "Text",
+             "tag": "Layout",
+             "type": "Text",
+             "properties": { "text": { "literalString": "Standard Text" } }
+        },
+        {
+            "name": "Divider",
+            "tag": "Layout",
+            "type": "Column",
+            "properties": { "children": { "explicitList": ["div-1", "div-2", "div-3"] } },
+            "children_definitions": [
+                { "id": "div-1", "type": "Text", "properties": { "text": { "literalString": "Above" } } },
+                { "id": "div-2", "type": "Divider", "properties": {} },
+                { "id": "div-3", "type": "Text", "properties": { "text": { "literalString": "Below" } } }
+            ]
+        },
+        # Adding a few more standard demos to match previous coverage
+        {
+            "name": "Image",
+            "tag": "Media",
+            "type": "Image",
+            "properties": { "url": { "literalString": "https://picsum.photos/id/10/300/200" } }
+        },
+        {
+             "name": "Button",
+             "tag": "Inputs",
+             "type": "Button",
+             "properties": {
+                 "label": { "literalString": "Click Me" },
+                 "action": { "type": "click" },
+                 "child": { "id": "btn-text", "type": "Text", "properties": { "text": { "literalString": "Click Me" } } }
+             }
+        }
+    ]
+    
+    blocks.extend(standard_blocks)
+    
+    # Material Components
+    for cls_name, _, props in components:
+        demo_props = {}
+        for pname, pdef in props.items():
+            if pname.startswith('_'): continue
+            if "label" in pname.lower():
+                demo_props[pname] = {"literalString": cls_name}
+            elif pdef.type_str == "boolean":
+                demo_props[pname] = {"literalBoolean": False}
+            elif pdef.type_str == "number":
+                demo_props[pname] = {"literalNumber": 0}
+            elif pdef.type_str == "string":
+                 demo_props[pname] = {"literalString": "value"}
+
+        blocks.append({
+            "name": cls_name,
+            "tag": "Material",
+            "type": cls_name,
+            "properties": demo_props
+        })
+
+    with open(output_path, 'w') as f:
+        json.dump(blocks, f, indent=2)
+
 def main():
+    if not os.path.exists(CATALOG_DIR):
+        os.makedirs(CATALOG_DIR)
+
     print(f"Scanning {MATERIAL_WEB_REPO}...")
-    
     all_classes: Dict[str, ClassDef] = {}
-    
-    # 1. Scan all TS files (including d.ts)
     files = glob.glob(f"{MATERIAL_WEB_REPO}/**/*.ts", recursive=True)
-    # Also ensure we check d.ts specifically if they were missed (glob should catch them if **/*.ts catches .d.ts, which it does)
     
     for fpath in files:
         if "test" in fpath or "harness" in fpath: continue
-        
         parsed_classes = parse_ts_file(fpath)
         for c in parsed_classes:
             all_classes[c.name] = c
-            
+
     print(f"Found {len(all_classes)} classes.")
-    
-    # 2. Resolve Inheritance
-    # Simple recursive property merge
+
     def get_all_properties(class_name: str, visited: set) -> Dict[str, PropertyDef]:
         if class_name in visited: return {}
-        if class_name not in all_classes: 
-            # Parent might be a Mixin or external class we didn't parse perfectly
-            # Or mapped differently (e.g. Aliased imports).
-            # We'll skip for now.
-            return {}
-            
+        if class_name not in all_classes: return {}
         visited.add(class_name)
         cls = all_classes[class_name]
-        
         props = {}
-        # Parent props first
         if cls.parent:
-            # Handle Mixins names? e.g. "mixinDelegatesAria(...)"
-            # A bit complex. For now, try direct name match.
             props.update(get_all_properties(cls.parent, visited))
-            
-        # Own props override
         props.update(cls.properties)
         return props
 
-    # 3. Build Catalog
-    components_json = {}
-    
-    # Filter for only classes with tag_name (the actual components)
     component_classes = [c for c in all_classes.values() if c.tag_name and c.tag_name.startswith('md-')]
-    
-    # Filter out blacklisted components
     component_classes = [c for c in component_classes if c.name not in BLACKLIST]
-    
-    print(f"Found {len(component_classes)} valid Material components: {[c.tag_name for c in component_classes]}")
+
+    components_json = {}
+    valid_components_for_implementation = []
+
+    print(f"Processing {len(component_classes)} valid Material components...")
 
     for cls in component_classes:
-        # Convert tag-name 'md-elevated-button' to ClassName-ish 'MdElevatedButton' for the key?
-        # Actually the catalog uses 'MdElevatedButton' keys in the previous version.
-        # Let's use the Class Name as the key, but we need to ensure it matches what A2UI expects?
-        # A2UI catalog typically uses PascalCase keys. A2UI uses the Key as the Component Name.
-        # Ensure 'MdIcon' is 'MdIcon'.
-        
-        # The class name in source is 'Icon' but exported as 'MdIcon' in alias often?
-        # In `icon/icon.ts`: `export class MdIcon extends Icon`.
-        # So we should use the class name directly if it starts with Md.
-        # If it doesn't (e.g. 'Checkbox'), we might want to prepend Md?
-        # Wait, `MdIcon` in `icon.ts` has NO properties in its body.
-        # Inheritance resolution is critical here.
-        # MdIcon extends Icon. Icon has the implementation.
-        
         final_props = get_all_properties(cls.name, set())
         
-        # Convert to JSON schema format
+        # JSON Schema
         props_json = {}
         for p_name, p_def in final_props.items():
-            # Filter out internal or private-ish props if necessary (usually start with _)
             if p_name.startswith('_'): continue
-            
             props_json[p_name] = {
                 "type": p_def.type_str,
                 "description": p_def.description
@@ -501,12 +588,20 @@ def main():
             "type": "object",
             "properties": props_json
         }
+        
+        # Generate Implementation
+        filename, kebab = generate_implementation(cls, final_props, CATALOG_DIR)
+        valid_components_for_implementation.append((cls.name, filename, final_props))
 
-    # 4. Styles
+    print("Generating catalog.ts...")
+    generate_catalog_ts(valid_components_for_implementation, CATALOG_TS_PATH)
+    
+    print("Generating components.json...")
+    generate_library_json(valid_components_for_implementation, LIBRARY_JSON_PATH)
+
     print("Parsing Styles...")
     styles = parse_styles(THEMING_MD_PATH)
     
-    # 5. Output
     catalog = {
         "components": {**STANDARD_COMPONENTS, **components_json},
         "styles": styles

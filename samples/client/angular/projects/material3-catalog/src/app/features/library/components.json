@@ -1,0 +1,1683 @@
+[
+  {
+    "name": "Card",
+    "tag": "Layout",
+    "type": "Card",
+    "properties": {
+      "child": {
+        "id": "card-text",
+        "type": "Text",
+        "properties": {
+          "text": {
+            "literalString": "Content inside a card"
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "Column",
+    "tag": "Layout",
+    "type": "Column",
+    "properties": {
+      "alignment": "center",
+      "children": {
+        "explicitList": [
+          "col-1",
+          "col-2"
+        ]
+      }
+    },
+    "children_definitions": [
+      {
+        "id": "col-1",
+        "type": "Text",
+        "properties": {
+          "text": {
+            "literalString": "Item 1"
+          }
+        }
+      },
+      {
+        "id": "col-2",
+        "type": "Text",
+        "properties": {
+          "text": {
+            "literalString": "Item 2"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "Row",
+    "tag": "Layout",
+    "type": "Row",
+    "properties": {
+      "alignment": "center",
+      "distribution": "space-around",
+      "children": {
+        "explicitList": [
+          "row-1",
+          "row-2"
+        ]
+      }
+    },
+    "children_definitions": [
+      {
+        "id": "row-1",
+        "type": "Text",
+        "properties": {
+          "text": {
+            "literalString": "Left"
+          }
+        }
+      },
+      {
+        "id": "row-2",
+        "type": "Text",
+        "properties": {
+          "text": {
+            "literalString": "Right"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "Text",
+    "tag": "Layout",
+    "type": "Text",
+    "properties": {
+      "text": {
+        "literalString": "Standard Text"
+      }
+    }
+  },
+  {
+    "name": "Divider",
+    "tag": "Layout",
+    "type": "Column",
+    "properties": {
+      "children": {
+        "explicitList": [
+          "div-1",
+          "div-2",
+          "div-3"
+        ]
+      }
+    },
+    "children_definitions": [
+      {
+        "id": "div-1",
+        "type": "Text",
+        "properties": {
+          "text": {
+            "literalString": "Above"
+          }
+        }
+      },
+      {
+        "id": "div-2",
+        "type": "Divider",
+        "properties": {}
+      },
+      {
+        "id": "div-3",
+        "type": "Text",
+        "properties": {
+          "text": {
+            "literalString": "Below"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "Image",
+    "tag": "Media",
+    "type": "Image",
+    "properties": {
+      "url": {
+        "literalString": "https://picsum.photos/id/10/300/200"
+      }
+    }
+  },
+  {
+    "name": "Button",
+    "tag": "Inputs",
+    "type": "Button",
+    "properties": {
+      "label": {
+        "literalString": "Click Me"
+      },
+      "action": {
+        "type": "click"
+      },
+      "child": {
+        "id": "btn-text",
+        "type": "Text",
+        "properties": {
+          "text": {
+            "literalString": "Click Me"
+          }
+        }
+      }
+    }
+  },
+  {
+    "name": "MdSecondaryTab",
+    "tag": "Material",
+    "type": "MdSecondaryTab",
+    "properties": {
+      "active": {
+        "literalBoolean": false
+      },
+      "hasIcon": {
+        "literalBoolean": false
+      },
+      "iconOnly": {
+        "literalBoolean": false
+      }
+    }
+  },
+  {
+    "name": "MdTabs",
+    "tag": "Material",
+    "type": "MdTabs",
+    "properties": {
+      "autoActivate": {
+        "literalBoolean": false
+      }
+    }
+  },
+  {
+    "name": "MdPrimaryTab",
+    "tag": "Material",
+    "type": "MdPrimaryTab",
+    "properties": {
+      "active": {
+        "literalBoolean": false
+      },
+      "hasIcon": {
+        "literalBoolean": false
+      },
+      "iconOnly": {
+        "literalBoolean": false
+      },
+      "inlineIcon": {
+        "literalBoolean": false
+      },
+      "stacked": {
+        "literalBoolean": false
+      }
+    }
+  },
+  {
+    "name": "MdFilledCard",
+    "tag": "Material",
+    "type": "MdFilledCard",
+    "properties": {}
+  },
+  {
+    "name": "MdElevatedCard",
+    "tag": "Material",
+    "type": "MdElevatedCard",
+    "properties": {}
+  },
+  {
+    "name": "MdOutlinedCard",
+    "tag": "Material",
+    "type": "MdOutlinedCard",
+    "properties": {}
+  },
+  {
+    "name": "MdNavigationDrawer",
+    "tag": "Material",
+    "type": "MdNavigationDrawer",
+    "properties": {
+      "opened": {
+        "literalBoolean": false
+      },
+      "pivot": {
+        "literalString": "value"
+      }
+    }
+  },
+  {
+    "name": "MdNavigationBar",
+    "tag": "Material",
+    "type": "MdNavigationBar",
+    "properties": {
+      "activeIndex": {
+        "literalNumber": 0
+      },
+      "hideInactiveLabels": {
+        "literalString": "MdNavigationBar"
+      },
+      "tabs": {
+        "literalString": "value"
+      }
+    }
+  },
+  {
+    "name": "MdOutlinedSegmentedButtonSet",
+    "tag": "Material",
+    "type": "MdOutlinedSegmentedButtonSet",
+    "properties": {
+      "multiselect": {
+        "literalBoolean": false
+      },
+      "buttons": {
+        "literalString": "value"
+      }
+    }
+  },
+  {
+    "name": "MdOutlinedSegmentedButton",
+    "tag": "Material",
+    "type": "MdOutlinedSegmentedButton",
+    "properties": {
+      "disabled": {
+        "literalBoolean": false
+      },
+      "selected": {
+        "literalBoolean": false
+      },
+      "label": {
+        "literalString": "MdOutlinedSegmentedButton"
+      },
+      "noCheckmark": {
+        "literalBoolean": false
+      },
+      "hasIcon": {
+        "literalBoolean": false
+      }
+    }
+  },
+  {
+    "name": "MdNavigationTab",
+    "tag": "Material",
+    "type": "MdNavigationTab",
+    "properties": {
+      "disabled": {
+        "literalBoolean": false
+      },
+      "active": {
+        "literalBoolean": false
+      },
+      "hideInactiveLabel": {
+        "literalString": "MdNavigationTab"
+      },
+      "label": {
+        "literalString": "MdNavigationTab"
+      },
+      "badgeValue": {
+        "literalString": "value"
+      },
+      "showBadge": {
+        "literalBoolean": false
+      },
+      "buttonElement": {
+        "literalString": "value"
+      }
+    }
+  },
+  {
+    "name": "MdBadge",
+    "tag": "Material",
+    "type": "MdBadge",
+    "properties": {
+      "value": {
+        "literalString": "value"
+      }
+    }
+  },
+  {
+    "name": "MdRadio",
+    "tag": "Material",
+    "type": "MdRadio",
+    "properties": {
+      "required": {
+        "literalBoolean": false
+      },
+      "value": {
+        "literalString": "value"
+      },
+      "disabled": {
+        "literalBoolean": false
+      },
+      "name": {
+        "literalString": "value"
+      }
+    }
+  },
+  {
+    "name": "MdCircularProgress",
+    "tag": "Material",
+    "type": "MdCircularProgress",
+    "properties": {
+      "value": {
+        "literalNumber": 0
+      },
+      "max": {
+        "literalNumber": 0
+      },
+      "indeterminate": {
+        "literalBoolean": false
+      },
+      "fourColor": {
+        "literalBoolean": false
+      }
+    }
+  },
+  {
+    "name": "MdLinearProgress",
+    "tag": "Material",
+    "type": "MdLinearProgress",
+    "properties": {
+      "value": {
+        "literalNumber": 0
+      },
+      "max": {
+        "literalNumber": 0
+      },
+      "indeterminate": {
+        "literalBoolean": false
+      },
+      "fourColor": {
+        "literalBoolean": false
+      },
+      "buffer": {
+        "literalNumber": 0
+      }
+    }
+  },
+  {
+    "name": "MdInputChip",
+    "tag": "Material",
+    "type": "MdInputChip",
+    "properties": {
+      "delegatesFocus": {
+        "literalBoolean": false
+      },
+      "mode": {
+        "literalString": "value"
+      },
+      "serializable": {
+        "literalBoolean": false
+      },
+      "slotAssignment": {
+        "literalString": "value"
+      },
+      "disabled": {
+        "literalBoolean": false
+      },
+      "softDisabled": {
+        "literalBoolean": false
+      },
+      "alwaysFocusable": {
+        "literalBoolean": false
+      },
+      "label": {
+        "literalString": "MdInputChip"
+      },
+      "hasIcon": {
+        "literalBoolean": false
+      },
+      "trailing": {
+        "literalBoolean": false
+      },
+      "avatar": {
+        "literalBoolean": false
+      },
+      "href": {
+        "literalString": "value"
+      },
+      "target": {
+        "literalString": "value"
+      },
+      "removeOnly": {
+        "literalBoolean": false
+      },
+      "selected": {
+        "literalBoolean": false
+      },
+      "link": {
+        "literalBoolean": false
+      }
+    }
+  },
+  {
+    "name": "MdSuggestionChip",
+    "tag": "Material",
+    "type": "MdSuggestionChip",
+    "properties": {
+      "delegatesFocus": {
+        "literalBoolean": false
+      },
+      "mode": {
+        "literalString": "value"
+      },
+      "serializable": {
+        "literalBoolean": false
+      },
+      "slotAssignment": {
+        "literalString": "value"
+      },
+      "disabled": {
+        "literalBoolean": false
+      },
+      "softDisabled": {
+        "literalBoolean": false
+      },
+      "alwaysFocusable": {
+        "literalBoolean": false
+      },
+      "label": {
+        "literalString": "MdSuggestionChip"
+      },
+      "hasIcon": {
+        "literalBoolean": false
+      },
+      "elevated": {
+        "literalBoolean": false
+      },
+      "href": {
+        "literalString": "value"
+      },
+      "download": {
+        "literalString": "value"
+      },
+      "target": {
+        "literalString": "value"
+      },
+      "link": {
+        "literalBoolean": false
+      }
+    }
+  },
+  {
+    "name": "MdFilterChip",
+    "tag": "Material",
+    "type": "MdFilterChip",
+    "properties": {
+      "delegatesFocus": {
+        "literalBoolean": false
+      },
+      "mode": {
+        "literalString": "value"
+      },
+      "serializable": {
+        "literalBoolean": false
+      },
+      "slotAssignment": {
+        "literalString": "value"
+      },
+      "disabled": {
+        "literalBoolean": false
+      },
+      "softDisabled": {
+        "literalBoolean": false
+      },
+      "alwaysFocusable": {
+        "literalBoolean": false
+      },
+      "label": {
+        "literalString": "MdFilterChip"
+      },
+      "hasIcon": {
+        "literalBoolean": false
+      },
+      "trailing": {
+        "literalBoolean": false
+      },
+      "elevated": {
+        "literalBoolean": false
+      },
+      "removable": {
+        "literalBoolean": false
+      },
+      "selected": {
+        "literalBoolean": false
+      },
+      "hasSelectedIcon": {
+        "literalBoolean": false
+      }
+    }
+  },
+  {
+    "name": "MdChipSet",
+    "tag": "Material",
+    "type": "MdChipSet",
+    "properties": {}
+  },
+  {
+    "name": "MdAssistChip",
+    "tag": "Material",
+    "type": "MdAssistChip",
+    "properties": {
+      "delegatesFocus": {
+        "literalBoolean": false
+      },
+      "mode": {
+        "literalString": "value"
+      },
+      "serializable": {
+        "literalBoolean": false
+      },
+      "slotAssignment": {
+        "literalString": "value"
+      },
+      "disabled": {
+        "literalBoolean": false
+      },
+      "softDisabled": {
+        "literalBoolean": false
+      },
+      "alwaysFocusable": {
+        "literalBoolean": false
+      },
+      "label": {
+        "literalString": "MdAssistChip"
+      },
+      "hasIcon": {
+        "literalBoolean": false
+      },
+      "elevated": {
+        "literalBoolean": false
+      },
+      "href": {
+        "literalString": "value"
+      },
+      "download": {
+        "literalString": "value"
+      },
+      "target": {
+        "literalString": "value"
+      },
+      "link": {
+        "literalBoolean": false
+      }
+    }
+  },
+  {
+    "name": "MdFab",
+    "tag": "Material",
+    "type": "MdFab",
+    "properties": {
+      "size": {
+        "literalString": "value"
+      },
+      "label": {
+        "literalString": "MdFab"
+      },
+      "lowered": {
+        "literalBoolean": false
+      },
+      "small": {
+        "literalBoolean": false
+      },
+      "large": {
+        "literalBoolean": false
+      },
+      "extended": {
+        "literalBoolean": false
+      },
+      "variant": {
+        "literalString": "value"
+      },
+      "primary": {
+        "literalBoolean": false
+      },
+      "secondary": {
+        "literalBoolean": false
+      },
+      "tertiary": {
+        "literalBoolean": false
+      }
+    }
+  },
+  {
+    "name": "MdBrandedFab",
+    "tag": "Material",
+    "type": "MdBrandedFab",
+    "properties": {
+      "size": {
+        "literalString": "value"
+      },
+      "label": {
+        "literalString": "MdBrandedFab"
+      },
+      "lowered": {
+        "literalBoolean": false
+      },
+      "small": {
+        "literalBoolean": false
+      },
+      "large": {
+        "literalBoolean": false
+      },
+      "extended": {
+        "literalBoolean": false
+      },
+      "variant": {
+        "literalString": "value"
+      },
+      "primary": {
+        "literalBoolean": false
+      },
+      "secondary": {
+        "literalBoolean": false
+      },
+      "tertiary": {
+        "literalBoolean": false
+      }
+    }
+  },
+  {
+    "name": "MdCheckbox",
+    "tag": "Material",
+    "type": "MdCheckbox",
+    "properties": {
+      "delegatesFocus": {
+        "literalBoolean": false
+      },
+      "mode": {
+        "literalString": "value"
+      },
+      "serializable": {
+        "literalBoolean": false
+      },
+      "slotAssignment": {
+        "literalString": "value"
+      },
+      "checked": {
+        "literalBoolean": false
+      },
+      "indeterminate": {
+        "literalBoolean": false
+      },
+      "required": {
+        "literalBoolean": false
+      },
+      "value": {
+        "literalString": "value"
+      },
+      "disabled": {
+        "literalBoolean": false
+      },
+      "name": {
+        "literalString": "value"
+      }
+    }
+  },
+  {
+    "name": "MdOutlinedTextField",
+    "tag": "Material",
+    "type": "MdOutlinedTextField",
+    "properties": {
+      "error": {
+        "literalBoolean": false
+      },
+      "errorText": {
+        "literalString": "value"
+      },
+      "label": {
+        "literalString": "MdOutlinedTextField"
+      },
+      "noAsterisk": {
+        "literalBoolean": false
+      },
+      "required": {
+        "literalBoolean": false
+      },
+      "value": {
+        "literalString": "value"
+      },
+      "prefixText": {
+        "literalString": "value"
+      },
+      "suffixText": {
+        "literalString": "value"
+      },
+      "hasLeadingIcon": {
+        "literalBoolean": false
+      },
+      "hasTrailingIcon": {
+        "literalBoolean": false
+      },
+      "supportingText": {
+        "literalString": "value"
+      },
+      "textDirection": {
+        "literalString": "value"
+      },
+      "rows": {
+        "literalNumber": 0
+      },
+      "cols": {
+        "literalNumber": 0
+      },
+      "inputMode": {
+        "literalString": "value"
+      },
+      "max": {
+        "literalString": "value"
+      },
+      "maxLength": {
+        "literalNumber": 0
+      },
+      "min": {
+        "literalString": "value"
+      },
+      "minLength": {
+        "literalNumber": 0
+      },
+      "noSpinner": {
+        "literalBoolean": false
+      },
+      "pattern": {
+        "literalString": "value"
+      },
+      "placeholder": {
+        "literalString": "value"
+      },
+      "readOnly": {
+        "literalBoolean": false
+      },
+      "multiple": {
+        "literalBoolean": false
+      },
+      "step": {
+        "literalString": "value"
+      },
+      "type": {
+        "literalString": "value"
+      },
+      "autocomplete": {
+        "literalString": "value"
+      },
+      "disabled": {
+        "literalBoolean": false
+      },
+      "name": {
+        "literalString": "value"
+      }
+    }
+  },
+  {
+    "name": "MdFilledTextField",
+    "tag": "Material",
+    "type": "MdFilledTextField",
+    "properties": {
+      "error": {
+        "literalBoolean": false
+      },
+      "errorText": {
+        "literalString": "value"
+      },
+      "label": {
+        "literalString": "MdFilledTextField"
+      },
+      "noAsterisk": {
+        "literalBoolean": false
+      },
+      "required": {
+        "literalBoolean": false
+      },
+      "value": {
+        "literalString": "value"
+      },
+      "prefixText": {
+        "literalString": "value"
+      },
+      "suffixText": {
+        "literalString": "value"
+      },
+      "hasLeadingIcon": {
+        "literalBoolean": false
+      },
+      "hasTrailingIcon": {
+        "literalBoolean": false
+      },
+      "supportingText": {
+        "literalString": "value"
+      },
+      "textDirection": {
+        "literalString": "value"
+      },
+      "rows": {
+        "literalNumber": 0
+      },
+      "cols": {
+        "literalNumber": 0
+      },
+      "inputMode": {
+        "literalString": "value"
+      },
+      "max": {
+        "literalString": "value"
+      },
+      "maxLength": {
+        "literalNumber": 0
+      },
+      "min": {
+        "literalString": "value"
+      },
+      "minLength": {
+        "literalNumber": 0
+      },
+      "noSpinner": {
+        "literalBoolean": false
+      },
+      "pattern": {
+        "literalString": "value"
+      },
+      "placeholder": {
+        "literalString": "value"
+      },
+      "readOnly": {
+        "literalBoolean": false
+      },
+      "multiple": {
+        "literalBoolean": false
+      },
+      "step": {
+        "literalString": "value"
+      },
+      "type": {
+        "literalString": "value"
+      },
+      "autocomplete": {
+        "literalString": "value"
+      },
+      "disabled": {
+        "literalBoolean": false
+      },
+      "name": {
+        "literalString": "value"
+      }
+    }
+  },
+  {
+    "name": "MdSlider",
+    "tag": "Material",
+    "type": "MdSlider",
+    "properties": {
+      "min": {
+        "literalNumber": 0
+      },
+      "max": {
+        "literalNumber": 0
+      },
+      "value": {
+        "literalNumber": 0
+      },
+      "valueStart": {
+        "literalNumber": 0
+      },
+      "valueEnd": {
+        "literalNumber": 0
+      },
+      "valueLabel": {
+        "literalString": "MdSlider"
+      },
+      "valueLabelStart": {
+        "literalString": "MdSlider"
+      },
+      "valueLabelEnd": {
+        "literalString": "MdSlider"
+      },
+      "ariaLabelStart": {
+        "literalString": "MdSlider"
+      },
+      "ariaValueTextStart": {
+        "literalString": "value"
+      },
+      "ariaLabelEnd": {
+        "literalString": "MdSlider"
+      },
+      "ariaValueTextEnd": {
+        "literalString": "value"
+      },
+      "step": {
+        "literalNumber": 0
+      },
+      "ticks": {
+        "literalBoolean": false
+      },
+      "labeled": {
+        "literalString": "MdSlider"
+      },
+      "range": {
+        "literalBoolean": false
+      },
+      "disabled": {
+        "literalBoolean": false
+      },
+      "name": {
+        "literalString": "value"
+      }
+    }
+  },
+  {
+    "name": "MdRipple",
+    "tag": "Material",
+    "type": "MdRipple",
+    "properties": {
+      "disabled": {
+        "literalBoolean": false
+      }
+    }
+  },
+  {
+    "name": "MdDialog",
+    "tag": "Material",
+    "type": "MdDialog",
+    "properties": {
+      "quick": {
+        "literalBoolean": false
+      },
+      "returnValue": {
+        "literalString": "value"
+      },
+      "type": {
+        "literalString": "value"
+      },
+      "noFocusTrap": {
+        "literalBoolean": false
+      }
+    }
+  },
+  {
+    "name": "MdFilledTonalButton",
+    "tag": "Material",
+    "type": "MdFilledTonalButton",
+    "properties": {
+      "disabled": {
+        "literalBoolean": false
+      },
+      "softDisabled": {
+        "literalBoolean": false
+      },
+      "href": {
+        "literalString": "value"
+      },
+      "download": {
+        "literalString": "value"
+      },
+      "target": {
+        "literalString": "value"
+      },
+      "trailingIcon": {
+        "literalBoolean": false
+      },
+      "hasIcon": {
+        "literalBoolean": false
+      },
+      "type": {
+        "literalString": "value"
+      },
+      "value": {
+        "literalString": "value"
+      }
+    }
+  },
+  {
+    "name": "MdFilledButton",
+    "tag": "Material",
+    "type": "MdFilledButton",
+    "properties": {
+      "disabled": {
+        "literalBoolean": false
+      },
+      "softDisabled": {
+        "literalBoolean": false
+      },
+      "href": {
+        "literalString": "value"
+      },
+      "download": {
+        "literalString": "value"
+      },
+      "target": {
+        "literalString": "value"
+      },
+      "trailingIcon": {
+        "literalBoolean": false
+      },
+      "hasIcon": {
+        "literalBoolean": false
+      },
+      "type": {
+        "literalString": "value"
+      },
+      "value": {
+        "literalString": "value"
+      }
+    }
+  },
+  {
+    "name": "MdTextButton",
+    "tag": "Material",
+    "type": "MdTextButton",
+    "properties": {
+      "disabled": {
+        "literalBoolean": false
+      },
+      "softDisabled": {
+        "literalBoolean": false
+      },
+      "href": {
+        "literalString": "value"
+      },
+      "download": {
+        "literalString": "value"
+      },
+      "target": {
+        "literalString": "value"
+      },
+      "trailingIcon": {
+        "literalBoolean": false
+      },
+      "hasIcon": {
+        "literalBoolean": false
+      },
+      "type": {
+        "literalString": "value"
+      },
+      "value": {
+        "literalString": "value"
+      }
+    }
+  },
+  {
+    "name": "MdOutlinedButton",
+    "tag": "Material",
+    "type": "MdOutlinedButton",
+    "properties": {
+      "disabled": {
+        "literalBoolean": false
+      },
+      "softDisabled": {
+        "literalBoolean": false
+      },
+      "href": {
+        "literalString": "value"
+      },
+      "download": {
+        "literalString": "value"
+      },
+      "target": {
+        "literalString": "value"
+      },
+      "trailingIcon": {
+        "literalBoolean": false
+      },
+      "hasIcon": {
+        "literalBoolean": false
+      },
+      "type": {
+        "literalString": "value"
+      },
+      "value": {
+        "literalString": "value"
+      }
+    }
+  },
+  {
+    "name": "MdElevatedButton",
+    "tag": "Material",
+    "type": "MdElevatedButton",
+    "properties": {
+      "disabled": {
+        "literalBoolean": false
+      },
+      "softDisabled": {
+        "literalBoolean": false
+      },
+      "href": {
+        "literalString": "value"
+      },
+      "download": {
+        "literalString": "value"
+      },
+      "target": {
+        "literalString": "value"
+      },
+      "trailingIcon": {
+        "literalBoolean": false
+      },
+      "hasIcon": {
+        "literalBoolean": false
+      },
+      "type": {
+        "literalString": "value"
+      },
+      "value": {
+        "literalString": "value"
+      }
+    }
+  },
+  {
+    "name": "MdListItem",
+    "tag": "Material",
+    "type": "MdListItem",
+    "properties": {}
+  },
+  {
+    "name": "MdList",
+    "tag": "Material",
+    "type": "MdList",
+    "properties": {
+      "item": {
+        "literalString": "value"
+      }
+    }
+  },
+  {
+    "name": "MdDivider",
+    "tag": "Material",
+    "type": "MdDivider",
+    "properties": {
+      "inset": {
+        "literalBoolean": false
+      },
+      "insetStart": {
+        "literalBoolean": false
+      },
+      "insetEnd": {
+        "literalBoolean": false
+      }
+    }
+  },
+  {
+    "name": "MdMenuItem",
+    "tag": "Material",
+    "type": "MdMenuItem",
+    "properties": {
+      "delegatesFocus": {
+        "literalBoolean": false
+      },
+      "mode": {
+        "literalString": "value"
+      },
+      "serializable": {
+        "literalBoolean": false
+      },
+      "slotAssignment": {
+        "literalString": "value"
+      },
+      "disabled": {
+        "literalBoolean": false
+      },
+      "type": {
+        "literalString": "value"
+      },
+      "href": {
+        "literalString": "value"
+      },
+      "target": {
+        "literalString": "value"
+      },
+      "keepOpen": {
+        "literalBoolean": false
+      },
+      "selected": {
+        "literalBoolean": false
+      }
+    }
+  },
+  {
+    "name": "MdMenu",
+    "tag": "Material",
+    "type": "MdMenu",
+    "properties": {
+      "anchor": {
+        "literalString": "value"
+      },
+      "positioning": {
+        "literalString": "value"
+      },
+      "quick": {
+        "literalBoolean": false
+      },
+      "hasOverflow": {
+        "literalBoolean": false
+      },
+      "open": {
+        "literalBoolean": false
+      },
+      "xOffset": {
+        "literalNumber": 0
+      },
+      "yOffset": {
+        "literalNumber": 0
+      },
+      "noHorizontalFlip": {
+        "literalBoolean": false
+      },
+      "noVerticalFlip": {
+        "literalBoolean": false
+      },
+      "typeaheadDelay": {
+        "literalNumber": 0
+      },
+      "anchorCorner": {
+        "literalString": "value"
+      },
+      "menuCorner": {
+        "literalString": "value"
+      },
+      "stayOpenOnOutsideClick": {
+        "literalBoolean": false
+      },
+      "stayOpenOnFocusout": {
+        "literalBoolean": false
+      },
+      "skipRestoreFocus": {
+        "literalBoolean": false
+      },
+      "defaultFocus": {
+        "literalString": "value"
+      },
+      "noNavigationWrap": {
+        "literalBoolean": false
+      },
+      "isSubmenu": {
+        "literalBoolean": false
+      },
+      "typeaheadController": {
+        "literalString": "value"
+      }
+    }
+  },
+  {
+    "name": "MdSubMenu",
+    "tag": "Material",
+    "type": "MdSubMenu",
+    "properties": {
+      "anchorCorner": {
+        "literalString": "value"
+      },
+      "menuCorner": {
+        "literalString": "value"
+      },
+      "hoverOpenDelay": {
+        "literalNumber": 0
+      },
+      "hoverCloseDelay": {
+        "literalNumber": 0
+      },
+      "isSubMenu": {
+        "literalBoolean": false
+      }
+    }
+  },
+  {
+    "name": "MdSwitch",
+    "tag": "Material",
+    "type": "MdSwitch",
+    "properties": {
+      "selected": {
+        "literalBoolean": false
+      },
+      "icons": {
+        "literalBoolean": false
+      },
+      "showOnlySelectedIcon": {
+        "literalBoolean": false
+      },
+      "required": {
+        "literalBoolean": false
+      },
+      "value": {
+        "literalString": "value"
+      },
+      "disabled": {
+        "literalBoolean": false
+      },
+      "name": {
+        "literalString": "value"
+      }
+    }
+  },
+  {
+    "name": "MdFilledIconButton",
+    "tag": "Material",
+    "type": "MdFilledIconButton",
+    "properties": {
+      "disabled": {
+        "literalBoolean": false
+      },
+      "softDisabled": {
+        "literalBoolean": false
+      },
+      "flipIconInRtl": {
+        "literalBoolean": false
+      },
+      "href": {
+        "literalString": "value"
+      },
+      "download": {
+        "literalString": "value"
+      },
+      "target": {
+        "literalString": "value"
+      },
+      "ariaLabelSelected": {
+        "literalString": "MdFilledIconButton"
+      },
+      "toggle": {
+        "literalBoolean": false
+      },
+      "selected": {
+        "literalBoolean": false
+      },
+      "type": {
+        "literalString": "value"
+      },
+      "value": {
+        "literalString": "value"
+      },
+      "filled": {
+        "literalBoolean": false
+      }
+    }
+  },
+  {
+    "name": "MdFilledTonalIconButton",
+    "tag": "Material",
+    "type": "MdFilledTonalIconButton",
+    "properties": {
+      "disabled": {
+        "literalBoolean": false
+      },
+      "softDisabled": {
+        "literalBoolean": false
+      },
+      "flipIconInRtl": {
+        "literalBoolean": false
+      },
+      "href": {
+        "literalString": "value"
+      },
+      "download": {
+        "literalString": "value"
+      },
+      "target": {
+        "literalString": "value"
+      },
+      "ariaLabelSelected": {
+        "literalString": "MdFilledTonalIconButton"
+      },
+      "toggle": {
+        "literalBoolean": false
+      },
+      "selected": {
+        "literalBoolean": false
+      },
+      "type": {
+        "literalString": "value"
+      },
+      "value": {
+        "literalString": "value"
+      }
+    }
+  },
+  {
+    "name": "MdOutlinedIconButton",
+    "tag": "Material",
+    "type": "MdOutlinedIconButton",
+    "properties": {
+      "disabled": {
+        "literalBoolean": false
+      },
+      "softDisabled": {
+        "literalBoolean": false
+      },
+      "flipIconInRtl": {
+        "literalBoolean": false
+      },
+      "href": {
+        "literalString": "value"
+      },
+      "download": {
+        "literalString": "value"
+      },
+      "target": {
+        "literalString": "value"
+      },
+      "ariaLabelSelected": {
+        "literalString": "MdOutlinedIconButton"
+      },
+      "toggle": {
+        "literalBoolean": false
+      },
+      "selected": {
+        "literalBoolean": false
+      },
+      "type": {
+        "literalString": "value"
+      },
+      "value": {
+        "literalString": "value"
+      },
+      "outlined": {
+        "literalBoolean": false
+      }
+    }
+  },
+  {
+    "name": "MdIconButton",
+    "tag": "Material",
+    "type": "MdIconButton",
+    "properties": {
+      "disabled": {
+        "literalBoolean": false
+      },
+      "softDisabled": {
+        "literalBoolean": false
+      },
+      "flipIconInRtl": {
+        "literalBoolean": false
+      },
+      "href": {
+        "literalString": "value"
+      },
+      "download": {
+        "literalString": "value"
+      },
+      "target": {
+        "literalString": "value"
+      },
+      "ariaLabelSelected": {
+        "literalString": "MdIconButton"
+      },
+      "toggle": {
+        "literalBoolean": false
+      },
+      "selected": {
+        "literalBoolean": false
+      },
+      "type": {
+        "literalString": "value"
+      },
+      "value": {
+        "literalString": "value"
+      },
+      "standard": {
+        "literalBoolean": false
+      }
+    }
+  },
+  {
+    "name": "MdFilledSelect",
+    "tag": "Material",
+    "type": "MdFilledSelect",
+    "properties": {
+      "delegatesFocus": {
+        "literalBoolean": false
+      },
+      "mode": {
+        "literalString": "value"
+      },
+      "serializable": {
+        "literalBoolean": false
+      },
+      "slotAssignment": {
+        "literalString": "value"
+      },
+      "quick": {
+        "literalBoolean": false
+      },
+      "required": {
+        "literalBoolean": false
+      },
+      "errorText": {
+        "literalString": "value"
+      },
+      "label": {
+        "literalString": "MdFilledSelect"
+      },
+      "noAsterisk": {
+        "literalBoolean": false
+      },
+      "supportingText": {
+        "literalString": "value"
+      },
+      "error": {
+        "literalBoolean": false
+      },
+      "menuPositioning": {
+        "literalString": "value"
+      },
+      "clampMenuWidth": {
+        "literalBoolean": false
+      },
+      "typeaheadDelay": {
+        "literalNumber": 0
+      },
+      "hasLeadingIcon": {
+        "literalBoolean": false
+      },
+      "displayText": {
+        "literalString": "value"
+      },
+      "menuAlign": {
+        "literalString": "value"
+      },
+      "disabled": {
+        "literalBoolean": false
+      },
+      "name": {
+        "literalString": "value"
+      }
+    }
+  },
+  {
+    "name": "MdSelectOption",
+    "tag": "Material",
+    "type": "MdSelectOption",
+    "properties": {
+      "delegatesFocus": {
+        "literalBoolean": false
+      },
+      "mode": {
+        "literalString": "value"
+      },
+      "serializable": {
+        "literalBoolean": false
+      },
+      "slotAssignment": {
+        "literalString": "value"
+      },
+      "disabled": {
+        "literalBoolean": false
+      },
+      "isMenuItem": {
+        "literalBoolean": false
+      },
+      "selected": {
+        "literalBoolean": false
+      },
+      "value": {
+        "literalString": "value"
+      },
+      "type": {
+        "literalString": "value"
+      }
+    }
+  },
+  {
+    "name": "MdOutlinedSelect",
+    "tag": "Material",
+    "type": "MdOutlinedSelect",
+    "properties": {
+      "delegatesFocus": {
+        "literalBoolean": false
+      },
+      "mode": {
+        "literalString": "value"
+      },
+      "serializable": {
+        "literalBoolean": false
+      },
+      "slotAssignment": {
+        "literalString": "value"
+      },
+      "quick": {
+        "literalBoolean": false
+      },
+      "required": {
+        "literalBoolean": false
+      },
+      "errorText": {
+        "literalString": "value"
+      },
+      "label": {
+        "literalString": "MdOutlinedSelect"
+      },
+      "noAsterisk": {
+        "literalBoolean": false
+      },
+      "supportingText": {
+        "literalString": "value"
+      },
+      "error": {
+        "literalBoolean": false
+      },
+      "menuPositioning": {
+        "literalString": "value"
+      },
+      "clampMenuWidth": {
+        "literalBoolean": false
+      },
+      "typeaheadDelay": {
+        "literalNumber": 0
+      },
+      "hasLeadingIcon": {
+        "literalBoolean": false
+      },
+      "displayText": {
+        "literalString": "value"
+      },
+      "menuAlign": {
+        "literalString": "value"
+      },
+      "disabled": {
+        "literalBoolean": false
+      },
+      "name": {
+        "literalString": "value"
+      }
+    }
+  },
+  {
+    "name": "MdIcon",
+    "tag": "Material",
+    "type": "MdIcon",
+    "properties": {}
+  }
+]
