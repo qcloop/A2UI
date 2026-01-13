@@ -1466,7 +1466,7 @@
 </div>
 <div class="admonition info">
 <p class="admonition-title">Living Document</p>
-<p>This specification is automatically included from <code>specification/0.8/docs/a2ui_protocol.md</code>. Any updates to the specification will automatically appear here.</p>
+<p>This specification is automatically included from <code>specification/v0_8/docs/a2ui_protocol.md</code>. Any updates to the specification will automatically appear here.</p>
 </div>
 <p><strong>See also:</strong>
 - <a href="../v0.9-a2ui/">v0.9 Protocol Specification</a> (Draft)
@@ -1600,7 +1600,7 @@ Updated: Nov 12, 2025</p>
 <p>A2UI's component model is designed for flexibility, separating the protocol from the component set.</p>
 <h3 id="21-catalog-negotiation">2.1. Catalog Negotiation<a class="headerlink" href="#21-catalog-negotiation" title="Permanent link">¶</a></h3>
 <p>A <strong>Catalog</strong> defines the contract between the server and the client for the UI that can be rendered. It contains a list of supported component types (e.g., <code>Row</code>, <code>Text</code>), their properties, and available styles. A catalog is defined by a <strong>Catalog Definition Document</strong>.</p>
-<p>There is a <strong>Standard Catalog</strong> associated with each version of the A2UI protocol. For v0.8, its identifier is <code>https://github.com/google/A2UI/blob/main/specification/0.8/json/standard_catalog_definition.json</code>.</p>
+<p>There is a <strong>Standard Catalog</strong> associated with each version of the A2UI protocol. For v0.8, its identifier is <code>https://github.com/google/A2UI/blob/main/specification/v0_8/json/standard_catalog_definition.json</code>.</p>
 <p>Catalog IDs are simple string identifiers. While they can be anything, it is conventional to use a URI within a domain that you own, to simplify debugging, avoid confusion, and avoid name collisions. Furthermore, if any changes are made to a catalog that could break compatibility between an agent and renderer, a new <code>catalogId</code> <strong>must</strong> be assigned. This ensures clear versioning and prevents unexpected behavior if an agent has changes but the client does not, or vice versa.</p>
 <p>The negotiation process allows the client and server to agree on which catalog to use for a given UI surface. This process is designed to be flexible, supporting standard, custom, and even dynamically-defined catalogs.</p>
 <p>The flow is as follows:</p>
@@ -1619,7 +1619,7 @@ Updated: Nov 12, 2025</p>
 </span><span id="__span-1-6"><a href="#__codelineno-1-6" id="__codelineno-1-6" name="__codelineno-1-6"></a><span class="w">        </span><span class="nt">"uri"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://a2ui.org/a2a-extension/a2ui/v0.8"</span><span class="p">,</span>
 </span><span id="__span-1-7"><a href="#__codelineno-1-7" id="__codelineno-1-7" name="__codelineno-1-7"></a><span class="w">        </span><span class="nt">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-1-8"><a href="#__codelineno-1-8" id="__codelineno-1-8" name="__codelineno-1-8"></a><span class="w">          </span><span class="nt">"supportedCatalogIds"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-</span><span id="__span-1-9"><a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="w">            </span><span class="s2">"https://github.com/google/A2UI/blob/main/specification/0.8/json/standard_catalog_definition.json"</span><span class="p">,</span>
+</span><span id="__span-1-9"><a href="#__codelineno-1-9" id="__codelineno-1-9" name="__codelineno-1-9"></a><span class="w">            </span><span class="s2">"https://github.com/google/A2UI/blob/main/specification/v0_8/json/standard_catalog_definition.json"</span><span class="p">,</span>
 </span><span id="__span-1-10"><a href="#__codelineno-1-10" id="__codelineno-1-10" name="__codelineno-1-10"></a><span class="w">            </span><span class="s2">"https://my-company.com/a2ui/v0.8/my_custom_catalog.json"</span>
 </span><span id="__span-1-11"><a href="#__codelineno-1-11" id="__codelineno-1-11" name="__codelineno-1-11"></a><span class="w">          </span><span class="p">],</span>
 </span><span id="__span-1-12"><a href="#__codelineno-1-12" id="__codelineno-1-12" name="__codelineno-1-12"></a><span class="w">          </span><span class="nt">"acceptsInlineCatalogs"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span>
@@ -1641,7 +1641,7 @@ Updated: Nov 12, 2025</p>
 </span><span id="__span-2-2"><a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="w">  </span><span class="nt">"metadata"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-2-3"><a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="w">    </span><span class="nt">"a2uiClientCapabilities"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-2-4"><a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="w">      </span><span class="nt">"supportedCatalogIds"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
-</span><span id="__span-2-5"><a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="w">        </span><span class="s2">"https://github.com/google/A2UI/blob/main/specification/0.8/json/standard_catalog_definition.json"</span><span class="p">,</span>
+</span><span id="__span-2-5"><a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="w">        </span><span class="s2">"https://github.com/google/A2UI/blob/main/specification/v0_8/json/standard_catalog_definition.json"</span><span class="p">,</span>
 </span><span id="__span-2-6"><a href="#__codelineno-2-6" id="__codelineno-2-6" name="__codelineno-2-6"></a><span class="w">        </span><span class="s2">"https://my-company.com/a2ui_catalogs/custom-reporting-catalog-1.2"</span>
 </span><span id="__span-2-7"><a href="#__codelineno-2-7" id="__codelineno-2-7" name="__codelineno-2-7"></a><span class="w">      </span><span class="p">],</span>
 </span><span id="__span-2-8"><a href="#__codelineno-2-8" id="__codelineno-2-8" name="__codelineno-2-8"></a><span class="w">      </span><span class="nt">"inlineCatalogs"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
@@ -1670,7 +1670,7 @@ Updated: Nov 12, 2025</p>
 <ul>
 <li><code>catalogId</code> (string, optional): The identifier of the chosen catalog. This ID must be one of the <code>supportedCatalogIds</code> or the <code>catalogId</code> from one of the <code>inlineCatalogs</code> provided by the client.</li>
 </ul>
-<p>If the <code>catalogId</code> is omitted, the client <strong>MUST</strong> default to the standard catalog for the protocol version (<code>https://github.com/google/A2UI/blob/main/specification/0.8/json/standard_catalog_definition.json</code>).</p>
+<p>If the <code>catalogId</code> is omitted, the client <strong>MUST</strong> default to the standard catalog for the protocol version (<code>https://github.com/google/A2UI/blob/main/specification/v0_8/json/standard_catalog_definition.json</code>).</p>
 <p><strong>Example <code>beginRendering</code> Message:</strong>
 <div class="language-json highlight"><pre><span></span><code><span id="__span-3-1"><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a><span class="p">{</span>
 </span><span id="__span-3-2"><a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a><span class="w">  </span><span class="nt">"beginRendering"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
