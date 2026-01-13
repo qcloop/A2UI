@@ -54,6 +54,7 @@ import {
   isResolvedText,
   isResolvedTextField,
   isResolvedVideo,
+  isResolvedMcpUi,
   isValueMap,
 } from "./guards.js";
 
@@ -702,6 +703,16 @@ export class A2uiMessageProcessor implements MessageProcessor {
         return new this.objCtor({
           ...baseNode,
           type: "Slider",
+          properties: resolvedProperties,
+        }) as AnyComponentNode;
+
+      case "McpUi":
+        if (!isResolvedMcpUi(resolvedProperties)) {
+          throw new Error(`Invalid data; expected ${componentType}`);
+        }
+        return new this.objCtor({
+          ...baseNode,
+          type: "McpUi",
           properties: resolvedProperties,
         }) as AnyComponentNode;
 

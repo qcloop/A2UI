@@ -37,6 +37,7 @@ import {
   ResolvedText,
   ResolvedTextField,
   ResolvedVideo,
+  ResolvedMcpUi,
   ValueMap,
 } from "../types/types";
 
@@ -233,4 +234,8 @@ export function isResolvedTextField(
 
 export function isResolvedVideo(props: unknown): props is ResolvedVideo {
   return isObject(props) && "url" in props && isStringValue(props.url);
+}
+
+export function isResolvedMcpUi(props: unknown): props is ResolvedMcpUi {
+  return isObject(props) && "resource" in props && isObject(props.resource);
 }

@@ -33,8 +33,9 @@ import {
   Text,
   TextField,
   Video,
-} from "./components";
-import { StringValue } from "./primitives";
+  McpUi,
+} from "./components.js";
+import { StringValue } from "./primitives.js";
 
 export type MessageProcessor = {
   getSurfaces(): ReadonlyMap<string, Surface>;
@@ -129,6 +130,7 @@ export type Theme = {
       label: Record<string, boolean>;
     };
     Video: Record<string, boolean>;
+    McpUi: Record<string, boolean>;
   };
   elements: {
     a: Record<string, boolean>;
@@ -191,6 +193,7 @@ export type Theme = {
         };
     TextField?: Record<string, string>;
     Video?: Record<string, string>;
+    McpUi?: Record<string, string>;
   };
 };
 
@@ -417,6 +420,11 @@ export interface SliderNode extends BaseComponentNode {
   properties: ResolvedSlider;
 }
 
+export interface McpUiNode extends BaseComponentNode {
+  type: "McpUi";
+  properties: ResolvedMcpUi;
+}
+
 export interface CustomNode extends BaseComponentNode {
   type: string;
   // For custom nodes, properties are just a map of string keys to any resolved value.
@@ -446,6 +454,7 @@ export type AnyComponentNode =
   | DateTimeInputNode
   | MultipleChoiceNode
   | SliderNode
+  | McpUiNode
   | CustomNode;
 
 // These components do not contain other components can reuse their
@@ -461,6 +470,7 @@ export type ResolvedTextField = TextField;
 export type ResolvedDateTimeInput = DateTimeInput;
 export type ResolvedMultipleChoice = MultipleChoice;
 export type ResolvedSlider = Slider;
+export type ResolvedMcpUi = McpUi;
 
 export interface ResolvedRow {
   children: AnyComponentNode[];

@@ -308,6 +308,7 @@ export const theme: v0_8.Types.Theme = {
         "color-bc-p80": true,
       },
     },
+    McpUi: {},
     MultipleChoice: {
       container: {},
       label: {},

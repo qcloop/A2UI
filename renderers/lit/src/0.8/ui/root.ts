@@ -487,6 +487,21 @@ export class Root extends SignalWatcher(LitElement) {
           ></a2ui-modal>`;
         }
 
+        case "McpUi": {
+          const node = component as NodeOfType<"McpUi">;
+          return html`<a2ui-mcp-ui
+            id=${node.id}
+            slot=${node.slotName ? node.slotName : nothing}
+            .component=${node}
+            .weight=${node.weight ?? "initial"}
+            .processor=${this.processor}
+            .surfaceId=${this.surfaceId}
+            .dataContextPath=${node.dataContextPath}
+            .resource=${node.properties.resource}
+            .enableCustomElements=${this.enableCustomElements}
+          ></a2ui-mcp-ui>`;
+        }
+
         default: {
           return this.renderCustomComponent(component);
         }

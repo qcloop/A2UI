@@ -700,6 +700,30 @@ A2UI_SCHEMA = r'''
                       }
                     },
                     "required": ["value"]
+                  },
+                  "McpUi": {
+                    "type": "object",
+                    "properties": {
+                      "resource": {
+                        "type": "object",
+                        "properties": {
+                          "uri": {
+                            "type": "string"
+                          },
+                          "mimeType": {
+                            "type": "string"
+                          },
+                          "text": {
+                            "type": "string"
+                          },
+                          "blob": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["uri", "mimeType"]
+                      }
+                    },
+                    "required": ["resource"]
                   }
                 }
               }

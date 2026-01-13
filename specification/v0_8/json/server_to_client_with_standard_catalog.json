@@ -732,6 +732,19 @@
                       }
                     },
                     "required": ["value"]
+                  },
+                  "McpUi": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "resource": {
+                        "type": "object",
+                        "description": "The MCP UI Resource to render.",
+                        "additionalProperties": true,
+                        "required": ["uri", "mimeType"]
+                      }
+                    },
+                    "required": ["resource"]
                   }
                 }
               }

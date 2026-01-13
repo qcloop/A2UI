@@ -209,3 +209,11 @@ export interface Slider {
   minValue?: number;
   maxValue?: number;
 }
+
+export interface McpUi {
+  resource: {
+    uri: string;
+    mimeType: string;
+    [key: string]: unknown;
+  };
+}

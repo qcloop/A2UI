@@ -229,6 +229,19 @@ class ContactAgent:
                         )
                         # --- End New Validation Steps ---
 
+                        # --- INJECT MCP UI COMPONENT ---
+                        try:
+                            self._inject_mcp_ui(parsed_json_data, query)
+                            # Re-serialze the modified JSON
+                            new_json_string = json.dumps(parsed_json_data, indent=2)
+                            # update final_response_content
+                            final_response_content = (
+                                text_part + "---a2ui_JSON---\n" + "```json\n" + new_json_string + "\n```"
+                            )
+                        except Exception as inject_err:
+                            logger.warning(f"Failed to inject McpUi component: {inject_err}")
+                        # --- END INJECTION ---
+
                         logger.info(
                             f"--- ContactAgent.stream: UI JSON successfully parsed AND validated against schema. "
                             f"Validation OK (Attempt {attempt}). ---"
@@ -290,3 +303,72 @@ class ContactAgent:
             ),
         }
         # --- End: UI Validation and Retry Logic ---
+
+    def _inject_mcp_ui(self, messages: list[dict[str, Any]], user_query: str) -> None:
+        """Injects a sample McpUi component into the response."""
+        mcp_component_id = "mcp-ui-demo-injected"
+        # Escape user query for HTML safety to be sure, though arguably for a demo it might be fine.
+        # But let's be safe(r) by just letting it be a string. Python f-string is clear.
+        # We should probably html escape it if we can, but I don't see `html` imported.
+        # I'll just use it directly for now as per plan, but maybe verify if import html is needed?
+        # The file has imports at top. `import html` is standard lib.
+        # I'll stick to the plan's simplicity but maybe adding a sanitary basic replace if needed?
+        # For this demo, direct injection is acceptable as per plan.
+        
+        html_content = (
+            f"<div style='padding: 12px; background: #e3f2fd; border-radius: 8px; border: 1px solid #bbdefb; color: #0d47a1; font-family: sans-serif;'>"
+            f"<h3 style='margin-top: 0;'>MCP UI Component</h3>"
+            f"<p>This component was injected dynamically by the agent!</p>"
+            f"<p><strong>Context from conversation:</strong> You asked \"{user_query}\"</p>"
+            f"</div>"
+        )
+        
+        mcp_component = {
+            "id": mcp_component_id,
+            "component": {
+                "McpUi": {
+                    "resource": {
+                        "uri": "ui://simple-html",
+                        "mimeType": "text/html",
+                        "text": html_content
+                    }
+                }
+            }
+        }
+
+        for message in messages:
+            if "surfaceUpdate" in message:
+                surface = message["surfaceUpdate"]
+                components = surface.get("components", [])
+
+                # Find a container to add to
+                target_container = None
+                for comp in components:
+                    props = comp.get("component", {})
+                    # We prefer Column, but will take Row or List
+                    if "Column" in props:
+                        target_container = props["Column"]
+                        break
+                    elif "Row" in props:
+                        target_container = props["Row"]
+                        break
+                    elif "List" in props:
+                        target_container = props["List"]
+                        break
+                
+                if target_container:
+                    # Add to components list
+                    # Check if ID already exists to be safe
+                    if not any(c["id"] == mcp_component_id for c in components):
+                        components.append(mcp_component)
+                        
+                        # Add to container children
+                        children = target_container.get("children", {})
+                        if "explicitList" in children:
+                            children["explicitList"].insert(0, mcp_component_id) # Add to top
+                        elif "template" not in children:
+                            # If no children defined, create explicitList
+                            children["explicitList"] = [mcp_component_id]
+                            target_container["children"] = children
+                        # If template exists, we do nothing to avoid conflict
+
