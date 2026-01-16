@@ -566,7 +566,7 @@ The [`standard_catalog.json`] provides the baseline set of components and functi
 
 | Function          | Description                                                                         |
 | :---------------- | :---------------------------------------------------------------------------------- |
-| **formatString**  | Performs string interpolation on a template string using named arguments. Interpolated expressions are enclosed in `${...}`. To include a literal `${` in a string, it must be escaped as `\${`. |
+| **formatString**  | Performs string interpolation on a template string using named arguments. The template contains placeholders in the `${key}` format, which are replaced by the corresponding values from the `args` object. To include a literal `${` in a string, it must be escaped as `\${`. |
 | **formatNumber**  | Formats a number with the specified grouping and decimal precision.                 |
 | **formatCurrency**| Formats a number as a currency string.                                              |
 | **formatDate**    | Formats a timestamp into a string using a pattern.                                  |
