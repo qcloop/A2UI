@@ -15,7 +15,7 @@
  */
 
 import { html, css, PropertyValues, nothing } from "lit";
-import { customElement, property } from "lit/decorators.js";
+import { customElement, property, state } from "lit/decorators.js";
 import { Root } from "./root.js";
 import { A2uiMessageProcessor } from "@a2ui/web_core/data/model-processor";
 import * as Primitives from "@a2ui/web_core/types/primitives";
@@ -35,6 +35,9 @@ export class MultipleChoice extends Root {
   @property()
   accessor selections: Primitives.StringValue | string[] = [];
 
+  @state()
+  accessor isOpen = false;
+
   static styles = [
     structuralStyles,
     css`
@@ -46,20 +49,129 @@ export class MultipleChoice extends Root {
         display: block;
         flex: var(--weight);
         min-height: 0;
-        overflow: auto;
+        position: relative;
+        font-family: 'Google Sans', 'Roboto', sans-serif;
       }
 
-      select {
-        width: 100%;
+      .container {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        position: relative;
       }
 
-      .description {
+      /* Header / Trigger */
+      .dropdown-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 16px;
+        background: var(--md-sys-color-surface);
+        border: 1px solid var(--md-sys-color-outline-variant);
+        border-radius: 8px;
+        cursor: pointer;
+        user-select: none;
+        transition: background-color 0.2s;
+        box-shadow: var(--md-sys-elevation-level1);
+      }
+
+      .dropdown-header:hover {
+        background: var(--md-sys-color-surface-container-low);
+      }
+
+      .header-text {
+        font-size: 1rem;
+        color: var(--md-sys-color-on-surface);
+        font-weight: 400;
+      }
+
+      .chevron {
+        color: var(--md-sys-color-primary);
+        font-size: 1.2rem;
+        transition: transform 0.2s ease;
+      }
+
+      .chevron.open {
+        transform: rotate(180deg);
+      }
+
+      /* Dropdown List */
+      .options-list {
+        background: var(--md-sys-color-surface);
+        border: 1px solid var(--md-sys-color-outline-variant);
+        border-radius: 8px; /* Consistent rounding */
+        box-shadow: none; /* Remove shadow for inline feel, or keep subtle */
+        overflow-y: auto;
+        padding: 0;
+        display: none;
+        flex-direction: column;
+        margin-top: 4px; /* Small gap */
+        max-height: 0; /* Animate height? */
+        transition: max-height 0.2s ease-out;
+      }
+
+      .options-list.open {
+        display: flex;
+        max-height: 300px; /* Limit height but allow scrolling */
+        border: 1px solid var(--md-sys-color-outline-variant); /* efficient border */
+      }
+
+      /* Option Item (Checkbox style) */
+      .option-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        cursor: pointer;
+        color: var(--md-sys-color-on-surface);
+        font-size: 0.95rem;
+        transition: background-color 0.1s;
+      }
+
+      .option-item:hover {
+        background: var(--md-sys-color-surface-container-highest);
+      }
+
+      /* Custom Checkbox */
+      .checkbox {
+        width: 18px;
+        height: 18px;
+        border: 2px solid var(--md-sys-color-outline);
+        border-radius: 2px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+        flex-shrink: 0;
+      }
+
+      .option-item.selected .checkbox {
+        background: var(--md-sys-color-primary);
+        border-color: var(--md-sys-color-primary);
+      }
+
+      .checkbox-icon {
+        color: var(--md-sys-color-on-primary);
+        font-size: 14px;
+        font-weight: bold;
+        opacity: 0;
+        transform: scale(0.5);
+        transition: all 0.2s;
+      }
+
+      .option-item.selected .checkbox-icon {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-8px); }
+        to { opacity: 1; transform: translateY(0); }
       }
     `,
   ];
 
   #setBoundValue(value: string[]) {
-    console.log(value);
     if (!this.selections || !this.processor) {
       return;
     }
@@ -78,17 +190,10 @@ export class MultipleChoice extends Root {
     );
   }
 
-  protected willUpdate(changedProperties: PropertyValues<this>): void {
-    const shouldUpdate = changedProperties.has("options");
-    if (!shouldUpdate) {
-      return;
-    }
-
+  getCurrentSelections(): string[] {
     if (!this.processor || !this.component || Array.isArray(this.selections)) {
-      return;
+      return [];
     }
-
-    this.selections;
 
     const selectionValue = this.processor.getData(
       this.component,
@@ -96,47 +201,65 @@ export class MultipleChoice extends Root {
       this.surfaceId ?? A2uiMessageProcessor.DEFAULT_SURFACE_ID
     );
 
-    if (!Array.isArray(selectionValue)) {
-      return;
-    }
+    return Array.isArray(selectionValue) ? (selectionValue as string[]) : [];
+  }
 
-    this.#setBoundValue(selectionValue as string[]);
+  toggleSelection(value: string) {
+    const current = this.getCurrentSelections();
+    if (current.includes(value)) {
+      this.#setBoundValue(current.filter((v) => v !== value));
+    } else {
+      this.#setBoundValue([...current, value]);
+    }
+    this.requestUpdate();
   }
 
   render() {
-    return html`<section class=${classMap(
-      this.theme.components.MultipleChoice.container
-    )}>
-      <label class=${classMap(
-        this.theme.components.MultipleChoice.label
-      )} for="data">${this.description ?? "Select an item"}</label>
-      <select
-        name="data"
-        id="data"
-        class=${classMap(this.theme.components.MultipleChoice.element)}
-        style=${
-          this.theme.additionalStyles?.MultipleChoice
-            ? styleMap(this.theme.additionalStyles?.MultipleChoice)
-            : nothing
-        }
-        @change=${(evt: Event) => {
-          if (!(evt.target instanceof HTMLSelectElement)) {
-            return;
-          }
+    const currentSelections = this.getCurrentSelections();
+    const count = currentSelections.length;
+    const headerText = count > 0 ? `${count} Selected` : (this.description ?? "Select items");
 
-          this.#setBoundValue([evt.target.value]);
-        }}
-      >
-        ${this.options.map((option) => {
-          const label = extractStringValue(
-            option.label,
-            this.component,
-            this.processor,
-            this.surfaceId
-          );
-          return html`<option ${option.value}>${label}</option>`;
-        })}
-      </select>
-    </section>`;
+    return html`
+      <div class="container">
+        <div 
+          class="dropdown-header" 
+          @click=${() => this.isOpen = !this.isOpen}
+        >
+          <span class="header-text">${headerText}</span>
+          <span class="chevron ${this.isOpen ? "open" : ""}">
+            <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="currentColor">
+              <path d="M480-345 240-585l56-56 184 184 184-184 56 56-240 240Z"/>
+            </svg>
+          </span>
+        </div>
+
+        <div class="options-list ${this.isOpen ? "open" : ""}">
+          ${this.options.map((option) => {
+            const label = extractStringValue(
+              option.label,
+              this.component,
+              this.processor,
+              this.surfaceId
+            );
+            const isSelected = currentSelections.includes(option.value);
+
+            return html`
+              <div 
+                class="option-item ${isSelected ? "selected" : ""}"
+                @click=${(e: Event) => {
+                e.stopPropagation();
+                this.toggleSelection(option.value);
+              }}
+              >
+                <div class="checkbox">
+                  <span class="checkbox-icon">✓</span>
+                </div>
+                <span>${label}</span>
+              </div>
+            `;
+          })}
+        </div>
+      </div>
+    `;
   }
 }
