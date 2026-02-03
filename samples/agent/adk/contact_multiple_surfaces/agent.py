@@ -209,6 +209,13 @@ class ContactAgent:
                  yield { "is_task_complete": True, "content": final_response_content }
                  return
 
+            if query.startswith("ACTION:") and "commit_tags" in query:
+                 logger.info("--- ContactAgent.stream: Detected commit_tags ACTION ---")
+                 # We could extract the tags from the context if needed, but for now just confirm.
+                 final_response_content = "Tags have been successfully saved."
+                 yield { "is_task_complete": True, "content": final_response_content }
+                 return
+
 
 
 

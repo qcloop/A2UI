@@ -12,6 +12,12 @@
     }
   },
   {
+    "beginRendering": {
+      "surfaceId": "tag-selector-view",
+      "root": "tag-column"
+    }
+  },
+  {
     "surfaceUpdate": {
       "surfaceId": "contact-card",
       "components": [
@@ -468,6 +474,108 @@
               "action": {
                 "name": "chart_node_click",
                 "context": []
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "surfaceUpdate": {
+      "surfaceId": "tag-selector-view",
+      "components": [
+        {
+          "id": "tag-column",
+          "component": {
+            "Column": {
+              "children": {
+                "explicitList": [
+                  "tag-header-row"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "tag-header-row",
+          "component": {
+            "Row": {
+              "alignment": "start",
+              "distribution": "spaceBetween",
+              "children": {
+                "explicitList": [
+                  "tag_selector",
+                  "done_button"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "id": "tag_selector",
+          "weight": 1,
+          "component": {
+            "MultipleChoice": {
+              "description": "Select tags",
+              "options": [
+                {
+                  "label": {
+                    "literalString": "Friend"
+                  },
+                  "value": "friend"
+                },
+                {
+                  "label": {
+                    "literalString": "Colleague"
+                  },
+                  "value": "colleague"
+                },
+                {
+                  "label": {
+                    "literalString": "Family"
+                  },
+                  "value": "family"
+                },
+                {
+                  "label": {
+                    "literalString": "Emergency Contact"
+                  },
+                  "value": "emergency"
+                }
+              ],
+              "selections": {
+                "path": "tags"
+              }
+            }
+          }
+        },
+        {
+          "id": "done_button_text",
+          "component": {
+            "Text": {
+              "text": {
+                "literalString": "Done"
+              }
+            }
+          }
+        },
+        {
+          "id": "done_button",
+          "component": {
+            "Button": {
+              "child": "done_button_text",
+              "primary": true,
+              "action": {
+                "name": "commit_tags",
+                "context": [
+                  {
+                    "key": "selectedTags",
+                    "value": {
+                      "path": "tags"
+                    }
+                  }
+                ]
               }
             }
           }

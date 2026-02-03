@@ -416,6 +416,7 @@
                 "explicitList": [
                   "profile_image",
                   "description_column",
+                  "tag_selector",
                   "div",
                   "info_rows_column",
                   "action_buttons_row"
@@ -430,6 +431,43 @@
           "component": {
             "Card": {
               "child": "main_column"
+            }
+          }
+        },
+        {
+          "id": "tag_selector",
+          "component": {
+            "MultipleChoice": {
+              "description": "Add tags to contact",
+              "options": [
+                {
+                  "label": {
+                    "literalString": "Friend"
+                  },
+                  "value": "friend"
+                },
+                {
+                  "label": {
+                    "literalString": "Colleague"
+                  },
+                  "value": "colleague"
+                },
+                {
+                  "label": {
+                    "literalString": "Family"
+                  },
+                  "value": "family"
+                },
+                {
+                  "label": {
+                    "literalString": "Emergency Contact"
+                  },
+                  "value": "emergency"
+                }
+              ],
+              "selections": {
+                "path": "tags"
+              }
             }
           }
         }
@@ -471,6 +509,10 @@
         },
         {
           "key": "imageUrl",
+          "valueString": ""
+        },
+        {
+          "key": "tags",
           "valueString": ""
         }
       ]

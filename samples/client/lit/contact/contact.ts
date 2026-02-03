@@ -39,8 +39,12 @@ import { v0_8 } from "@a2ui/lit";
 import * as UI from "@a2ui/lit/ui";
 
 // Demo elements.
+import { MultipleChoice } from "@a2ui/lit/ui";
 import "./ui/ui.js";
 import { registerContactComponents } from "./ui/custom-components/register-components.js";
+
+// Prevent tree-shaking
+const _registrations = [MultipleChoice];
 
 // Register custom components for the contact app
 registerContactComponents();
