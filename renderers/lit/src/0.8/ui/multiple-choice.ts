@@ -14,6 +14,7 @@
  limitations under the License.
  */
 
+
 import { html, css, PropertyValues, nothing } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
 import { Root } from "./root.js";
@@ -36,7 +37,7 @@ export class MultipleChoice extends Root {
   accessor selections: Primitives.StringValue | string[] = [];
 
   @property()
-  accessor type: "checkbox" | "chips" = "checkbox";
+  accessor displayStyle: "checkbox" | "chips" = "checkbox";
 
   @property({ type: Boolean })
   accessor filterable = false;
@@ -280,11 +281,12 @@ export class MultipleChoice extends Root {
   }
 
   getCurrentSelections(): string[] {
-    if (!this.processor || !this.component) {
-      return Array.isArray(this.selections) ? this.selections : [];
-    }
     if (Array.isArray(this.selections)) {
       return this.selections;
+    }
+
+    if (!this.processor || !this.component) {
+      return [];
     }
 
     const selectionValue = this.processor.getData(
@@ -306,6 +308,13 @@ export class MultipleChoice extends Root {
     this.requestUpdate();
   }
 
+  #renderCheckIcon() {
+    return html`
+      <svg class="chip-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+        <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>
+      </svg>
+    `;
+  }
   #renderFilter() {
     return html`
       <div class="filter-container">
@@ -340,7 +349,7 @@ export class MultipleChoice extends Root {
     });
 
     // Chips Layout
-    if (this.type === "chips") {
+    if (this.displayStyle === "chips") {
       return html`
           <div class="container">
             ${this.description ? html`<div class="header-text" style="margin-bottom: 8px;">${this.description}</div>` : nothing}
@@ -362,11 +371,7 @@ export class MultipleChoice extends Root {
             this.toggleSelection(option.value);
           }}
                   >
-                    ${isSelected ? html`
-                      <svg class="chip-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
-                        <path d="M382-240 154-468l57-57 171 171 367-367 57 57-424 424Z"/>
-                      </svg>
-                    ` : nothing}
+                    ${isSelected ? this.#renderCheckIcon() : nothing}
                     <span>${label}</span>
                   </div>
                 `;
@@ -399,21 +404,21 @@ export class MultipleChoice extends Root {
           ${this.filterable ? this.#renderFilter() : nothing}
           <div class="options-scroll-container">
             ${filteredOptions.map((option) => {
-              const label = extractStringValue(
-                option.label,
-                this.component,
-                this.processor,
-                this.surfaceId
-              );
-              const isSelected = currentSelections.includes(option.value);
+      const label = extractStringValue(
+        option.label,
+        this.component,
+        this.processor,
+        this.surfaceId
+      );
+      const isSelected = currentSelections.includes(option.value);
 
-              return html`
+      return html`
                 <div 
                   class="option-item ${isSelected ? "selected" : ""}"
                   @click=${(e: Event) => {
-                  e.stopPropagation();
-                  this.toggleSelection(option.value);
-                }}
+          e.stopPropagation();
+          this.toggleSelection(option.value);
+        }}
                 >
                   <div class="checkbox">
                     <span class="checkbox-icon">✓</span>
@@ -421,7 +426,7 @@ export class MultipleChoice extends Root {
                   <span>${label}</span>
                 </div>
               `;
-            })}
+    })}
              ${filteredOptions.length === 0 ? html`<div style="padding: 16px; text-align: center; color: var(--md-sys-color-outline);">No options found</div>` : nothing}
           </div>
         </div>

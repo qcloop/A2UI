@@ -385,7 +385,7 @@ export class Root extends SignalWatcher(LitElement) {
             .options=${node.properties.options}
             .maxAllowedSelections=${node.properties.maxAllowedSelections}
             .selections=${node.properties.selections}
-            .type=${node.properties.type}
+            .displayStyle=${(node as any).properties.displayStyle}
             .filterable=${node.properties.filterable}
             .enableCustomElements=${this.enableCustomElements}
           ></a2ui-multiplechoice>`;

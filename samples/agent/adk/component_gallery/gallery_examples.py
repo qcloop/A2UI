@@ -107,7 +107,8 @@ def get_gallery_json() -> str:
         "MultipleChoice": {
             "selections": { "path": "galleryData/favoritesChips" },
             "description": "Select tags (Chips)",
-            "type": "chips",
+            "displayStyle": "chips",
+>>>>>>> origin/main
             "options": [
                 { "label": { "literalString": "Work" }, "value": "work" },
                 { "label": { "literalString": "Home" }, "value": "home" },
@@ -138,7 +139,8 @@ def get_gallery_json() -> str:
     # 6. Image
     add_demo_surface("demo-image", {
         "Image": {
-            "url": { "literalString": "https://picsum.photos/400/200" },
+            "url": { "literalString": "http://localhost:10005/assets/a2ui.png" },
+>>>>>>> origin/main
             "usageHint": "mediumFeature"
         }
     })
@@ -282,6 +284,7 @@ def get_gallery_json() -> str:
     # 12. Video
     add_demo_surface("demo-video", {
         "Video": {
+            # Still external as user only provided audio and image
             "url": { "literalString": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" }
         }
     })
@@ -349,8 +352,8 @@ def get_gallery_json() -> str:
     # 15. AudioPlayer
     add_demo_surface("demo-audio", {
         "AudioPlayer": {
-            "url": { "literalString": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" },
-            "description": { "literalString": "Sample Audio" }
+            "url": { "literalString": "http://localhost:10005/assets/audio.mp3" },
+            "description": { "literalString": "Local Audio Sample" }
         }
     })
 

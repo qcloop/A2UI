@@ -1,10 +1,12 @@
-# A2UI Component Gallery Client
+# A2UI Component Gallery Agent
 
-This is the client-side application for the A2UI Component Gallery. It is a Lit-based web application that connects to the Component Gallery Agent to render the UI components defined by the server.
+This sample agent demonstrates the capabilities of the A2UI framework using the Python Agent Development Kit (ADK). It serves as a "Kitchen Sink" example, rendering every available component in the A2UI standard catalog to showcase their visual appearance and interactive behavior.
 
-## Overview
+## Features
 
-The client uses the `@a2ui/lit` renderer to interpret the JSON-based UI descriptions sent by the agent and render them as standard Web Components. It demonstrates how to integrate the A2UI renderer into a modern web application build with Vite.
+-   **Comprehensive Component Showcase**: Renders TextField, CheckBox, Slider, DateTimeInput, MultipleChoice (Checkbox, Chips, Filterable), Image, Button, Tabs, Icon, Divider, Card, Video, Modal, List, and AudioPlayer.
+-   **Server-Driven UI**: Demonstrates how to define and structure UI surfaces entirely from the backend using the ADK.
+-   **Interactive Logic**: Includes examples of handling user actions (e.g., button clicks, form submissions) content updates.
 
 ## Getting Started
 
