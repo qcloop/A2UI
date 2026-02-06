@@ -20,6 +20,7 @@ interface DemoItem {
 
 const DEMO_ITEMS: DemoItem[] = [
   { id: "demo-text", title: "TextField", description: "Allows user to enter text. Supports binding to data model.", actionButton: true },
+  { id: "demo-text-regex", title: "TextField (Regex)", description: "TextField with 5-digit regex validation.", actionButton: true },
   { id: "demo-checkbox", title: "CheckBox", description: "A binary toggle.", actionButton: true },
   { id: "demo-slider", title: "Slider", description: "Select a value from a range.", actionButton: true },
   { id: "demo-date", title: "DateTimeInput", description: "Pick a date or time.", actionButton: true },
@@ -260,6 +261,7 @@ export class A2UIComponentGallery extends SignalWatcher(LitElement) {
     // Map item IDs to data paths based on knowledge of gallery_examples.py
     const pathMap: Record<string, string> = {
       "demo-text": "galleryData/textField",
+      "demo-text-regex": "galleryData/textFieldRegex",
       "demo-checkbox": "galleryData/checkbox",
       "demo-slider": "galleryData/slider",
       "demo-date": "galleryData/date",

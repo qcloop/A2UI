@@ -56,6 +56,15 @@ def get_gallery_json() -> str:
         }
     })
 
+    # 1b. TextField (Regex)
+    add_demo_surface("demo-text-regex", {
+        "TextField": {
+            "label": { "literalString": "Enter exactly 5 digits" },
+            "text": { "path": "galleryData/textFieldRegex" },
+            "validationRegexp": "^\\d{5}$"
+        }
+    })
+
     # 2. CheckBox
     add_demo_surface("demo-checkbox", {
         "CheckBox": {
