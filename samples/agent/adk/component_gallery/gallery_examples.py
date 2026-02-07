@@ -107,8 +107,7 @@ def get_gallery_json() -> str:
         "MultipleChoice": {
             "selections": { "path": "galleryData/favoritesChips" },
             "description": "Select tags (Chips)",
-            "displayStyle": "chips",
->>>>>>> origin/main
+            "variant": "chips",
             "options": [
                 { "label": { "literalString": "Work" }, "value": "work" },
                 { "label": { "literalString": "Home" }, "value": "home" },
@@ -140,7 +139,6 @@ def get_gallery_json() -> str:
     add_demo_surface("demo-image", {
         "Image": {
             "url": { "literalString": "http://localhost:10005/assets/a2ui.png" },
->>>>>>> origin/main
             "usageHint": "mediumFeature"
         }
     })

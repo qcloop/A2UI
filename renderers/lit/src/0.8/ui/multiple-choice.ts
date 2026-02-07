@@ -37,7 +37,7 @@ export class MultipleChoice extends Root {
   accessor selections: Primitives.StringValue | string[] = [];
 
   @property()
-  accessor displayStyle: "checkbox" | "chips" = "checkbox";
+  accessor variant: "checkbox" | "chips" = "checkbox";
 
   @property({ type: Boolean })
   accessor filterable = false;
@@ -315,6 +315,7 @@ export class MultipleChoice extends Root {
       </svg>
     `;
   }
+
   #renderFilter() {
     return html`
       <div class="filter-container">
@@ -349,7 +350,7 @@ export class MultipleChoice extends Root {
     });
 
     // Chips Layout
-    if (this.displayStyle === "chips") {
+    if (this.variant === "chips") {
       return html`
           <div class="container">
             ${this.description ? html`<div class="header-text" style="margin-bottom: 8px;">${this.description}</div>` : nothing}
@@ -404,21 +405,21 @@ export class MultipleChoice extends Root {
           ${this.filterable ? this.#renderFilter() : nothing}
           <div class="options-scroll-container">
             ${filteredOptions.map((option) => {
-      const label = extractStringValue(
-        option.label,
-        this.component,
-        this.processor,
-        this.surfaceId
-      );
-      const isSelected = currentSelections.includes(option.value);
+              const label = extractStringValue(
+                option.label,
+                this.component,
+                this.processor,
+                this.surfaceId
+              );
+              const isSelected = currentSelections.includes(option.value);
 
-      return html`
+              return html`
                 <div 
                   class="option-item ${isSelected ? "selected" : ""}"
                   @click=${(e: Event) => {
-          e.stopPropagation();
-          this.toggleSelection(option.value);
-        }}
+                  e.stopPropagation();
+                  this.toggleSelection(option.value);
+                }}
                 >
                   <div class="checkbox">
                     <span class="checkbox-icon">✓</span>
@@ -426,7 +427,7 @@ export class MultipleChoice extends Root {
                   <span>${label}</span>
                 </div>
               `;
-    })}
+            })}
              ${filteredOptions.length === 0 ? html`<div style="padding: 16px; text-align: center; color: var(--md-sys-color-outline);">No options found</div>` : nothing}
           </div>
         </div>

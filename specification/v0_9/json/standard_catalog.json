@@ -629,6 +629,10 @@
                 "shortText",
                 "obscured"
               ]
+            },
+            "validationRegexp": {
+              "type": "string",
+              "description": "A regular expression used for client-side validation of the input."
             }
           },
           "required": [
