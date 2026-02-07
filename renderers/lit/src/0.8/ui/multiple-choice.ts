@@ -240,7 +240,7 @@ export class MultipleChoice extends Root {
       }
       
       .chip.selected:hover {
-         background: var(--md-sys-color-secondary-container-high, #e8def8); 
+         background: var(--md-sys-color-secondary-container-high);
       }
 
       .chip-icon {

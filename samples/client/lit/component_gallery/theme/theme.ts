@@ -217,6 +217,9 @@ export const theme: v0_8.Types.Theme = {
       display: "flex",
       flexDirection: "column",
     },
+    MultipleChoice: {
+      "--md-sys-color-secondary-container-high": "#e8def8",
+    },
   },
   components: {
     AudioPlayer: {},
