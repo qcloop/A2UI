@@ -9,6 +9,7 @@ resolution-markers = [
 members = [
     "a2ui-contact-lookup",
     "a2ui-contact-multiple-surfaces",
+    "a2ui-flight-finder",
     "a2ui-restaurant-finder",
     "orchestrator",
     "rizzcharts",
@@ -88,6 +89,33 @@ requires-dist = [
 name = "a2ui-contact-multiple-surfaces"
 version = "0.1.0"
 source = { editable = "contact_multiple_surfaces" }
+dependencies = [
+    { name = "a2a-sdk" },
+    { name = "a2ui-agent" },
+    { name = "click" },
+    { name = "google-adk" },
+    { name = "google-genai" },
+    { name = "jsonschema" },
+    { name = "litellm" },
+    { name = "python-dotenv" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "a2a-sdk", specifier = ">=0.3.0" },
+    { name = "a2ui-agent", editable = "../../../a2a_agents/python/a2ui_agent" },
+    { name = "click", specifier = ">=8.1.8" },
+    { name = "google-adk", specifier = ">=1.8.0" },
+    { name = "google-genai", specifier = ">=1.27.0" },
+    { name = "jsonschema", specifier = ">=4.0.0" },
+    { name = "litellm" },
+    { name = "python-dotenv", specifier = ">=1.1.0" },
+]
+
+[[package]]
+name = "a2ui-flight-finder"
+version = "0.1.0"
+source = { editable = "flight_finder" }
 dependencies = [
     { name = "a2a-sdk" },
     { name = "a2ui-agent" },

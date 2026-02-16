@@ -1,111 +1,313 @@
+# Copyright 2025 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      https://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import json
-from google.adk.agents.llm_agent import Agent
-from google.adk.tools.tool_context import ToolContext
-from .a2ui_schema import A2UI_SCHEMA
+import logging
+import os
+from collections.abc import AsyncIterable
+from typing import Any
 
-
-# Eventually you can copy & paste some UI examples here, for few-shot in context learning
-FLIGHT_UI_EXAMPLES = """
-"""
-
-AGENT_INSTRUCTION = """
-You are a helpful flight finding assistant. Your goal is to help users find and book flights using a rich UI.
-
-To achieve this, you MUST follow this logic:
-
-1.  **For finding flights:**
-    a. You MUST call the `get_flights` tool. Extract the origin city/airport, destination city/airport, departure date, optional return date, passenger count, cabin class, and a specific number (`count`) of flight options from the user's query (for example, "show top 3 round-trip flights from NYC to SFO on March 1st").
-    b. After receiving the data, you MUST follow the instructions precisely to generate the final a2ui UI JSON, using an appropriate UI example from `prompt_builder.py` based on the number of flight options returned.
-"""
-
-# Construct the full prompt with UI instructions, examples, and schema
-A2UI_AND_AGENT_INSTRUCTION = AGENT_INSTRUCTION + f"""
-
-Your final output MUST be a a2ui UI JSON response.
-
-To generate the response, you MUST follow these rules:
-1.  Your response MUST be in two parts, separated by the delimiter: `---a2ui_JSON---`.
-2.  The first part is your conversational text response.
-3.  The second part is a single, raw JSON object which is a list of A2UI messages.
-4.  The JSON part MUST validate against the A2UI JSON SCHEMA provided below.
-
---- UI TEMPLATE RULES ---
--   If the query is for a list of flights, use the flight data you have already received from the `get_flights` tool to populate the `dataModelUpdate.contents` array (e.g., as a `valueMap` for the "items" key).
--   If the number of flights is 5 or fewer, you MUST use the `SINGLE_COLUMN_LIST_EXAMPLE` template.
--   If the number of flights is more than 5, you MUST use the `TWO_COLUMN_LIST_EXAMPLE` template.
--   If the query is to book a flight (e.g., "USER_WANTS_TO_BOOK..."), you MUST use the `BOOKING_FORM_EXAMPLE` template.
--   If the query is a booking submission (e.g., "User submitted a booking..."), you MUST use the `CONFIRMATION_EXAMPLE` template.
-
-{FLIGHT_UI_EXAMPLES}
-
----BEGIN A2UI JSON SCHEMA---
-{A2UI_SCHEMA}
----END A2UI JSON SCHEMA---
-"""
-
-def get_flights(tool_context: ToolContext) -> str:
-    """Call this tool to get a list of sample flights between two cities.
-
-    This tool returns a JSON-encoded list of flight objects with keys:
-    `airline`, `flightNumber`, `departCity`, `arriveCity`, `departTime`,
-    `arriveTime`, `duration`, `stops`, `price`, and `bookingLink`.
-    """
-    return json.dumps([
-        {
-            "airline": "Delta Air Lines",
-            "flightNumber": "DL 123",
-            "departCity": "New York, NY (JFK)",
-            "arriveCity": "San Francisco, CA (SFO)",
-            "departTime": "2026-03-01T08:00:00",
-            "arriveTime": "2026-03-01T11:15:00",
-            "duration": "6h 15m",
-            "stops": "Nonstop",
-            "price": "$320",
-            "bookingLink": "https://example.com/book/dl123"
-        },
-        {
-            "airline": "United Airlines",
-            "flightNumber": "UA 456",
-            "departCity": "New York, NY (EWR)",
-            "arriveCity": "San Francisco, CA (SFO)",
-            "departTime": "2026-03-01T09:30:00",
-            "arriveTime": "2026-03-01T12:50:00",
-            "duration": "6h 20m",
-            "stops": "Nonstop",
-            "price": "$335",
-            "bookingLink": "https://example.com/book/ua456"
-        },
-        {
-            "airline": "American Airlines",
-            "flightNumber": "AA 789",
-            "departCity": "New York, NY (LGA)",
-            "arriveCity": "San Francisco, CA (SFO)",
-            "departTime": "2026-03-01T07:00:00",
-            "arriveTime": "2026-03-01T10:25:00",
-            "duration": "6h 25m",
-            "stops": "1 stop (Chicago)",
-            "price": "$295",
-            "bookingLink": "https://example.com/book/aa789"
-        },
-        {
-            "airline": "JetBlue",
-            "flightNumber": "B6 321",
-            "departCity": "New York, NY (JFK)",
-            "arriveCity": "San Francisco, CA (SFO)",
-            "departTime": "2026-03-01T11:00:00",
-            "arriveTime": "2026-03-01T14:30:00",
-            "duration": "6h 30m",
-            "stops": "Nonstop",
-            "price": "$310",
-            "bookingLink": "https://example.com/book/b6321"
-        },
-    ])
-
-
-root_agent = Agent(
-    model='gemini-2.5-flash',
-    name="flight_agent",
-    description="An agent that finds flights between two cities and helps book tickets.",
-    instruction=A2UI_AND_AGENT_INSTRUCTION,
-    tools=[get_flights],
+import jsonschema
+from a2a.types import AgentCapabilities, AgentCard, AgentSkill
+from google.adk.agents.llm_agent import LlmAgent
+from google.adk.artifacts import InMemoryArtifactService
+from google.adk.memory.in_memory_memory_service import InMemoryMemoryService
+from google.adk.models.lite_llm import LiteLlm
+from google.adk.runners import Runner
+from google.adk.sessions import InMemorySessionService
+from google.genai import types
+from prompt_builder import (
+    get_text_prompt,
+    ROLE_DESCRIPTION,
+    WORKFLOW_DESCRIPTION,
+    UI_DESCRIPTION,
 )
+from tools import get_flights
+from a2ui.inference.schema.manager import A2uiSchemaManager
+from a2ui.inference.schema.common_modifiers import remove_strict_validation
+
+logger = logging.getLogger(__name__)
+
+
+class FlightAgent:
+  """An agent that finds flights based on user criteria."""
+
+  SUPPORTED_CONTENT_TYPES = ["text", "text/plain"]
+
+  def __init__(self, base_url: str, use_ui: bool = False):
+    self.base_url = base_url
+    self.use_ui = use_ui
+    self._schema_manager = (
+        A2uiSchemaManager(
+            "0.8",
+            basic_examples_path="examples/",
+            schema_modifiers=[remove_strict_validation],
+        )
+        if use_ui
+        else None
+    )
+    self._agent = self._build_agent(use_ui)
+    self._user_id = "remote_agent"
+    self._runner = Runner(
+        app_name=self._agent.name,
+        agent=self._agent,
+        artifact_service=InMemoryArtifactService(),
+        session_service=InMemorySessionService(),
+        memory_service=InMemoryMemoryService(),
+    )
+
+  def get_agent_card(self) -> AgentCard:
+    capabilities = AgentCapabilities(
+        streaming=True,
+        extensions=[self._schema_manager.get_agent_extension()],
+    )
+    skill = AgentSkill(
+        id="find_flights",
+        name="Find Flights Tool",
+        description=(
+            "Helps find flights based on user criteria (e.g., origin, destination,"
+            " dates)."
+        ),
+        tags=["flight", "finder", "travel"],
+        examples=["Find me flights from New York to San Francisco on March 1st"],
+    )
+
+    return AgentCard(
+        name="Flight Agent",
+        description="This agent helps find flights and book tickets.",
+        url=self.base_url,
+        version="1.0.0",
+        default_input_modes=FlightAgent.SUPPORTED_CONTENT_TYPES,
+        default_output_modes=FlightAgent.SUPPORTED_CONTENT_TYPES,
+        capabilities=capabilities,
+        skills=[skill],
+    )
+
+  def get_processing_message(self) -> str:
+    return "Finding flights that match your criteria..."
+
+  def _build_agent(self, use_ui: bool) -> LlmAgent:
+    """Builds the LLM agent for the flight agent."""
+    LITELLM_MODEL = os.getenv("LITELLM_MODEL", "gemini/gemini-2.5-flash")
+
+    instruction = (
+        self._schema_manager.generate_system_prompt(
+            role_description=ROLE_DESCRIPTION,
+            workflow_description=WORKFLOW_DESCRIPTION,
+            ui_description=UI_DESCRIPTION,
+            include_schema=True,
+            include_examples=True,
+            validate_examples=True,
+        )
+        if use_ui
+        else get_text_prompt()
+    )
+
+    return LlmAgent(
+        model=LiteLlm(model=LITELLM_MODEL),
+        name="flight_agent",
+        description="An agent that finds flights between two cities and helps book tickets.",
+        instruction=instruction,
+        tools=[get_flights],
+    )
+
+  async def stream(self, query, session_id) -> AsyncIterable[dict[str, Any]]:
+    session_state = {"base_url": self.base_url}
+
+    session = await self._runner.session_service.get_session(
+        app_name=self._agent.name,
+        user_id=self._user_id,
+        session_id=session_id,
+    )
+    if session is None:
+      session = await self._runner.session_service.create_session(
+          app_name=self._agent.name,
+          user_id=self._user_id,
+          state=session_state,
+          session_id=session_id,
+      )
+    elif "base_url" not in session.state:
+      session.state["base_url"] = self.base_url
+
+    # --- Begin: UI Validation and Retry Logic ---
+    max_retries = 1  # Total 2 attempts
+    attempt = 0
+    current_query_text = query
+
+    # Ensure schema was loaded
+    effective_catalog = self._schema_manager.get_effective_catalog()
+    if self.use_ui and not effective_catalog.catalog_schema:
+      logger.error(
+          "--- FlightAgent.stream: A2UI_SCHEMA is not loaded. "
+          "Cannot perform UI validation. ---"
+      )
+      yield {
+          "is_task_complete": True,
+          "content": (
+              "I'm sorry, I'm facing an internal configuration error with my UI"
+              " components. Please contact support."
+          ),
+      }
+      return
+
+    while attempt <= max_retries:
+      attempt += 1
+      logger.info(
+          f"--- FlightAgent.stream: Attempt {attempt}/{max_retries + 1} "
+          f"for session {session_id} ---"
+      )
+
+      current_message = types.Content(
+          role="user", parts=[types.Part.from_text(text=current_query_text)]
+      )
+      final_response_content = None
+
+      async for event in self._runner.run_async(
+          user_id=self._user_id,
+          session_id=session.id,
+          new_message=current_message,
+      ):
+        logger.info(f"Event from runner: {event}")
+        if event.is_final_response():
+          if event.content and event.content.parts and event.content.parts[0].text:
+            final_response_content = "\n".join(
+                [p.text for p in event.content.parts if p.text]
+            )
+          break  # Got the final response, stop consuming events
+        else:
+          logger.info(f"Intermediate event: {event}")
+          # Yield intermediate updates on every attempt
+          yield {
+              "is_task_complete": False,
+              "updates": self.get_processing_message(),
+          }
+
+      if final_response_content is None:
+        logger.warning(
+            "--- FlightAgent.stream: Received no final response content from"
+            f" runner (Attempt {attempt}). ---"
+        )
+        if attempt <= max_retries:
+          current_query_text = (
+              "I received no response. Please try again."
+              f"Please retry the original request: '{query}'"
+          )
+          continue  # Go to next retry
+        else:
+          # Retries exhausted on no-response
+          final_response_content = (
+              "I'm sorry, I encountered an error and couldn't process your request."
+          )
+          # Fall through to send this as a text-only error
+
+      is_valid = False
+      error_message = ""
+
+      if self.use_ui:
+        logger.info(
+            "--- FlightAgent.stream: Validating UI response (Attempt"
+            f" {attempt})... ---"
+        )
+        try:
+          if "---a2ui_JSON---" not in final_response_content:
+            raise ValueError("Delimiter '---a2ui_JSON---' not found.")
+
+          text_part, json_string = final_response_content.split("---a2ui_JSON---", 1)
+
+          if not json_string.strip():
+            raise ValueError("JSON part is empty.")
+
+          json_string_cleaned = (
+              json_string.strip().lstrip("```json").rstrip("```").strip()
+          )
+
+          if not json_string_cleaned:
+            raise ValueError("Cleaned JSON string is empty.")
+
+          # --- New Validation Steps ---
+          # 1. Check if it's parsable JSON
+          parsed_json_data = json.loads(json_string_cleaned)
+
+          # 2. Check if it validates against the A2UI_SCHEMA
+          # This will raise jsonschema.exceptions.ValidationError if it fails
+          logger.info(
+              "--- FlightAgent.stream: Validating against A2UI_SCHEMA... ---"
+          )
+          effective_catalog.validator.validate(parsed_json_data)
+          # --- End New Validation Steps ---
+
+          logger.info(
+              "--- FlightAgent.stream: UI JSON successfully parsed AND validated"
+              f" against schema. Validation OK (Attempt {attempt}). ---"
+          )
+          is_valid = True
+
+        except (
+            ValueError,
+            json.JSONDecodeError,
+            jsonschema.exceptions.ValidationError,
+        ) as e:
+          logger.warning(
+              f"--- FlightAgent.stream: A2UI validation failed: {e} (Attempt"
+              f" {attempt}) ---"
+          )
+          logger.warning(
+              f"--- Failed response content: {final_response_content[:500]}... ---"
+          )
+          error_message = f"Validation failed: {e}."
+
+      else:  # Not using UI, so text is always "valid"
+        is_valid = True
+
+      if is_valid:
+        logger.info(
+            "--- FlightAgent.stream: Response is valid. Sending final response"
+            f" (Attempt {attempt}). ---"
+        )
+        logger.info(f"Final response: {final_response_content}")
+        yield {
+            "is_task_complete": True,
+            "content": final_response_content,
+        }
+        return  # We're done, exit the generator
+
+      # --- If we're here, it means validation failed ---
+
+      if attempt <= max_retries:
+        logger.warning(
+            f"--- FlightAgent.stream: Retrying... ({attempt}/{max_retries + 1}) ---"
+        )
+        # Prepare the query for the retry
+        current_query_text = (
+            f"Your previous response was invalid. {error_message} You MUST generate a"
+            " valid response that strictly follows the A2UI JSON SCHEMA. The response"
+            " MUST be a JSON list of A2UI messages. Ensure the response is split by"
+            " '---a2ui_JSON---' and the JSON part is well-formed. Please retry the"
+            f" original request: '{query}'"
+        )
+        # Loop continues...
+
+    # --- If we're here, it means we've exhausted retries ---
+    logger.error(
+        "--- FlightAgent.stream: Max retries exhausted. Sending text-only"
+        " error. ---"
+    )
+    yield {
+        "is_task_complete": True,
+        "content": (
+            "I'm sorry, I'm having trouble generating the interface for that request"
+            " right now. Please try again in a moment."
+        ),
+    }
+    # --- End: UI Validation and Retry Logic ---

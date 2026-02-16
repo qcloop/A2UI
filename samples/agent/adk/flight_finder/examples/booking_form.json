@@ -1,0 +1,34 @@
+[
+  { "beginRendering": { "surfaceId": "booking-form", "root": "booking-form-column", "styles": { "primaryColor": "#1976D2", "font": "Roboto" } } },
+  { "surfaceUpdate": {
+    "surfaceId": "booking-form",
+    "components": [
+      { "id": "booking-form-column", "component": { "Column": { "children": { "explicitList": ["booking-title", "flight-info-row", "passengers-field", "email-field", "phone-field", "seat-field", "submit-button"] } } } },
+      { "id": "booking-title", "component": { "Text": { "usageHint": "h2", "text": { "path": "title" } } } },
+      { "id": "flight-info-row", "component": { "Column": { "children": { "explicitList": ["flight-number-text", "airline-text", "price-text"] } } } },
+      { "id": "flight-number-text", "component": { "Text": { "usageHint": "h3", "text": { "path": "flightNumber" } } } },
+      { "id": "airline-text", "component": { "Text": { "text": { "path": "airline" } } } },
+      { "id": "price-text", "component": { "Text": { "usageHint": "h4", "text": { "path": "price" } } } },
+      { "id": "passengers-field", "component": { "TextField": { "label": { "literalString": "Number of Passengers" }, "text": { "path": "passengers" }, "type": "number" } } },
+      { "id": "email-field", "component": { "TextField": { "label": { "literalString": "Contact Email" }, "text": { "path": "contactEmail" }, "type": "email" } } },
+      { "id": "phone-field", "component": { "TextField": { "label": { "literalString": "Contact Phone" }, "text": { "path": "contactPhone" }, "type": "tel" } } },
+      { "id": "seat-field", "component": { "TextField": { "label": { "literalString": "Seat Preference (window/aisle/middle)" }, "text": { "path": "seatPreference" } } } },
+      { "id": "submit-button", "component": { "Button": { "child": "submit-booking-text", "primary": true, "action": { "name": "submit_booking", "context": [ { "key": "flightNumber", "value": { "path": "flightNumber" } }, { "key": "airline", "value": { "path": "airline" } }, { "key": "passengers", "value": { "path": "passengers" } }, { "key": "contactEmail", "value": { "path": "contactEmail" } }, { "key": "contactPhone", "value": { "path": "contactPhone" } }, { "key": "seatPreference", "value": { "path": "seatPreference" } } ] } } } },
+      { "id": "submit-booking-text", "component": { "Text": { "text": { "literalString": "Confirm Booking" } } } }
+    ]
+  }},
+  { "dataModelUpdate": {
+    "surfaceId": "booking-form",
+    "path": "/",
+    "contents": [
+      { "key": "title", "valueString": "Book Flight [FlightNumber]" },
+      { "key": "flightNumber", "valueString": "[FlightNumber]" },
+      { "key": "airline", "valueString": "[Airline]" },
+      { "key": "price", "valueString": "[Price]" },
+      { "key": "passengers", "valueString": "1" },
+      { "key": "contactEmail", "valueString": "" },
+      { "key": "contactPhone", "valueString": "" },
+      { "key": "seatPreference", "valueString": "" }
+    ]
+  }}
+]

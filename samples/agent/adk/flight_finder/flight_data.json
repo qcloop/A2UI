@@ -1,0 +1,54 @@
+[
+  {
+    "airline": "Delta Air Lines",
+    "flightNumber": "DL 123",
+    "departCity": "New York, NY (JFK)",
+    "arriveCity": "San Francisco, CA (SFO)",
+    "departTime": "2026-03-01T08:00:00",
+    "arriveTime": "2026-03-01T11:15:00",
+    "duration": "6h 15m",
+    "stops": "Nonstop",
+    "price": "$320",
+    "bookingLink": "http://localhost:10003/booking/dl123",
+    "imageUrl": "http://localhost:10003/images/delta.jpg"
+  },
+  {
+    "airline": "United Airlines",
+    "flightNumber": "UA 456",
+    "departCity": "New York, NY (EWR)",
+    "arriveCity": "San Francisco, CA (SFO)",
+    "departTime": "2026-03-01T09:30:00",
+    "arriveTime": "2026-03-01T12:50:00",
+    "duration": "6h 20m",
+    "stops": "Nonstop",
+    "price": "$335",
+    "bookingLink": "http://localhost:10003/booking/ua456",
+    "imageUrl": "http://localhost:10003/images/united.jpg"
+  },
+  {
+    "airline": "American Airlines",
+    "flightNumber": "AA 789",
+    "departCity": "New York, NY (LGA)",
+    "arriveCity": "San Francisco, CA (SFO)",
+    "departTime": "2026-03-01T07:00:00",
+    "arriveTime": "2026-03-01T10:25:00",
+    "duration": "6h 25m",
+    "stops": "1 stop (Chicago)",
+    "price": "$295",
+    "bookingLink": "http://localhost:10003/booking/aa789",
+    "imageUrl": "http://localhost:10003/images/american.jpg"
+  },
+  {
+    "airline": "JetBlue",
+    "flightNumber": "B6 321",
+    "departCity": "New York, NY (JFK)",
+    "arriveCity": "San Francisco, CA (SFO)",
+    "departTime": "2026-03-01T11:00:00",
+    "arriveTime": "2026-03-01T14:30:00",
+    "duration": "6h 30m",
+    "stops": "Nonstop",
+    "price": "$310",
+    "bookingLink": "http://localhost:10003/booking/b6321",
+    "imageUrl": "http://localhost:10003/images/jetblue.jpg"
+  }
+]

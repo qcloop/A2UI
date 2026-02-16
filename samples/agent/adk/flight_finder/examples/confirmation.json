@@ -1,0 +1,25 @@
+[
+  { "beginRendering": { "surfaceId": "confirmation", "root": "confirmation-card", "styles": { "primaryColor": "#1976D2", "font": "Roboto" } } },
+  { "surfaceUpdate": {
+    "surfaceId": "confirmation",
+    "components": [
+      { "id": "confirmation-card", "component": { "Card": { "child": "confirmation-column" } } },
+      { "id": "confirmation-column", "component": { "Column": { "children": { "explicitList": ["confirm-title", "confirm-details", "confirm-contact", "confirm-seat", "confirm-text"] } } } },
+      { "id": "confirm-title", "component": { "Text": { "usageHint": "h2", "text": { "path": "title" } } } },
+      { "id": "confirm-details", "component": { "Text": { "text": { "path": "bookingDetails" } } } },
+      { "id": "confirm-contact", "component": { "Text": { "text": { "path": "contactInfo" } } } },
+      { "id": "confirm-seat", "component": { "Text": { "text": { "path": "seatInfo" } } } },
+      { "id": "confirm-text", "component": { "Text": { "usageHint": "h5", "text": { "literalString": "Have a great flight!" } } } }
+    ]
+  }},
+  { "dataModelUpdate": {
+    "surfaceId": "confirmation",
+    "path": "/",
+    "contents": [
+      { "key": "title", "valueString": "Booking Confirmed for Flight [FlightNumber]" },
+      { "key": "bookingDetails", "valueString": "[Passengers] passenger(s) on [Airline] [FlightNumber]" },
+      { "key": "contactInfo", "valueString": "Confirmation sent to: [Email]" },
+      { "key": "seatInfo", "valueString": "Seat preference: [SeatPreference]" }
+    ]
+  }}
+]

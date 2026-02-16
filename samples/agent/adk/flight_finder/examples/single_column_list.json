@@ -1,0 +1,60 @@
+[
+  { "beginRendering": { "surfaceId": "default", "root": "root-column", "styles": { "primaryColor": "#1976D2", "font": "Roboto" } } },
+  { "surfaceUpdate": {
+    "surfaceId": "default",
+    "components": [
+      { "id": "root-column", "component": { "Column": { "children": { "explicitList": ["title-heading", "item-list"] } } } },
+      { "id": "title-heading", "component": { "Text": { "usageHint": "h1", "text": { "path": "title" } } } },
+      { "id": "item-list", "component": { "List": { "direction": "vertical", "children": { "template": { "componentId": "item-card-template", "dataBinding": "/items" } } } } },
+      { "id": "item-card-template", "component": { "Card": { "child": "card-layout" } } },
+      { "id": "card-layout", "component": { "Column": { "children": { "explicitList": ["flight-header-row", "flight-times-row", "flight-info-row", "template-book-button"] } } } },
+      { "id": "flight-header-row", "component": { "Row": { "children": { "explicitList": ["template-airline", "template-price"] } } } },
+      { "id": "template-airline", "weight": 2, "component": { "Text": { "usageHint": "h3", "text": { "path": "airline" } } } },
+      { "id": "template-price", "weight": 1, "component": { "Text": { "usageHint": "h4", "text": { "path": "price" } } } },
+      { "id": "flight-times-row", "component": { "Row": { "children": { "explicitList": ["template-depart-city", "template-arrow", "template-arrive-city"] } } } },
+      { "id": "template-depart-city", "component": { "Text": { "text": { "path": "departCity" } } } },
+      { "id": "template-arrow", "component": { "Text": { "text": { "literalString": " → " } } } },
+      { "id": "template-arrive-city", "component": { "Text": { "text": { "path": "arriveCity" } } } },
+      { "id": "flight-info-row", "component": { "Column": { "children": { "explicitList": ["template-flight-number", "template-duration", "template-stops"] } } } },
+      { "id": "template-flight-number", "component": { "Text": { "text": { "path": "flightNumber" } } } },
+      { "id": "template-duration", "component": { "Text": { "text": { "path": "duration" } } } },
+      { "id": "template-stops", "component": { "Text": { "text": { "path": "stops" } } } },
+      { "id": "template-book-button", "component": { "Button": { "child": "book-now-text", "primary": true, "action": { "name": "book_flight", "context": [ { "key": "flightNumber", "value": { "path": "flightNumber" } }, { "key": "airline", "value": { "path": "airline" } }, { "key": "price", "value": { "path": "price" } }, { "key": "departTime", "value": { "path": "departTime" } }, { "key": "arriveTime", "value": { "path": "arriveTime" } }, { "key": "bookingLink", "value": { "path": "bookingLink" } } ] } } } },
+      { "id": "book-now-text", "component": { "Text": { "text": { "literalString": "Book Flight" } } } }
+    ]
+  }},
+  {"dataModelUpdate": {
+    "surfaceId": "default",
+    "path": "/",
+    "contents": [
+      { "key": "items", "valueMap": [
+        { "key": "item1", "valueMap": [
+          { "key": "airline", "valueString": "Delta Air Lines" },
+          { "key": "flightNumber", "valueString": "DL 123" },
+          { "key": "departCity", "valueString": "New York, NY (JFK)" },
+          { "key": "arriveCity", "valueString": "San Francisco, CA (SFO)" },
+          { "key": "departTime", "valueString": "2026-03-01T08:00:00" },
+          { "key": "arriveTime", "valueString": "2026-03-01T11:15:00" },
+          { "key": "duration", "valueString": "6h 15m" },
+          { "key": "stops", "valueString": "Nonstop" },
+          { "key": "price", "valueString": "$320" },
+          { "key": "bookingLink", "valueString": "http://localhost:10003/booking/dl123" },
+          { "key": "imageUrl", "valueString": "http://localhost:10003/images/delta.jpg" }
+        ] },
+        { "key": "item2", "valueMap": [
+          { "key": "airline", "valueString": "United Airlines" },
+          { "key": "flightNumber", "valueString": "UA 456" },
+          { "key": "departCity", "valueString": "New York, NY (EWR)" },
+          { "key": "arriveCity", "valueString": "San Francisco, CA (SFO)" },
+          { "key": "departTime", "valueString": "2026-03-01T09:30:00" },
+          { "key": "arriveTime", "valueString": "2026-03-01T12:50:00" },
+          { "key": "duration", "valueString": "6h 20m" },
+          { "key": "stops", "valueString": "Nonstop" },
+          { "key": "price", "valueString": "$335" },
+          { "key": "bookingLink", "valueString": "http://localhost:10003/booking/ua456" },
+          { "key": "imageUrl", "valueString": "http://localhost:10003/images/united.jpg" }
+        ] }
+      ] }
+    ]
+  }}
+]
