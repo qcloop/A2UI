@@ -1,3 +1,19 @@
+/**
+ * Copyright 2026 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 
 import { SignalWatcher } from "@lit-labs/signals";
 import { provide } from "@lit/context";
@@ -186,7 +202,13 @@ export class A2UIComponentGallery extends SignalWatcher(LitElement) {
 
   async connectedCallback() {
     super.connectedCallback();
+    this.addEventListener("a2ui-validation-input", this.#handleValidationInput);
     await this.#initiateSession();
+  }
+
+  override disconnectedCallback() {
+    super.disconnectedCallback();
+    this.removeEventListener("a2ui-validation-input", this.#handleValidationInput);
   }
 
   async #initiateSession() {
@@ -195,6 +217,25 @@ export class A2UIComponentGallery extends SignalWatcher(LitElement) {
     };
     await this.#sendAndProcessMessage(message);
   }
+
+  // Debug Validation Events
+  #handleValidationInput = (e: Event) => {
+    const detail = (e as v0_8.WebEvents.A2UIValidationEvent).detail;
+    if (!detail) return;
+
+    // Log to Console
+    console.log(
+      `%c[Validation] Component: ${detail.componentId} | Valid: ${detail.valid} | Value: "${detail.value}"`,
+      detail.valid ? "color: green" : "color: red; font-weight: bold"
+    );
+
+    // Log to Debug Panel
+    this.#log(
+      "info",
+      `Validation: ${detail.componentId} is ${detail.valid ? "VALID" : "INVALID"}`,
+      detail
+    );
+  };
 
   render() {
     return html`
